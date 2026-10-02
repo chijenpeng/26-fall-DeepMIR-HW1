@@ -56,6 +56,7 @@ if __name__ == "__main__":
     ap.add_argument("--lr_enc", type=float, default=2e-5); ap.add_argument("--lr_head", type=float, default=1e-3)
     ap.add_argument("--freeze_feature_extractor", action="store_true", default=True)
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--name", default=None)
+    ap.add_argument("--ckpt_every", type=int, default=1, help="save a bf16 checkpoint every k epochs (0 = only best)")
     a = ap.parse_args(); torch.manual_seed(a.seed); np.random.seed(a.seed)
     device = "cuda"; labels = LABELS[a.dataset]; lab2i = {l: i for i, l in enumerate(labels)}
     m = load_manifest(a.dataset); proc = Wav2Vec2FeatureExtractor.from_pretrained(a.model, trust_remote_code=True)
@@ -81,10 +82,15 @@ if __name__ == "__main__":
             opt.zero_grad(); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); sched.step()
             losses.append(loss.item())
         pv = predict(model, wavs, va, device); res = evaluate(pv, y[va], labels, "")
-        hist.append(dict(epoch=ep, loss=float(np.mean(losses)), val_top1=res["top1"], val_top3=res["top3"]))
-        print(f"epoch {ep}: loss={np.mean(losses):.3f} val top1={res['top1']:.3f} top3={res['top3']:.3f}", flush=True)
+        val_loss = float(-np.log(pv[np.arange(len(va)), y[va]] + 1e-9).mean())
+        hist.append(dict(epoch=ep, loss=float(np.mean(losses)), val_loss=val_loss, val_top1=res["top1"], val_top3=res["top3"]))
+        print(f"epoch {ep:2d}: train_loss={np.mean(losses):.3f} val_loss={val_loss:.3f} val top1={res['top1']:.3f} top3={res['top3']:.3f}", flush=True)
         if res["top1"] > best[0]:
             best = (res["top1"], ep); torch.save(model.state_dict(), RESULTS / f"{name}_best.pt")
+        if a.ckpt_every and (ep + 1) % a.ckpt_every == 0:
+            ck = RESULTS / "ckpt" / name; ck.mkdir(parents=True, exist_ok=True)
+            torch.save({k: (v.to(torch.bfloat16) if v.is_floating_point() else v) for k, v in model.state_dict().items()}, ck / f"ep{ep:02d}.pt")
+        dump(dict(history=hist, best_epoch=best[1]), RESULTS / f"{name}_history.json")
     model.load_state_dict(torch.load(RESULTS / f"{name}_best.pt"))
     pv, pt = predict(model, wavs, va, device), predict(model, wavs, te, device)
     res = evaluate(pv, y[va], labels, f"{name} (best epoch {best[1]})", RESULTS / f"{name}_cm.png")
@@ -94,5 +100,12 @@ if __name__ == "__main__":
     dump(res, RESULTS / f"{name}_val.json")
     np.savez(RESULTS / f"{name}_proba.npz", sample_id=np.concatenate([m.sample_id.values[va], m.sample_id.values[te]]),
              split=np.concatenate([split[va], split[te]]), proba=np.concatenate([pv, pt]), labels=np.array(labels))
+    import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
+    ep = [h["epoch"] for h in hist]; fig, ax = plt.subplots(1, 2, figsize=(11, 4))
+    ax[0].plot(ep, [h["loss"] for h in hist], label="train loss"); ax[0].plot(ep, [h["val_loss"] for h in hist], label="val loss (NLL)")
+    ax[0].set_xlabel("epoch"); ax[0].legend(); ax[0].grid(alpha=.3)
+    ax[1].plot(ep, [h["val_top1"] for h in hist], label="val top-1"); ax[1].plot(ep, [h["val_top3"] for h in hist], label="val top-3")
+    ax[1].axvline(best[1], ls="--", c="gray"); ax[1].set_xlabel("epoch"); ax[1].legend(); ax[1].grid(alpha=.3)
+    fig.suptitle(f"{name}  (best epoch {best[1]})"); plt.tight_layout(); plt.savefig(RESULTS / f"{name}_curves.png", dpi=130)
     print(json.dumps({k: v for k, v in res.items() if k not in ("confusion_counts", "history", "args")}, indent=1))
     print(np.array(res["confusion_counts"]))
