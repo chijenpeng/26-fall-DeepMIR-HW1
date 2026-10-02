@@ -249,7 +249,30 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 - 結論:每類 130 到 170 首的資料量,全模型微調很快過擬合;凍結特徵加強正則化的線性模型一樣準且更穩,
   推論也便宜得多。選模型用 val loss 最低或 top-1 最高的 epoch 都在 11 到 21 之間。
 - 保留的 checkpoint:A 的 epoch 11、15、21,B 的 epoch 7、16、22(bf16,`results/ckpt/`,不進 git)。
-- MERT-330M 的 40-epoch fine-tune 進行中(`ft40_330M_A/B`),結果待補。
+- MERT-330M 的 40-epoch fine-tune(`ft40_330M_A/B`,checkpoint 每 5 epoch):
+
+| | val loss 最低的 epoch | 該 epoch top-1 | 最佳 top-1(epoch) | top-3 | 第 39 epoch:train loss / val loss |
+|---|---|---|---|---|---|
+| ft40_330M_A | 9(1.45) | .424 | .485(20) | .811 | 0.51 / 1.49 |
+| ft40_330M_B | 20(1.51) | .431 | .441(26) | .775 | 0.51 / 1.55 |
+
+- 330M 微調沒有比 95M 微調好(A .485 對 .515,B .441 對 .461),也沒有比 330M 凍結好(A .500)。
+  參數變三倍只是更快過擬合。
+
+### Fine-tune 總表(全部輸給對應的凍結特徵模型)
+
+| 模型 | 任務 | epoch 數 | 最佳 top-1 | 對應凍結模型 top-1 |
+|---|---|---|---|---|
+| MERT-95M | A | 8 | .462 | .485 |
+| MERT-95M | A | 40 | .515 | .485 |
+| MERT-330M | A | 40 | .485 | .500 |
+| Whisper-tiny | A | 20 | .348 | .469 |
+| MERT-95M | B | 8 | .392 | .422 |
+| MERT-95M | B | 40 | .461 | .422(加語言 .559) |
+| MERT-330M | B | 40 | .441 | .451 |
+
+- 唯一一個贏過凍結的是 MERT-95M 在 A 的 40 epoch(.515 對 .485),但輸給凍結 330M 加 Whisper-tiny 的 .522,且 top-3 較差。
+- Whisper base / small / medium 的 fine-tune 結果待補。
 
 ## 編碼器尺寸比較:Whisper 編碼器家族(凍結,`src/extract_whisper.py` + `src/layer_sweep.py`)
 
