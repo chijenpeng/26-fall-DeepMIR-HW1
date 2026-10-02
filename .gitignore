@@ -1,0 +1,14 @@
+# data (uploaded manually, never to GitHub)
+dataset_A/
+dataset_B/
+*.zip
+# extracted features / model caches / checkpoints
+features/
+results/*.joblib
+results/*.log
+*.npz
+# misc
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
