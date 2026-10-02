@@ -267,12 +267,19 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 | MERT-95M | A | 40 | .515 | .485 |
 | MERT-330M | A | 40 | .485 | .500 |
 | Whisper-tiny | A | 20 | .348 | .469 |
+| Whisper-base | A | 20 | .318 | .371 |
+| Whisper-small | A | 20 | .348 | .417 |
+| Whisper-medium | A | 20 | .417 | .432 |
 | MERT-95M | B | 8 | .392 | .422 |
 | MERT-95M | B | 40 | .461 | .422(加語言 .559) |
 | MERT-330M | B | 40 | .441 | .451 |
+| Whisper-tiny | B | 20 | .500 | .549 |
+| Whisper-base | B | 20 | .549 | .510 |
+| Whisper-small | B | 20 | .559 | .569 |
+| Whisper-medium | B | 20 | .578 | .559 |
 
 - 唯一一個贏過凍結的是 MERT-95M 在 A 的 40 epoch(.515 對 .485),但輸給凍結 330M 加 Whisper-tiny 的 .522,且 top-3 較差。
-- Whisper base / small / medium 的 fine-tune 結果待補。
+- 14 次 fine-tune 裡只有 3 次略勝對應的凍結單一特徵(MERT-95M A、Whisper-base B、Whisper-medium B),而且全都輸給凍結特徵的組合模型(A .522、B .607)。
 
 ## 編碼器尺寸比較:Whisper 編碼器家族(凍結,`src/extract_whisper.py` + `src/layer_sweep.py`)
 
@@ -337,12 +344,16 @@ Task A(`wt` = whisper-tiny,`wla` = whisper-large-v3,`m330` = MERT-330M 第 5、6
 | tiny | B | .500(3) | .824 | 3 | 0.45 / 1.79 | .549 |
 | base | B | .549(13) | .755 | 5 | 0.45 / 1.57 | .510 |
 | small | B | .559(2) | .784 | 2 | 0.42 / 1.68 | .569 |
+| medium(batch 2) | A | .417(12) | .788 | 2 | 0.43 / 2.41 | .432 |
+| medium(batch 2) | B | .578(4) | .833 | 2 | 0.42 / 1.74 | .559 |
 
 - **A 全部大幅輸給凍結淺層**(35% 對 47%)。學到的層權重在六次 fine-tune 裡全部集中在最後一層,
   也就是 A 最沒用的那層:微調的梯度先改最靠近 head 的層,淺層的聲學資訊沒機會被用到。
 - B 和凍結深層打平(55.9% 對 56.9%),但沒有更好。
 - 全部在第 2 到 5 個 epoch 就過擬合(val loss 之後翻倍),比 MERT 更快,因為整段 30 秒輸入沒有隨機切段的資料增強。
-- medium(batch 8 OOM,改 batch 2 重跑)結果待補;large-v3 微調不做,640M 參數對 1,000 筆資料沒有意義。
+- medium 用 batch 8 會 OOM(20 GB 卡),改 batch 2。A 的 .417 是 Whisper 微調裡最好的但仍輸凍結淺層;
+  B 的 .578 追平凍結 large-v3 單層,仍低於組合模型的 .607。train loss 壓到 0.42(label smoothing 0.1 的下限)而 val loss 翻倍。
+- large-v3 微調不做,640M 參數對 1,000 筆資料沒有意義。
 - 尺寸比較的總結:**凍結特徵下,A 偏好最小的模型的最淺層,B 偏好最大的模型的最深層;微調在任何尺寸都不如凍結。**
 
 ## Audio Language Model(ALM)
