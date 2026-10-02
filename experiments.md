@@ -145,7 +145,39 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 - t-SNE(`results/B_mert_L4-7_tsne.png`):Brazil 有一團明顯的群集,Italy 在最右邊有一小團緊密群集,
   其餘四類大量混合。
 - 這支持「語言是主要線索」的假設:葡語和義語市場有可見的結構,英語市場(US、UK)分不開。
-- 待做(server):Whisper 語言後驗、Demucs 人聲 / 伴奏分開過 MERT、MERT-330M。
+### Source separation:mixture / vocals / accompaniment(Demucs htdemucs,`src/separate.py`)
+
+| 實驗名稱 | 特徵 | top-1 | top-3 |
+|---|---|---|---|
+| B_mert_L7(對照) | 混音 MERT L7 | .422 | .725 |
+| B_mertvocals_L7 | 人聲 MERT L7 | .431 | .784 |
+| B_mertvocals_L4-7 | 人聲 MERT L4+L7 | .441 | .814 |
+| B_mertaccomp_L7 | 伴奏 MERT L7 | .333 | .618 |
+| B_mertaccomp_L4-7 | 伴奏 MERT L4+L7 | .382 | .686 |
+| B_mix+voc+acc_L7 | 混音 + 人聲 + 伴奏 MERT L7 | .461 | .765 |
+| B_mertvocals_L7_lang | 人聲 MERT L7 + lang | .559 | .794 |
+| B_mertaccomp_L7_lang | 伴奏 MERT L7 + lang | .471 | .745 |
+| B_mix+voc_L7_lang | 混音 + 人聲 MERT L7 + lang | .520 | .804 |
+| B_mix+acc_L7_lang | 混音 + 伴奏 MERT L7 + lang | .500 | .735 |
+| B_langvocals_only | 對人聲 stem 跑 Whisper 的 lang | .490 | .784 |
+| B_mert_L7_langvocals | 混音 MERT L7 + 人聲 lang | .529 | .775 |
+
+- 人聲 stem 的 MERT 略好於混音,伴奏 stem 明顯差(33 到 38%):市場資訊主要在人聲(語言、唱腔),伴奏裡的製作風格分不太出市場。
+- 伴奏 MERT 原本想拿來分 US 和 UK,沒有成功。
+- 對人聲 stem 跑 Whisper 和對混音跑結果幾乎一樣(Germany 仍 82% 判英語),Whisper 在混音上已經夠穩,分離沒有額外幫助,
+  甚至略差(49.0% 對 53.9%),可能是分離殘留的 artifact 影響。
+- 最佳仍是「MERT L7 加語言後驗」約 55.9%(混音或人聲 MERT 都一樣)。
+
+### Fine-tune MERT-95M(`src/finetune_mert.py`,GPU,8 epoch,5 秒隨機切段,層加權平均)
+
+| | top-1 | top-3 | 最佳 epoch | 學到的層權重最大 |
+|---|---|---|---|---|
+| ft_A | .462 | .788 | 6 | 第 12 層(最後一層) |
+| ft_B | .392 | .775 | 6 | 第 11 層 |
+
+- 兩個任務都輸給凍結特徵加 logreg(A 48.5%、B 42.2%),而且 validation 曲線還在抖(A 第 7 epoch 掉回 41.7%)。
+- 每類只有 130 到 170 首,全模型微調的參數量遠大於資料量,8 個 epoch 內沒有穩定收斂;
+  凍結特徵加強正則化的線性模型在這個資料量下更穩。符合 PDF 建議「資源允許再比較 fine-tuning」的預期結論。
 
 ## Audio Language Model(ALM)
 
@@ -250,7 +282,24 @@ Italy  [   7   2   1   5   0   2 ]
 | cues | A、B | 提示該聽的線索(A:製作品質、樂器、曲風;B:先辨語言再看曲風),並聲明六類等機率 | 壓掉「全答 1970s」「英文歌就是 US」的先驗 |
 | production | A | 271 字的聽音指南,把 EDA 找到的四組製作線索寫給模型:60 Hz 以下超低頻與黑膠刻片的關係、8 kHz 以上高頻延伸與磁帶嘶聲、1980s 的數位亮度與 gated drums、2000s 以後的 loudness war 與 limiter 壓平 transient,最後補曲風與樂器線索 | 測試「明確告訴模型製作線索」有沒有用。依前面的分析,Whisper 編碼器看不到絕對音量和 sample 層級的動態,預期幫助有限,但這正是要驗證的 |
 
-- `cues` 和 `production` 的結果待補(server GPU 1 排程中)。
+### 結果:prompt `cues`(提示線索並聲明等機率)
+
+| 任務 | 模式 | top-1 | top-3 | 無效輸出 |
+|---|---|---|---|---|
+| A | log-prob 排序 | .265 | .621 | 0 |
+| A | 自由回答 | .242 | – | 1.5% |
+| B | log-prob 排序 | .225 | .618 | 0 |
+| B | 自由回答 | .284 | – | 11.8% |
+
+**反效果。** 比 naive 差很多(A 34.1% → 26.5%,B 52.9% → 22.5%)。
+
+- A 的自由回答 132 首有 98 首答 1970s,比 naive 的 73 首更偏。「不要預設某個年代,六個年代等機率」這句話沒有作用。
+- B 的 log-prob 模式幾乎全部選 Brazil(102 首有 96 首):prompt 裡寫了「Portuguese suggests Brazil」,
+  標籤字串本身出現在上下文裡,teacher-forced log-prob 被 in-context 的字串複製效應拉高,
+  和音訊無關。這是 log-prob 評分法的已知弱點:prompt 不能提到候選標籤以外的任何標籤字。
+- B 的自由回答 US 48、Brazil 39,其他幾乎為零,無效輸出升到 11.8%(模型開始解釋語言而不是回答)。
+- 結論:對 7B 的 Qwen2-Audio,越長越詳細的 prompt 反而讓先驗更強、格式更不穩。
+  `production` prompt(271 字的製作線索指南)結果待補,預期同樣不會改善。
 
 ## 繳交相關
 
