@@ -1,0 +1,4559 @@
+{
+ "prompt": "Listen to this 30-second excerpt of a music recording released in the 1980s. First identify the language of the lyrics: Portuguese suggests Brazil, Spanish suggests Spain, Italian suggests Italy, German suggests Germany, English suggests the US or the UK. Then consider the genre and production style typical of each national market in the 1980s. All six markets are equally likely. In which country was this record released? Answer with exactly one of: US, UK, Brazil, Spain, Germany, Italy.",
+ "metrics": {
+  "score_top1": 0.22549019607843138,
+  "score_top3": 0.6176470588235294,
+  "confusion_counts": [
+   [
+    3,
+    0,
+    13,
+    1,
+    0,
+    0
+   ],
+   [
+    2,
+    0,
+    13,
+    2,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    17,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    16,
+    1,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    17,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    16,
+    1,
+    0,
+    0
+   ]
+  ],
+  "gen_top1": 0.28431372549019607,
+  "gen_invalid_rate": 0.11764705882352941,
+  "n_val": 102,
+  "gen_label_dist": {
+   "US": 48,
+   "UK": 1,
+   "Brazil": 39,
+   "Spain": 1,
+   "Germany": 0,
+   "Italy": 1,
+   "null": 12
+  }
+ },
+ "records": {
+  "B_00c58205be82": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.417886257171631,
+    "UK": -3.480386257171631,
+    "Brazil": -2.480386257171631,
+    "Spain": -2.542886257171631,
+    "Germany": -7.105386257171631,
+    "Italy": -6.355386257171631
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_023b5d62e5c1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.852027177810669,
+    "UK": -3.352027177810669,
+    "Brazil": -2.352027177810669,
+    "Spain": -2.727027177810669,
+    "Germany": -6.85202693939209,
+    "Italy": -6.22702693939209
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_038a3c29daa0": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.985939025878906,
+    "UK": -7.048439025878906,
+    "Brazil": -0.11093909293413162,
+    "Spain": -4.235939025878906,
+    "Germany": -8.548439025878906,
+    "Italy": -8.110939025878906
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_03a1043d453f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.166116237640381,
+    "UK": -4.228616237640381,
+    "Brazil": -1.3536161184310913,
+    "Spain": -1.3536161184310913,
+    "Germany": -6.728616237640381,
+    "Italy": -6.666116237640381
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_04dc3318c737": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.9301466941833496,
+    "UK": -3.6176466941833496,
+    "Brazil": -2.4301466941833496,
+    "Spain": -2.6801466941833496,
+    "Germany": -7.30514669418335,
+    "Italy": -6.30514669418335
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_052cf7e5c1c2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.073174953460693,
+    "UK": -3.8231749534606934,
+    "Brazil": -2.6356749534606934,
+    "Spain": -2.1981749534606934,
+    "Germany": -6.385674953460693,
+    "Italy": -6.260674953460693
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0b8b415e295f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.183961868286133,
+    "UK": -6.808961868286133,
+    "Brazil": -0.1839618682861328,
+    "Spain": -3.683961868286133,
+    "Germany": -8.433961868286133,
+    "Italy": -7.496461868286133
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0ed23f44ab52": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.870412588119507,
+    "UK": -3.807912588119507,
+    "Brazil": -1.6204125881195068,
+    "Spain": -2.370412588119507,
+    "Germany": -6.432912826538086,
+    "Italy": -5.182912826538086
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0f6fc0bc1868": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.4626822471618652,
+    "UK": -3.5251822471618652,
+    "Brazil": -2.1501822471618652,
+    "Spain": -2.4001822471618652,
+    "Germany": -7.087682247161865,
+    "Italy": -6.275182247161865
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_126e3ebe2d0c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.863564491271973,
+    "UK": -7.051064491271973,
+    "Brazil": -0.23856425285339355,
+    "Spain": -3.4885642528533936,
+    "Germany": -8.363564491271973,
+    "Italy": -7.363564491271973
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_15ae10c29766": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.0928077697753906,
+    "UK": -4.092807769775391,
+    "Brazil": -2.0303077697753906,
+    "Spain": -2.6553077697753906,
+    "Germany": -7.530307769775391,
+    "Italy": -6.092807769775391
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_1614c1f5f654": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.6614298820495605,
+    "UK": -5.4739298820495605,
+    "Brazil": -0.9114297032356262,
+    "Spain": -1.7864296436309814,
+    "Germany": -7.4739298820495605,
+    "Italy": -6.2864298820495605
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_18cfac6507c7": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The song is in English, suggesting it was most likely released in either the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.7014334201812744,
+    "UK": -3.6389334201812744,
+    "Brazil": -2.3264334201812744,
+    "Spain": -2.5139334201812744,
+    "Germany": -7.201433181762695,
+    "Italy": -6.701433181762695
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_1b784dbfd133": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in the UK.",
+   "gen_label": "UK",
+   "scores": {
+    "US": -4.065348148345947,
+    "UK": -3.127847909927368,
+    "Brazil": -3.252847909927368,
+    "Spain": -2.877847909927368,
+    "Germany": -7.002848148345947,
+    "Italy": -7.002848148345947
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_1cadf75d0f70": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.109301805496216,
+    "UK": -4.609302043914795,
+    "Brazil": -2.234301805496216,
+    "Spain": -2.796801805496216,
+    "Germany": -7.484302043914795,
+    "Italy": -5.921802043914795
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_1d290830d776": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.078534126281738,
+    "UK": -3.4535341262817383,
+    "Brazil": -2.2660341262817383,
+    "Spain": -2.1410341262817383,
+    "Germany": -6.641034126281738,
+    "Italy": -5.578534126281738
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_23859524ca8b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.799009323120117,
+    "UK": -4.361509323120117,
+    "Brazil": -1.3615095615386963,
+    "Spain": -0.9865095019340515,
+    "Germany": -7.299009323120117,
+    "Italy": -7.361509323120117
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_2589160dd16f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.544625282287598,
+    "UK": -4.669625282287598,
+    "Brazil": -1.2321250438690186,
+    "Spain": -1.9196250438690186,
+    "Germany": -6.919625282287598,
+    "Italy": -3.7946250438690186
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "US",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_285dcd4e55d6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The song is likely from the US or the UK, as these countries have significant",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.4788670539855957,
+    "UK": -4.478867053985596,
+    "Brazil": -2.0413670539855957,
+    "Spain": -2.8538670539855957,
+    "Germany": -7.666367053985596,
+    "Italy": -6.103867053985596
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_2c77e7e40344": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.9342312812805176,
+    "UK": -3.3717312812805176,
+    "Brazil": -2.3717312812805176,
+    "Spain": -2.3092312812805176,
+    "Germany": -6.684231281280518,
+    "Italy": -6.434231281280518
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_2ebc6d7b3e3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.851212024688721,
+    "UK": -5.663712024688721,
+    "Brazil": -1.1637121438980103,
+    "Spain": -1.6637121438980103,
+    "Germany": -7.601212024688721,
+    "Italy": -6.038712024688721
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_2f0ad8d5a63d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.6498212814331055,
+    "UK": -6.2748212814331055,
+    "Brazil": -0.2748214602470398,
+    "Spain": -3.0873215198516846,
+    "Germany": -7.6498212814331055,
+    "Italy": -7.3998212814331055
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_3162ade9cf9c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2979683876037598,
+    "UK": -4.36046838760376,
+    "Brazil": -1.4229683876037598,
+    "Spain": -2.3604683876037598,
+    "Germany": -6.04796838760376,
+    "Italy": -5.42296838760376
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_36c1faa8fb4b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -2.6192307472229004,
+    "UK": -3.7442307472229004,
+    "Brazil": -3.1192307472229004,
+    "Spain": -2.9942307472229004,
+    "Germany": -7.9317307472229,
+    "Italy": -6.4317307472229
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "Brazil",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_3805cef6d8cd": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.248164176940918,
+    "UK": -4.873164176940918,
+    "Brazil": -1.3106642961502075,
+    "Spain": -1.7481642961502075,
+    "Germany": -6.560664176940918,
+    "Italy": -4.185664176940918
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_3bac35003c3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -3.477442741394043,
+    "UK": -3.539942741394043,
+    "Brazil": -2.414942741394043,
+    "Spain": -2.852442741394043,
+    "Germany": -7.664942741394043,
+    "Italy": -6.227442741394043
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_41719fd69fde": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.8219001293182373,
+    "UK": -4.071900367736816,
+    "Brazil": -2.1969001293182373,
+    "Spain": -3.0094001293182373,
+    "Germany": -7.946900367736816,
+    "Italy": -7.009400367736816
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_4248e4a8db42": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -3.621415615081787,
+    "UK": -3.558915615081787,
+    "Brazil": -2.871415615081787,
+    "Spain": -2.496415615081787,
+    "Germany": -7.183915615081787,
+    "Italy": -6.246415615081787
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_4cc0b4329d82": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.329064130783081,
+    "UK": -4.70406436920166,
+    "Brazil": -1.204064130783081,
+    "Spain": -2.266564130783081,
+    "Germany": -6.57906436920166,
+    "Italy": -6.07906436920166
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_4dca6d91ea05": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in Italy.",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -4.77067756652832,
+    "UK": -4.64567756652832,
+    "Brazil": -1.3331776857376099,
+    "Spain": -2.0831775665283203,
+    "Germany": -6.39567756652832,
+    "Italy": -4.27067756652832
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_4f87c1623a57": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.948763132095337,
+    "UK": -3.886263132095337,
+    "Brazil": -2.136263132095337,
+    "Spain": -2.573763132095337,
+    "Germany": -7.261262893676758,
+    "Italy": -6.448762893676758
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_5134ce77958b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.9176900386810303,
+    "UK": -3.9176900386810303,
+    "Brazil": -1.8551900386810303,
+    "Spain": -2.2926900386810303,
+    "Germany": -6.917690277099609,
+    "Italy": -5.355190277099609
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_5391ecf8e03b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that it may have been released in either",
+   "gen_label": null,
+   "scores": {
+    "US": -4.540826320648193,
+    "UK": -3.9783263206481934,
+    "Brazil": -2.3533263206481934,
+    "Spain": -2.6033263206481934,
+    "Germany": -6.478326320648193,
+    "Italy": -6.478326320648193
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_551a965f7433": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.663709878921509,
+    "UK": -3.038709878921509,
+    "Brazil": -2.038709878921509,
+    "Spain": -1.9762098789215088,
+    "Germany": -6.60120964050293,
+    "Italy": -6.72620964050293
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_58b96492b47f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.6128251552581787,
+    "UK": -3.6753251552581787,
+    "Brazil": -2.3628251552581787,
+    "Spain": -2.4253251552581787,
+    "Germany": -7.3003249168396,
+    "Italy": -5.8628249168396
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_59aea13aaf6a": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that it may have been released in either",
+   "gen_label": null,
+   "scores": {
+    "US": -4.132471084594727,
+    "UK": -3.2574710845947266,
+    "Brazil": -2.2574710845947266,
+    "Spain": -2.9449710845947266,
+    "Germany": -7.444971084594727,
+    "Italy": -6.444971084594727
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_59d2d848231f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6960487365722656,
+    "UK": -4.446048736572266,
+    "Brazil": -1.633548617362976,
+    "Spain": -2.6335487365722656,
+    "Germany": -6.383548736572266,
+    "Italy": -5.508548736572266
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_609ea6718e36": {
+   "split": "test",
+   "label": "",
+   "gen_text": "German",
+   "gen_label": null,
+   "scores": {
+    "US": -6.0202789306640625,
+    "UK": -5.7077789306640625,
+    "Brazil": -3.5202789306640625,
+    "Spain": -3.5827789306640625,
+    "Germany": -4.2077789306640625,
+    "Italy": -6.9577789306640625
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Germany",
+    "UK",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_63d98c759a55": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.330467700958252,
+    "UK": -7.267967700958252,
+    "Brazil": -0.14296776056289673,
+    "Spain": -3.892967700958252,
+    "Germany": -8.33046817779541,
+    "Italy": -7.517967700958252
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_65c3fb6e8773": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6143651008605957,
+    "UK": -3.5518651008605957,
+    "Brazil": -2.0518651008605957,
+    "Spain": -2.2393651008605957,
+    "Germany": -6.676865100860596,
+    "Italy": -5.676865100860596
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_6ac9badc2b7c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in Italy.",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -4.934327602386475,
+    "UK": -4.434327602386475,
+    "Brazil": -1.809327483177185,
+    "Spain": -1.559327483177185,
+    "Germany": -7.559327602386475,
+    "Italy": -3.8093276023864746
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_6f088d504a7d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.7522644996643066,
+    "UK": -3.6897644996643066,
+    "Brazil": -2.6272644996643066,
+    "Spain": -2.8147644996643066,
+    "Germany": -7.314764499664307,
+    "Italy": -6.002264499664307
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_71b02d6a92ce": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.048457145690918,
+    "UK": -3.610957145690918,
+    "Brazil": -1.8609572649002075,
+    "Spain": -2.048457145690918,
+    "Germany": -6.673457145690918,
+    "Italy": -5.985957145690918
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_72ed1d20fc3d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.241711616516113,
+    "UK": -3.0542116165161133,
+    "Brazil": -2.6167116165161133,
+    "Spain": -2.5542116165161133,
+    "Germany": -6.491711616516113,
+    "Italy": -6.491711616516113
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_756fb72cfeb5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.918200969696045,
+    "UK": -3.980700969696045,
+    "Brazil": -1.7932010889053345,
+    "Spain": -2.230700969696045,
+    "Germany": -7.168200969696045,
+    "Italy": -5.730700969696045
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_762d6e3dfa1a": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.9623942375183105,
+    "UK": -3.7123942375183105,
+    "Brazil": -2.1498942375183105,
+    "Spain": -2.5248942375183105,
+    "Germany": -7.4623942375183105,
+    "Italy": -6.2748942375183105
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_774cb9f8b56e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.081178188323975,
+    "UK": -4.893678188323975,
+    "Brazil": -1.3936783075332642,
+    "Spain": -2.8311781883239746,
+    "Germany": -7.393678188323975,
+    "Italy": -6.331178188323975
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_79d7f2ed1d1c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.5868096351623535,
+    "UK": -3.7743096351623535,
+    "Brazil": -2.3368096351623535,
+    "Spain": -2.7118096351623535,
+    "Germany": -7.1493096351623535,
+    "Italy": -5.8993096351623535
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_7d32f6ebe0cc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.204787731170654,
+    "UK": -3.8922879695892334,
+    "Brazil": -1.8922879695892334,
+    "Spain": -2.3922879695892334,
+    "Germany": -6.329787731170654,
+    "Italy": -5.829787731170654
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8d2e2cc755f2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.73222279548645,
+    "UK": -3.91972279548645,
+    "Brazil": -2.54472279548645,
+    "Spain": -2.79472279548645,
+    "Germany": -7.357222557067871,
+    "Italy": -6.482222557067871
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8d8c4e578532": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.0156145095825195,
+    "UK": -3.8281145095825195,
+    "Brazil": -1.9531145095825195,
+    "Spain": -2.4531145095825195,
+    "Germany": -6.8906145095825195,
+    "Italy": -6.2031145095825195
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8f20bf5a475c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.208532333374023,
+    "UK": -3.7710325717926025,
+    "Brazil": -2.2085325717926025,
+    "Spain": -2.4585325717926025,
+    "Germany": -6.708532333374023,
+    "Italy": -6.021032333374023
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8f3ac6f7b9e5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.487593650817871,
+    "UK": -3.487593650817871,
+    "Brazil": -1.6750937700271606,
+    "Spain": -2.300093650817871,
+    "Germany": -6.362593650817871,
+    "Italy": -5.612593650817871
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_933419ce4489": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.841414213180542,
+    "UK": -3.841414213180542,
+    "Brazil": -2.278914213180542,
+    "Spain": -2.653914213180542,
+    "Germany": -7.403914451599121,
+    "Italy": -6.966414451599121
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_943526d6e57e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.9534313678741455,
+    "UK": -3.8909313678741455,
+    "Brazil": -1.9534313678741455,
+    "Spain": -2.4534313678741455,
+    "Germany": -7.015931129455566,
+    "Italy": -5.953431129455566
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_9926353fbfdc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.81400990486145,
+    "UK": -4.189010143280029,
+    "Brazil": -1.7515099048614502,
+    "Spain": -2.62650990486145,
+    "Germany": -6.689010143280029,
+    "Italy": -6.501510143280029
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_9ad93ebf588e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.9534964561462402,
+    "UK": -3.9534964561462402,
+    "Brazil": -1.8284965753555298,
+    "Spain": -2.1409964561462402,
+    "Germany": -6.64099645614624,
+    "Italy": -5.82849645614624
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_9b2dd58128af": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.683964252471924,
+    "UK": -6.933964252471924,
+    "Brazil": -0.18396414816379547,
+    "Spain": -3.683964252471924,
+    "Germany": -7.808964252471924,
+    "Italy": -7.433964252471924
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_9db44818efec": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -2.9009413719177246,
+    "UK": -4.463441371917725,
+    "Brazil": -2.2134413719177246,
+    "Spain": -2.9634413719177246,
+    "Germany": -7.588441371917725,
+    "Italy": -6.525941371917725
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a4d81d53558e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the song may have been recorded in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -2.5236735343933105,
+    "UK": -4.2111735343933105,
+    "Brazil": -3.0861735343933105,
+    "Spain": -3.5236735343933105,
+    "Germany": -8.648674011230469,
+    "Italy": -7.5861735343933105
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a5c4be395f25": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.720710754394531,
+    "UK": -5.533210754394531,
+    "Brazil": -0.5332109332084656,
+    "Spain": -2.4707109928131104,
+    "Germany": -7.095710754394531,
+    "Italy": -5.783210754394531
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ad44fe430db6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.686431884765625,
+    "UK": -3.623931884765625,
+    "Brazil": -2.123931884765625,
+    "Spain": -2.373931884765625,
+    "Germany": -6.873931884765625,
+    "Italy": -6.061431884765625
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ad4ef17695e6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.711270332336426,
+    "UK": -7.711270332336426,
+    "Brazil": -0.14877024292945862,
+    "Spain": -4.273770332336426,
+    "Germany": -8.461270332336426,
+    "Italy": -7.773770332336426
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b20b26c20ea9": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.3545570373535156,
+    "UK": -3.0420570373535156,
+    "Brazil": -2.1045570373535156,
+    "Spain": -2.5420570373535156,
+    "Germany": -7.229557037353516,
+    "Italy": -6.354557037353516
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b2f3eb1702f1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.946105003356934,
+    "UK": -8.133605003356934,
+    "Brazil": -0.07110503315925598,
+    "Spain": -5.133605003356934,
+    "Germany": -8.883605003356934,
+    "Italy": -8.571105003356934
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b45abda322fc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.3143510818481445,
+    "UK": -4.0018510818481445,
+    "Brazil": -1.439350962638855,
+    "Spain": -2.4393510818481445,
+    "Germany": -5.9393510818481445,
+    "Italy": -5.3768510818481445
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b673453d3589": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.61533260345459,
+    "UK": -4.11533260345459,
+    "Brazil": -1.5528327226638794,
+    "Spain": -1.9903327226638794,
+    "Germany": -6.49033260345459,
+    "Italy": -4.11533260345459
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_b8c9f3dbe184": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.49862003326416,
+    "UK": -3.93612003326416,
+    "Brazil": -1.4986201524734497,
+    "Spain": -2.56112003326416,
+    "Germany": -6.06112003326416,
+    "Italy": -5.37362003326416
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c500d8e176c4": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6562752723693848,
+    "UK": -4.281275272369385,
+    "Brazil": -1.7187752723693848,
+    "Spain": -2.4062752723693848,
+    "Germany": -7.093775272369385,
+    "Italy": -5.656275272369385
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c58d407cada1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6912214756011963,
+    "UK": -3.6287214756011963,
+    "Brazil": -1.9412214756011963,
+    "Spain": -2.3162214756011963,
+    "Germany": -6.316221237182617,
+    "Italy": -5.878721237182617
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c689e8aad7a7": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.163665771484375,
+    "UK": -3.913665771484375,
+    "Brazil": -1.726165771484375,
+    "Spain": -2.351165771484375,
+    "Germany": -6.601165771484375,
+    "Italy": -4.976165771484375
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c74be1cb79a9": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.472085475921631,
+    "UK": -7.972085475921631,
+    "Brazil": -0.0970853865146637,
+    "Spain": -4.347085475921631,
+    "Germany": -8.722084999084473,
+    "Italy": -8.034584999084473
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c8827f647eb8": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.664769649505615,
+    "UK": -7.539769649505615,
+    "Brazil": -0.1647694706916809,
+    "Spain": -4.477269649505615,
+    "Germany": -8.727269172668457,
+    "Italy": -7.539769649505615
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c8e2865bcac2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.089144229888916,
+    "UK": -5.276644229888916,
+    "Brazil": -1.089144229888916,
+    "Spain": -2.339144229888916,
+    "Germany": -6.901644229888916,
+    "Italy": -5.714144229888916
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_cb872c6b28bb": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -2.461707353591919,
+    "UK": -4.89920711517334,
+    "Brazil": -2.461707353591919,
+    "Spain": -3.211707353591919,
+    "Germany": -8.71170711517334,
+    "Italy": -7.02420711517334
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_cf3a82be7bcf": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.456748008728027,
+    "UK": -5.706748008728027,
+    "Brazil": -0.831747829914093,
+    "Spain": -1.8317477703094482,
+    "Germany": -7.081748008728027,
+    "Italy": -6.519248008728027
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d2f82beafc60": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -3.95914888381958,
+    "UK": -3.64664888381958,
+    "Brazil": -2.08414888381958,
+    "Spain": -2.02164888381958,
+    "Germany": -6.39664888381958,
+    "Italy": -6.02164888381958
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d50f0dbf8b2e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.454807996749878,
+    "UK": -3.767307996749878,
+    "Brazil": -2.267307996749878,
+    "Spain": -2.517307996749878,
+    "Germany": -7.767308235168457,
+    "Italy": -6.454808235168457
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d56287266afa": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.4050142765045166,
+    "UK": -3.4050142765045166,
+    "Brazil": -2.0300142765045166,
+    "Spain": -2.3425142765045166,
+    "Germany": -6.8425140380859375,
+    "Italy": -6.1550140380859375
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d7d6be259b70": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2094016075134277,
+    "UK": -3.8969016075134277,
+    "Brazil": -2.2094016075134277,
+    "Spain": -3.3344016075134277,
+    "Germany": -7.709401607513428,
+    "Italy": -6.021901607513428
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d86f0830b5db": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.022040843963623,
+    "UK": -4.209540843963623,
+    "Brazil": -1.897040843963623,
+    "Spain": -2.522040843963623,
+    "Germany": -7.772040843963623,
+    "Italy": -6.022040843963623
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_da3eb54225a8": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.224741458892822,
+    "UK": -6.474741458892822,
+    "Brazil": -0.224741593003273,
+    "Spain": -3.5372416973114014,
+    "Germany": -7.974741458892822,
+    "Italy": -6.912241458892822
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_de88d9731598": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.502989768981934,
+    "UK": -5.565489768981934,
+    "Brazil": -1.0654895305633545,
+    "Spain": -1.5654895305633545,
+    "Germany": -7.190489768981934,
+    "Italy": -6.752989768981934
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_df736a4b61ca": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.801006317138672,
+    "UK": -8.988506317138672,
+    "Brazil": -0.11350631713867188,
+    "Spain": -4.426006317138672,
+    "Germany": -8.801006317138672,
+    "Italy": -8.801006317138672
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_e24542d49c3e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.389157295227051,
+    "UK": -4.264157295227051,
+    "Brazil": -1.5766575336456299,
+    "Spain": -2.01415753364563,
+    "Germany": -6.576657295227051,
+    "Italy": -6.076657295227051
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e2481da3f704": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that it was most likely released in either",
+   "gen_label": null,
+   "scores": {
+    "US": -4.204750061035156,
+    "UK": -3.7672500610351562,
+    "Brazil": -1.9547500610351562,
+    "Spain": -2.2047500610351562,
+    "Germany": -7.142250061035156,
+    "Italy": -6.642250061035156
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e4db4ef2c052": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.351780891418457,
+    "UK": -3.664280891418457,
+    "Brazil": -2.414280891418457,
+    "Spain": -2.539280891418457,
+    "Germany": -7.476780891418457,
+    "Italy": -6.601780891418457
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e5f6ddfd4b23": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.4549567699432373,
+    "UK": -3.5174567699432373,
+    "Brazil": -2.2674567699432373,
+    "Spain": -2.7049567699432373,
+    "Germany": -7.079956531524658,
+    "Italy": -6.079956531524658
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e72b08ea76b5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.944141864776611,
+    "UK": -4.881641864776611,
+    "Brazil": -1.1316418647766113,
+    "Spain": -1.3816418647766113,
+    "Germany": -7.444141864776611,
+    "Italy": -7.194141864776611
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e80a5549cffe": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -3.843942165374756,
+    "UK": -3.406442165374756,
+    "Brazil": -2.218942165374756,
+    "Spain": -2.718942165374756,
+    "Germany": -7.343942165374756,
+    "Italy": -6.093942165374756
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e86ea10af862": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The music excerpt is in a language that suggests either Brazil or Spain; however,",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.649185657501221,
+    "UK": -4.524185657501221,
+    "Brazil": -1.4616857767105103,
+    "Spain": -1.8366857767105103,
+    "Germany": -6.774185657501221,
+    "Italy": -5.149185657501221
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e8df0b863744": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.142401695251465,
+    "UK": -3.6424014568328857,
+    "Brazil": -2.3924014568328857,
+    "Spain": -2.5174014568328857,
+    "Germany": -6.079901695251465,
+    "Italy": -6.454901695251465
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_e97520a2bb76": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.935857772827148,
+    "UK": -4.748357772827148,
+    "Brazil": -1.6858580112457275,
+    "Spain": -2.3108580112457275,
+    "Germany": -7.185857772827148,
+    "Italy": -4.623357772827148
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_ea7e7571558d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.0762939453125,
+    "UK": -3.8887939453125,
+    "Brazil": -1.8262938261032104,
+    "Spain": -2.3887939453125,
+    "Germany": -6.8262939453125,
+    "Italy": -6.1387939453125
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_eab0e99ee28b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.65952730178833,
+    "UK": -4.15952730178833,
+    "Brazil": -1.8470271825790405,
+    "Spain": -2.40952730178833,
+    "Germany": -6.78452730178833,
+    "Italy": -5.15952730178833
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ebb9119ccebb": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.8074758052825928,
+    "UK": -3.4949758052825928,
+    "Brazil": -2.3699758052825928,
+    "Spain": -2.5574758052825928,
+    "Germany": -6.807475566864014,
+    "Italy": -6.369975566864014
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_efe7fc5caccd": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.313614368438721,
+    "UK": -4.938614368438721,
+    "Brazil": -0.8761143684387207,
+    "Spain": -1.5011143684387207,
+    "Germany": -7.313614368438721,
+    "Italy": -7.438614368438721
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_f15a12e5fcec": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6471805572509766,
+    "UK": -3.3971805572509766,
+    "Brazil": -1.959680438041687,
+    "Spain": -2.3971805572509766,
+    "Germany": -6.772180557250977,
+    "Italy": -5.959680557250977
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f236cdc3cc3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.400798797607422,
+    "UK": -7.400798797607422,
+    "Brazil": -0.08829860389232635,
+    "Spain": -4.525798797607422,
+    "Germany": -8.400798797607422,
+    "Italy": -8.275798797607422
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f8f75b9d9038": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.9328856468200684,
+    "UK": -3.6203856468200684,
+    "Brazil": -1.8703856468200684,
+    "Spain": -2.1203856468200684,
+    "Germany": -6.995385646820068,
+    "Italy": -5.995385646820068
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f904d6eafa80": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.942963123321533,
+    "UK": -6.880463123321533,
+    "Brazil": -0.13046331703662872,
+    "Spain": -4.505463123321533,
+    "Germany": -8.505463600158691,
+    "Italy": -8.255463600158691
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fe04a16f7ec3": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.0456342697143555,
+    "UK": -3.7956342697143555,
+    "Brazil": -2.3581342697143555,
+    "Spain": -2.7331342697143555,
+    "Germany": -6.4831342697143555,
+    "Italy": -6.2331342697143555
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_007c484b6818": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in the US",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.151727676391602,
+    "UK": -4.526727676391602,
+    "Brazil": -1.4017274379730225,
+    "Spain": -2.0892274379730225,
+    "Germany": -5.526727676391602,
+    "Italy": -6.026727676391602
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_01a4fa3fe992": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -4.370683670043945,
+    "UK": -3.308183431625366,
+    "Brazil": -2.933183431625366,
+    "Spain": -2.745683431625366,
+    "Germany": -7.245683670043945,
+    "Italy": -6.620683670043945
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_022c2f8dc19a": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.064863681793213,
+    "UK": -3.877363681793213,
+    "Brazil": -2.189863681793213,
+    "Spain": -2.314863681793213,
+    "Germany": -7.064863681793213,
+    "Italy": -6.189863681793213
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_02d2444c09a3": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.912890911102295,
+    "UK": -3.537890911102295,
+    "Brazil": -2.162890911102295,
+    "Spain": -2.600390911102295,
+    "Germany": -6.912890911102295,
+    "Italy": -5.662890911102295
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_033aece126da": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6997129917144775,
+    "UK": -3.8247129917144775,
+    "Brazil": -1.6372129917144775,
+    "Spain": -2.3247129917144775,
+    "Germany": -6.137212753295898,
+    "Italy": -5.949712753295898
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0449c50279fd": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in Spain.",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -4.543739318847656,
+    "UK": -4.981239318847656,
+    "Brazil": -1.2937391996383667,
+    "Spain": -1.7937391996383667,
+    "Germany": -7.106239318847656,
+    "Italy": -5.168739318847656
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0606553d288f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.096890926361084,
+    "UK": -3.909390926361084,
+    "Brazil": -1.7843910455703735,
+    "Spain": -2.221890926361084,
+    "Germany": -7.096890926361084,
+    "Italy": -5.784390926361084
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0c623488dbf1": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.7424187660217285,
+    "UK": -5.4299187660217285,
+    "Brazil": -0.6174188256263733,
+    "Spain": -2.3674187660217285,
+    "Germany": -6.9924187660217285,
+    "Italy": -6.0549187660217285
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0cf44d0e5aa7": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.8241069316864014,
+    "UK": -3.3241069316864014,
+    "Brazil": -2.2616069316864014,
+    "Spain": -2.3866069316864014,
+    "Germany": -7.0116071701049805,
+    "Italy": -5.8241071701049805
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0d0ab9eed1ea": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spanish",
+   "gen_label": null,
+   "scores": {
+    "US": -5.361483097076416,
+    "UK": -5.486483097076416,
+    "Brazil": -1.6114832162857056,
+    "Spain": -1.6114832162857056,
+    "Germany": -7.986483097076416,
+    "Italy": -7.048983097076416
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0e8bf622b5b9": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.7042438983917236,
+    "UK": -3.5792438983917236,
+    "Brazil": -2.7042438983917236,
+    "Spain": -2.8292438983917236,
+    "Germany": -8.079243659973145,
+    "Italy": -6.266744136810303
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_0f7563a35a96": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.505624294281006,
+    "UK": -9.693123817443848,
+    "Brazil": -0.06812428683042526,
+    "Spain": -4.880624294281006,
+    "Germany": -8.693123817443848,
+    "Italy": -8.880623817443848
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_0fa5ccababcf": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.447615146636963,
+    "UK": -3.572615146636963,
+    "Brazil": -1.885115146636963,
+    "Spain": -1.947615146636963,
+    "Germany": -6.135115146636963,
+    "Italy": -5.260115146636963
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_13918a12adca": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.2803070545196533,
+    "UK": -4.030306816101074,
+    "Brazil": -3.1553070545196533,
+    "Spain": -3.4678070545196533,
+    "Germany": -8.592806816101074,
+    "Italy": -7.155306816101074
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_14c07e31cabd": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.709641933441162,
+    "UK": -8.147141456604004,
+    "Brazil": -0.14714187383651733,
+    "Spain": -5.147141933441162,
+    "Germany": -8.647141456604004,
+    "Italy": -8.334641456604004
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_1d029a46b04f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.177499532699585,
+    "UK": -3.614999532699585,
+    "Brazil": -2.239999532699585,
+    "Spain": -2.302499532699585,
+    "Germany": -6.802499771118164,
+    "Italy": -6.489999771118164
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_1d3fc0cfce49": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -2.7501096725463867,
+    "UK": -3.2501096725463867,
+    "Brazil": -2.2501096725463867,
+    "Spain": -2.1876096725463867,
+    "Germany": -7.312609672546387,
+    "Italy": -5.937609672546387
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_20c23d10897b": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.973715305328369,
+    "UK": -3.286215305328369,
+    "Brazil": -2.036215305328369,
+    "Spain": -2.348715305328369,
+    "Germany": -6.848715305328369,
+    "Italy": -5.661215305328369
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_21b8b9504576": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.798643589019775,
+    "UK": -4.736143589019775,
+    "Brazil": -1.0486435890197754,
+    "Spain": -1.8611435890197754,
+    "Germany": -6.611143589019775,
+    "Italy": -4.298643589019775
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_220ad0950ab6": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in Italy.",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -4.8782734870910645,
+    "UK": -4.2532734870910645,
+    "Brazil": -1.878273367881775,
+    "Spain": -2.1282734870910645,
+    "Germany": -7.3157734870910645,
+    "Italy": -3.5032734870910645
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_235e59cedbb9": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.025976657867432,
+    "UK": -5.400976657867432,
+    "Brazil": -0.8384765982627869,
+    "Spain": -2.3384766578674316,
+    "Germany": -6.713476657867432,
+    "Italy": -3.9009766578674316
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "US",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_23f6c68ce7a1": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.8997063636779785,
+    "UK": -5.1497063636779785,
+    "Brazil": -0.774706244468689,
+    "Spain": -1.837206244468689,
+    "Germany": -7.2122063636779785,
+    "Italy": -6.7747063636779785
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_29ba1bae7f9a": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.3500137329101562,
+    "UK": -4.975013732910156,
+    "Brazil": -1.6000137329101562,
+    "Spain": -2.9125137329101562,
+    "Germany": -7.475013732910156,
+    "Italy": -6.350013732910156
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_2d1144798a47": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2609775066375732,
+    "UK": -4.073477745056152,
+    "Brazil": -2.1359775066375732,
+    "Spain": -3.1359775066375732,
+    "Germany": -8.073477745056152,
+    "Italy": -7.073477745056152
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_41bc89f1f599": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6054954528808594,
+    "UK": -4.042995452880859,
+    "Brazil": -1.480495572090149,
+    "Spain": -2.0429954528808594,
+    "Germany": -6.230495452880859,
+    "Italy": -5.167995452880859
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_450fb66e02c7": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -2.9836440086364746,
+    "UK": -3.6086440086364746,
+    "Brazil": -2.2961440086364746,
+    "Spain": -2.7961440086364746,
+    "Germany": -7.233644008636475,
+    "Italy": -6.171144008636475
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_47eb9eba0af4": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.053654670715332,
+    "UK": -6.803654670715332,
+    "Brazil": -0.4286544620990753,
+    "Spain": -2.366154432296753,
+    "Germany": -7.741154670715332,
+    "Italy": -7.178654670715332
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_50102c3b7d22": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2664763927459717,
+    "UK": -3.7664763927459717,
+    "Brazil": -2.0164763927459717,
+    "Spain": -2.5164763927459717,
+    "Germany": -6.141476631164551,
+    "Italy": -6.016476631164551
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_51c61db82099": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -4.273540496826172,
+    "UK": -3.5235402584075928,
+    "Brazil": -2.0860402584075928,
+    "Spain": -2.3985402584075928,
+    "Germany": -6.648540496826172,
+    "Italy": -6.086040496826172
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_53ab4248e799": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.728556156158447,
+    "UK": -9.103555679321289,
+    "Brazil": -0.1035560593008995,
+    "Spain": -5.791056156158447,
+    "Germany": -8.916055679321289,
+    "Italy": -8.541055679321289
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "Italy",
+    "Germany",
+    "UK"
+   ]
+  },
+  "B_550c82a44dde": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.997868299484253,
+    "UK": -3.622868299484253,
+    "Brazil": -2.747868299484253,
+    "Spain": -2.872868299484253,
+    "Germany": -7.372868537902832,
+    "Italy": -6.372868537902832
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_55bdcf43a277": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.517782688140869,
+    "UK": -8.142783164978027,
+    "Brazil": -0.14278288185596466,
+    "Spain": -4.892782688140869,
+    "Germany": -8.517783164978027,
+    "Italy": -7.517782688140869
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_58bbc8b17c59": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.752187252044678,
+    "UK": -9.43968677520752,
+    "Brazil": -0.06468719989061356,
+    "Spain": -5.252187252044678,
+    "Germany": -8.93968677520752,
+    "Italy": -8.75218677520752
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "Germany",
+    "UK"
+   ]
+  },
+  "B_58cc41574fbe": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.822287082672119,
+    "UK": -7.697287082672119,
+    "Brazil": -0.1347869336605072,
+    "Spain": -4.509787082672119,
+    "Germany": -8.509786605834961,
+    "Italy": -7.509787082672119
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_5ae0b896d915": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.449080467224121,
+    "UK": -4.511580467224121,
+    "Brazil": -1.449080467224121,
+    "Spain": -2.386580467224121,
+    "Germany": -7.136580467224121,
+    "Italy": -5.761580467224121
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_5ced4de80cb2": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.330974578857422,
+    "UK": -3.580974578857422,
+    "Brazil": -2.143474578857422,
+    "Spain": -2.643474578857422,
+    "Germany": -7.330974578857422,
+    "Italy": -6.080974578857422
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_675ff44fc9a6": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.938698768615723,
+    "UK": -4.563698768615723,
+    "Brazil": -2.2511987686157227,
+    "Spain": -2.6261987686157227,
+    "Germany": -4.626198768615723,
+    "Italy": -6.001198768615723
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_69062b4d04a5": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6991074085235596,
+    "UK": -4.1991071701049805,
+    "Brazil": -1.6991074085235596,
+    "Spain": -2.3866074085235596,
+    "Germany": -5.7616071701049805,
+    "Italy": -6.0741071701049805
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_6f5b80a9f689": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.5525572299957275,
+    "UK": -3.3650572299957275,
+    "Brazil": -3.0525572299957275,
+    "Spain": -3.6150572299957275,
+    "Germany": -8.177556991577148,
+    "Italy": -6.740056991577148
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "UK",
+    "Spain",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_700a0812e908": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6754226684570312,
+    "UK": -4.237922668457031,
+    "Brazil": -2.2379226684570312,
+    "Spain": -2.9254226684570312,
+    "Germany": -7.612922668457031,
+    "Italy": -6.112922668457031
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_71c8c7a07ba6": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.60627555847168,
+    "UK": -6.16877555847168,
+    "Brazil": -1.0437755584716797,
+    "Spain": -2.2937755584716797,
+    "Germany": -7.60627555847168,
+    "Italy": -6.73127555847168
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_7d050a5269fb": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.689202308654785,
+    "UK": -3.689202308654785,
+    "Brazil": -1.6892023086547852,
+    "Spain": -2.126702308654785,
+    "Germany": -6.189202308654785,
+    "Italy": -5.564202308654785
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_7edf8cf51fa1": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The music excerpt is in English, suggesting that it may have been released in either",
+   "gen_label": null,
+   "scores": {
+    "US": -4.371095657348633,
+    "UK": -3.558595895767212,
+    "Brazil": -2.433595895767212,
+    "Spain": -2.746095895767212,
+    "Germany": -6.808595657348633,
+    "Italy": -6.683595657348633
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8108811dadb2": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.701903820037842,
+    "UK": -3.576903820037842,
+    "Brazil": -2.076903820037842,
+    "Spain": -2.326903820037842,
+    "Germany": -6.576903820037842,
+    "Italy": -6.076903820037842
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_81251e0db31f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.1724894046783447,
+    "UK": -3.5474894046783447,
+    "Brazil": -2.2974894046783447,
+    "Spain": -2.6099894046783447,
+    "Germany": -6.984989166259766,
+    "Italy": -6.609989166259766
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_83aff42e7239": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.1697821617126465,
+    "UK": -6.0447821617126465,
+    "Brazil": -0.6697820425033569,
+    "Spain": -2.6072821617126465,
+    "Germany": -6.9822821617126465,
+    "Italy": -6.1072821617126465
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_87149914b371": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.686098098754883,
+    "UK": -3.936098098754883,
+    "Brazil": -1.3110979795455933,
+    "Spain": -1.3110979795455933,
+    "Germany": -7.061098098754883,
+    "Italy": -6.748598098754883
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_885568afc061": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.936997413635254,
+    "UK": -8.436997413635254,
+    "Brazil": -0.12449751794338226,
+    "Spain": -4.749497413635254,
+    "Germany": -8.624497413635254,
+    "Italy": -7.811997413635254
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_889540221b89": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.176299810409546,
+    "UK": -4.176300048828125,
+    "Brazil": -2.551299810409546,
+    "Spain": -2.988799810409546,
+    "Germany": -7.363800048828125,
+    "Italy": -5.863800048828125
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8b78937b44e1": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.069580554962158,
+    "UK": -6.569580554962158,
+    "Brazil": -0.31958043575286865,
+    "Spain": -2.632080554962158,
+    "Germany": -7.444580554962158,
+    "Italy": -7.194580554962158
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_8f4ab6bb7c02": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.610713481903076,
+    "UK": -4.110713481903076,
+    "Brazil": -2.235713481903076,
+    "Spain": -2.423213481903076,
+    "Germany": -6.548213481903076,
+    "Italy": -6.048213481903076
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_99f65134c641": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.770820140838623,
+    "UK": -8.708320617675781,
+    "Brazil": -0.08332028239965439,
+    "Spain": -4.833320140838623,
+    "Germany": -8.645820617675781,
+    "Italy": -8.208320617675781
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "Germany",
+    "UK"
+   ]
+  },
+  "B_9cdcc40848cc": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6942691802978516,
+    "UK": -3.5692691802978516,
+    "Brazil": -1.8192692995071411,
+    "Spain": -2.5067691802978516,
+    "Germany": -6.256769180297852,
+    "Italy": -5.131769180297852
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a0af7a755f77": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.22219705581665,
+    "UK": -6.28469705581665,
+    "Brazil": -1.0971970558166504,
+    "Spain": -1.7846970558166504,
+    "Germany": -7.84719705581665,
+    "Italy": -6.65969705581665
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a0ce59fbdb77": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -4.111651420593262,
+    "UK": -3.3616514205932617,
+    "Brazil": -2.2991514205932617,
+    "Spain": -2.7366514205932617,
+    "Germany": -6.924151420593262,
+    "Italy": -6.111651420593262
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a1c2276456aa": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The language of the lyrics suggests it may be from a Brazilian artist.",
+   "gen_label": null,
+   "scores": {
+    "US": -1.9020841121673584,
+    "UK": -4.402083873748779,
+    "Brazil": -3.7145841121673584,
+    "Spain": -4.589583873748779,
+    "Germany": -9.308334350585938,
+    "Italy": -8.214584350585938
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "UK",
+    "Spain",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_a59d7ed218f8": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.7109198570251465,
+    "UK": -6.3359198570251465,
+    "Brazil": -0.5859196782112122,
+    "Spain": -2.2734196186065674,
+    "Germany": -7.9609198570251465,
+    "Italy": -7.4609198570251465
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_aaafa76a5afb": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.1979565620422363,
+    "UK": -3.8229565620422363,
+    "Brazil": -1.8854564428329468,
+    "Spain": -2.3854565620422363,
+    "Germany": -6.572956562042236,
+    "Italy": -6.010456562042236
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_aaf96e732265": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.8091325759887695,
+    "UK": -3.9966325759887695,
+    "Brazil": -1.74663245677948,
+    "Spain": -2.2466325759887695,
+    "Germany": -6.6841325759887695,
+    "Italy": -5.8716325759887695
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ab933d1646c4": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.972747802734375,
+    "UK": -3.472747802734375,
+    "Brazil": -2.597747802734375,
+    "Spain": -2.597747802734375,
+    "Germany": -7.160247802734375,
+    "Italy": -6.347747802734375
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ac016c46e914": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.652068614959717,
+    "UK": -3.777068614959717,
+    "Brazil": -2.464568614959717,
+    "Spain": -2.589568614959717,
+    "Germany": -7.652068614959717,
+    "Italy": -6.214568614959717
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b05d6ee46da0": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.117077589035034,
+    "UK": -4.429577350616455,
+    "Brazil": -1.6795775890350342,
+    "Spain": -2.304577589035034,
+    "Germany": -7.242077350616455,
+    "Italy": -5.929577350616455
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b066d818b297": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.911063194274902,
+    "UK": -5.973563194274902,
+    "Brazil": -0.41106313467025757,
+    "Spain": -3.1610631942749023,
+    "Germany": -7.286063194274902,
+    "Italy": -5.786063194274902
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_b3422bcc415c": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.0811307430267334,
+    "UK": -4.0811309814453125,
+    "Brazil": -1.7686307430267334,
+    "Spain": -2.5186307430267334,
+    "Germany": -6.8311309814453125,
+    "Italy": -5.9561309814453125
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b75081eeb64b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.214812278747559,
+    "UK": -5.214812278747559,
+    "Brazil": -0.6523120999336243,
+    "Spain": -1.5273120403289795,
+    "Germany": -7.339812278747559,
+    "Italy": -7.152312278747559
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_b8256aa710bc": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.3226189613342285,
+    "UK": -8.385119438171387,
+    "Brazil": -0.1351189911365509,
+    "Spain": -4.8851189613342285,
+    "Germany": -8.447619438171387,
+    "Italy": -7.6976189613342285
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_b9d4bd40dabf": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.9464609622955322,
+    "UK": -4.008960723876953,
+    "Brazil": -2.5089609622955322,
+    "Spain": -2.9464609622955322,
+    "Germany": -7.883960723876953,
+    "Italy": -6.133960723876953
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_bd49b44fb472": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.7620043754577637,
+    "UK": -4.262004375457764,
+    "Brazil": -1.9495043754577637,
+    "Spain": -2.7620043754577637,
+    "Germany": -7.262004375457764,
+    "Italy": -6.137004375457764
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_beaa2bb0b89b": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.778524875640869,
+    "UK": -3.841024875640869,
+    "Brazil": -2.028524875640869,
+    "Spain": -2.341024875640869,
+    "Germany": -6.403524875640869,
+    "Italy": -5.778524875640869
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c7809dcd0640": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spanish",
+   "gen_label": null,
+   "scores": {
+    "US": -5.059594631195068,
+    "UK": -5.122094631195068,
+    "Brazil": -2.1220946311950684,
+    "Spain": -1.7470945119857788,
+    "Germany": -7.247094631195068,
+    "Italy": -6.997094631195068
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c7e70dd767df": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.7048285007476807,
+    "UK": -4.079828262329102,
+    "Brazil": -1.4548285007476807,
+    "Spain": -2.2673285007476807,
+    "Germany": -6.767328262329102,
+    "Italy": -5.954828262329102
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_c954e68e5b33": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.204124927520752,
+    "UK": -7.766624927520752,
+    "Brazil": -0.32912489771842957,
+    "Spain": -2.579124927520752,
+    "Germany": -8.454124450683594,
+    "Italy": -7.579124927520752
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Italy",
+    "UK",
+    "Germany"
+   ]
+  },
+  "B_ca75f4db02f5": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.9143824577331543,
+    "UK": -3.5393824577331543,
+    "Brazil": -2.4768824577331543,
+    "Spain": -2.3518824577331543,
+    "Germany": -6.851882457733154,
+    "Italy": -6.226882457733154
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_cbd6d40a4231": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.1664371490478516,
+    "UK": -3.8539371490478516,
+    "Brazil": -1.728937029838562,
+    "Spain": -2.3539371490478516,
+    "Germany": -6.978937149047852,
+    "Italy": -5.541437149047852
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_cc76a89f5dcc": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was most likely released in the UK.",
+   "gen_label": "UK",
+   "scores": {
+    "US": -5.055749416351318,
+    "UK": -3.6807494163513184,
+    "Brazil": -3.3057494163513184,
+    "Spain": -3.4307494163513184,
+    "Germany": -6.930749416351318,
+    "Italy": -7.055749416351318
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_ce67238ec511": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.4076809883117676,
+    "UK": -4.845180988311768,
+    "Brazil": -1.220180869102478,
+    "Spain": -2.6576809883117676,
+    "Germany": -6.720180988311768,
+    "Italy": -5.157680988311768
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_cfa197f66fa2": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.000036239624023,
+    "UK": -4.125036239624023,
+    "Brazil": -2.4375360012054443,
+    "Spain": -2.5000360012054443,
+    "Germany": -7.687536239624023,
+    "Italy": -5.875036239624023
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d397202f7eff": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.741698265075684,
+    "UK": -8.616698265075684,
+    "Brazil": -0.11669822782278061,
+    "Spain": -4.616698265075684,
+    "Germany": -8.554198265075684,
+    "Italy": -8.679198265075684
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_d4d7691cfb36": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6518309116363525,
+    "UK": -4.464331150054932,
+    "Brazil": -2.9018309116363525,
+    "Spain": -3.0268309116363525,
+    "Germany": -8.276830673217773,
+    "Italy": -6.651831150054932
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d5eeaab99e51": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.521880865097046,
+    "UK": -4.271881103515625,
+    "Brazil": -2.646880865097046,
+    "Spain": -2.959380865097046,
+    "Germany": -8.084381103515625,
+    "Italy": -7.209381103515625
+   },
+   "ranking": [
+    "US",
+    "Brazil",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_d738dbb99fa4": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was most likely released in either the US or the UK, as these",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.820079803466797,
+    "UK": -3.445079803466797,
+    "Brazil": -2.882579803466797,
+    "Spain": -3.132579803466797,
+    "Germany": -7.757579803466797,
+    "Italy": -6.945079803466797
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_da0e2ef5c2eb": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The music excerpt is in English, suggesting that the record was released in either the",
+   "gen_label": null,
+   "scores": {
+    "US": -3.690290689468384,
+    "UK": -3.315290689468384,
+    "Brazil": -2.190290689468384,
+    "Spain": -2.315290689468384,
+    "Germany": -7.190290451049805,
+    "Italy": -6.065290451049805
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_de366c3afcc0": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.579461097717285,
+    "UK": -7.516961097717285,
+    "Brazil": -0.14196093380451202,
+    "Spain": -4.266961097717285,
+    "Germany": -8.454461097717285,
+    "Italy": -7.766961097717285
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_de7879ffd48f": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.791131019592285,
+    "UK": -3.978631019592285,
+    "Brazil": -2.166131019592285,
+    "Spain": -2.791131019592285,
+    "Germany": -7.353631019592285,
+    "Italy": -6.541131019592285
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e6107a40e9d5": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.709953308105469,
+    "UK": -4.147453308105469,
+    "Brazil": -1.5224533081054688,
+    "Spain": -1.8349533081054688,
+    "Germany": -6.272453308105469,
+    "Italy": -3.7724533081054688
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Italy",
+    "UK",
+    "US",
+    "Germany"
+   ]
+  },
+  "B_e65a9bb9ea27": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spanish",
+   "gen_label": null,
+   "scores": {
+    "US": -4.55120849609375,
+    "UK": -5.67620849609375,
+    "Brazil": -1.551208734512329,
+    "Spain": -1.738708734512329,
+    "Germany": -8.11370849609375,
+    "Italy": -6.80120849609375
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_e887687df493": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.7297286987304688,
+    "UK": -3.6047286987304688,
+    "Brazil": -2.1672286987304688,
+    "Spain": -2.2297286987304688,
+    "Germany": -6.792228698730469,
+    "Italy": -6.354728698730469
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ea54f022e8d4": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.8626508712768555,
+    "UK": -6.9251508712768555,
+    "Brazil": -0.48765069246292114,
+    "Spain": -2.0501506328582764,
+    "Germany": -7.3626508712768555,
+    "Italy": -7.1751508712768555
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ec326d639aad": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.352924346923828,
+    "UK": -5.602924346923828,
+    "Brazil": -0.8529242277145386,
+    "Spain": -1.2279242277145386,
+    "Germany": -7.290424346923828,
+    "Italy": -6.852924346923828
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ec8878ce06b5": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.466293811798096,
+    "UK": -7.716293811798096,
+    "Brazil": -0.09129389375448227,
+    "Spain": -4.528793811798096,
+    "Germany": -8.591294288635254,
+    "Italy": -7.966293811798096
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_ef64273eee4e": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.928569316864014,
+    "UK": -7.616069316864014,
+    "Brazil": -0.17856931686401367,
+    "Spain": -4.303569316864014,
+    "Germany": -8.303569793701172,
+    "Italy": -7.741069316864014
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_efe2cf1ad3d8": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2300219535827637,
+    "UK": -3.9800219535827637,
+    "Brazil": -1.5425219535827637,
+    "Spain": -2.6050219535827637,
+    "Germany": -6.667521953582764,
+    "Italy": -5.542521953582764
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f3407cab7d7b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The language suggests Brazil.",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.700634956359863,
+    "UK": -4.638134956359863,
+    "Brazil": -1.8256349563598633,
+    "Spain": -1.6381349563598633,
+    "Germany": -7.575634956359863,
+    "Italy": -6.013134956359863
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f34458365689": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.4815144538879395,
+    "UK": -5.0440144538879395,
+    "Brazil": -1.169014573097229,
+    "Spain": -2.1065144538879395,
+    "Germany": -6.9190144538879395,
+    "Italy": -5.1065144538879395
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f6d4bb0e62a0": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2998220920562744,
+    "UK": -4.049821853637695,
+    "Brazil": -1.5498220920562744,
+    "Spain": -2.4248220920562744,
+    "Germany": -6.799821853637695,
+    "Italy": -5.174821853637695
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f7fd3ba8af94": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.213515281677246,
+    "UK": -4.151015281677246,
+    "Brazil": -1.1510151624679565,
+    "Spain": -2.338515281677246,
+    "Germany": -6.401015281677246,
+    "Italy": -5.338515281677246
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_f80110c84970": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The language suggests it could be from any of the countries where those languages are spoken",
+   "gen_label": null,
+   "scores": {
+    "US": -3.42626690864563,
+    "UK": -3.61376690864563,
+    "Brazil": -2.61376690864563,
+    "Spain": -2.80126690864563,
+    "Germany": -7.551266670227051,
+    "Italy": -6.676266670227051
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fa0e895ecfd0": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6035330295562744,
+    "UK": -3.8535330295562744,
+    "Brazil": -2.1035330295562744,
+    "Spain": -2.7285330295562744,
+    "Germany": -7.6035332679748535,
+    "Italy": -6.5410332679748535
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fb1c266c084e": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.844104766845703,
+    "UK": -3.594104766845703,
+    "Brazil": -2.094104766845703,
+    "Spain": -2.281604766845703,
+    "Germany": -7.094104766845703,
+    "Italy": -5.719104766845703
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fbfcce1b9fa1": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The record was released in the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.313941478729248,
+    "UK": -3.938941240310669,
+    "Brazil": -2.688941240310669,
+    "Spain": -3.501441240310669,
+    "Germany": -7.251441478729248,
+    "Italy": -6.626441478729248
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "US",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fc28ecaa8c0e": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The language of the lyrics suggests that the record may have been released in either Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -3.553179979324341,
+    "UK": -5.24068021774292,
+    "Brazil": -3.178179979324341,
+    "Spain": -4.05318021774292,
+    "Germany": -9.490679740905762,
+    "Italy": -7.55318021774292
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  },
+  "B_fd25e478b03b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.99373197555542,
+    "UK": -5.86873197555542,
+    "Brazil": -0.9312318563461304,
+    "Spain": -1.5562318563461304,
+    "Germany": -7.30623197555542,
+    "Italy": -6.99373197555542
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Italy",
+    "Germany"
+   ]
+  }
+ }
+}
