@@ -54,6 +54,20 @@ C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
 | top-1 | .356 | .432 | .455 | .439 |
 | top-3 | .727 | .750 | .765 | .848 |
 
+### 同一錄音多段訓練(chunk-level,`src/train_chunks.py`)
+
+把每首的 6 段 5 秒各自當一個訓練樣本(train 從 1,026 變 6,156 筆),validation 時平均六段的機率。
+
+| 實驗名稱 | 特徵 | top-1 | top-3 |
+|---|---|---|---|
+| A_chunks_L6-8-10 | mert L6+L8+L10,chunk-level | .477 | .848 |
+| A_chunks_L8 | mert L8,chunk-level | .477 | .841 |
+| B_chunks_L4-7 | mert L4+L7,chunk-level | .431 | .755 |
+| B_chunks_L7 | mert L7,chunk-level | .451 | .765 |
+
+沒有比整首平均特徵好(A 48.5%、B 42.2%)。資料量乘六但多出來的樣本高度相關,
+對線性分類器等於沒有新資訊;而且單段 5 秒的特徵比 30 秒平均更吵,訓練時反而引入雜訊。
+
 ### 把年代當序數(mert L6+L8+L10)
 
 | 方法 | top-1 | top-3 | 備註 |
