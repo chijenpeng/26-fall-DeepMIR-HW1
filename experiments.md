@@ -95,6 +95,33 @@ C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
 | B_mert_L4-7_svm | mert L4+L7 | SVM | .422 | .784 |
 | B_both_L4-7 | handcrafted + mert L4+L7 | logreg | .422 | .794 |
 
+### 語言特徵(Whisper-small 對混音做語言偵測)
+
+train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 五種的 argmax):
+
+| 市場 | 本地語言 | 判為本地語言的比例 | 判為英語的比例 |
+|---|---|---|---|
+| US | en | 0.92 | – |
+| UK | en | 1.00 | – |
+| Brazil | pt | 0.87 | 0.11 |
+| Spain | es | 0.57 | 0.39 |
+| Germany | de | 0.17 | 0.83 |
+| Italy | it | 0.41 | 0.55 |
+
+語言能乾淨地切出 Brazil,對 Spain 和 Italy 有一半幫助,Germany 的 1980s 發行八成是英文歌,語言幾乎幫不上。
+
+| 實驗名稱 | 特徵 | 分類器 | top-1 | top-3 |
+|---|---|---|---|---|
+| B_lang_only | lang(7 維) | logreg | .539 | .794 |
+| B_mert_L4-7_lang | mert L4+L7 + lang | logreg | .510 | .843 |
+| **B_mert_L7_lang** | **mert L7 + lang** | **logreg** | **.559** | .775 |
+| B_mert_L4-7_lang_svm | mert L4+L7 + lang | SVM | .451 | .804 |
+
+- 7 維語言後驗單獨就贏過 1536 維的 MERT(53.9% 對 42.2%)。
+- B_lang_only 混淆矩陣:Brazil 13、Spain 13、US 12 準確;Germany 有 8 首被判成 US,Italy 有 7 首被判成 UK,
+  全是英文歌的問題。MERT 加語言後 Italy 升到 9,Germany 仍只有 5。
+- 待做:對 Demucs 人聲 stem 重跑 Whisper(混音的伴奏會干擾語言判斷)、伴奏 stem 的 MERT 看能否分 US / UK。
+
 ### 觀察
 
 - **手工製作特徵在 B 上等於隨機**(21.6%,隨機 16.7%)。同一年代的歌,loudness 和頻譜平衡沒有市場差異。
