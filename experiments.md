@@ -327,8 +327,23 @@ Task A(`wt` = whisper-tiny,`wla` = whisper-large-v3,`m330` = MERT-330M 第 5、6
   兩個編碼器互補:tiny 淺層保留的是 MERT 的 CQT 前端不強調的寬頻聲學資訊。手工特徵加進去仍然沒用。
 - 大的 Whisper 淺層反而不如 tiny:大模型的淺層已經開始往語音特化。
 
-### Fine-tune 尺寸比較
-Whisper tiny / base / small / medium 的 fine-tune(A、B 各 20 epoch)進行中,結果待補。
+### Fine-tune 尺寸比較(Whisper 編碼器,`src/finetune_whisper.py`,整段 30 秒輸入,20 epoch,層加權平均)
+
+| 尺寸 | 任務 | 最佳 top-1(epoch) | top-3 | val loss 最低 epoch | 第 19 epoch train / val loss | 凍結最佳層 top-1 |
+|---|---|---|---|---|---|---|
+| tiny | A | .348(4) | .773 | 4 | 0.46 / 2.10 | .470 |
+| base | A | .318(3) | .727 | 4 | 0.44 / 2.12 | .371 |
+| small | A | .348(4) | .780 | 3 | 0.43 / 2.43 | .417 |
+| tiny | B | .500(3) | .824 | 3 | 0.45 / 1.79 | .549 |
+| base | B | .549(13) | .755 | 5 | 0.45 / 1.57 | .510 |
+| small | B | .559(2) | .784 | 2 | 0.42 / 1.68 | .569 |
+
+- **A 全部大幅輸給凍結淺層**(35% 對 47%)。學到的層權重在六次 fine-tune 裡全部集中在最後一層,
+  也就是 A 最沒用的那層:微調的梯度先改最靠近 head 的層,淺層的聲學資訊沒機會被用到。
+- B 和凍結深層打平(55.9% 對 56.9%),但沒有更好。
+- 全部在第 2 到 5 個 epoch 就過擬合(val loss 之後翻倍),比 MERT 更快,因為整段 30 秒輸入沒有隨機切段的資料增強。
+- medium(batch 8 OOM,改 batch 2 重跑)結果待補;large-v3 微調不做,640M 參數對 1,000 筆資料沒有意義。
+- 尺寸比較的總結:**凍結特徵下,A 偏好最小的模型的最淺層,B 偏好最大的模型的最深層;微調在任何尺寸都不如凍結。**
 
 ## Audio Language Model(ALM)
 
