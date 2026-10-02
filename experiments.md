@@ -233,8 +233,23 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 | ft_B | .392 | .775 | 6 | 第 11 層 |
 
 - 兩個任務都輸給凍結特徵加 logreg(A 48.5%、B 42.2%),而且 validation 曲線還在抖(A 第 7 epoch 掉回 41.7%)。
-- 每類只有 130 到 170 首,全模型微調的參數量遠大於資料量,8 個 epoch 內沒有穩定收斂;
-  凍結特徵加強正則化的線性模型在這個資料量下更穩。符合 PDF 建議「資源允許再比較 fine-tuning」的預期結論。
+- 8 個 epoch 時 loss 還在降,懷疑訓練不足,改跑 40 個 epoch(下表)。
+
+**40 epoch,每個 epoch 存 checkpoint 並記 val loss(`ft40_A`、`ft40_B`,曲線圖 `results/ft40_*_curves.png`)**
+
+| | val loss 最低的 epoch | 該 epoch top-1 | 最佳 top-1(epoch) | 第 39 epoch:train loss / val loss / top-1 |
+|---|---|---|---|---|
+| ft40_A(95M) | 11(1.35) | .515 | **.515**(11、21) | 0.63 / 1.61 / .470 |
+| ft40_B(95M) | 7(1.52) | .441 | .461(16、22) | 0.66 / 1.87 / .402 |
+
+- **8 epoch 確實不夠,但 12 個左右就到頂。** A 的 val loss 在第 11 epoch 之後持續回升,
+  train loss 一路降到 0.63,是典型過擬合;B 更早(第 7 epoch)、更嚴重(val loss 從 1.52 升到 1.87)。
+- A 的 fine-tune 最佳 51.5%,和凍結 330M 三層的 50.0% 差距在雜訊內(132 首差兩首),
+  但 top-3 較差(.833 對 .879)。B 的 fine-tune 最佳 46.1%,遠低於「凍結加語言」的 55.9%。
+- 結論:每類 130 到 170 首的資料量,全模型微調很快過擬合;凍結特徵加強正則化的線性模型一樣準且更穩,
+  推論也便宜得多。選模型用 val loss 最低或 top-1 最高的 epoch 都在 11 到 21 之間。
+- 保留的 checkpoint:A 的 epoch 11、15、21,B 的 epoch 7、16、22(bf16,`results/ckpt/`,不進 git)。
+- MERT-330M 的 40-epoch fine-tune 進行中(`ft40_330M_A/B`),結果待補。
 
 ## Audio Language Model(ALM)
 
