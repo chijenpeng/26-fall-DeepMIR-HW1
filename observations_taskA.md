@@ -1,94 +1,80 @@
-# Task A (release-decade) — observations before modelling
+# Task A(發行年代)建模前的資料觀察
 
-Scope: **train split only** (1,026 clips, 171 per decade). Validation and test were not
-touched. Scripts and raw numbers live in `eda/` (`spectral_eda.py`, `dynamics_eda.py`,
-`trainA_*_feats.csv`, `ltas_by_decade.png`, `boxplots_by_decade.png`).
+範圍:**只看 train split**(1,026 首,每個年代 171 首)。validation 和 test 完全沒碰。
+腳本與原始數據在 `eda/`(`spectral_eda.py`、`dynamics_eda.py`、`trainA_*_feats.csv`、
+`ltas_by_decade.png`、`boxplots_by_decade.png`)。
 
-## Data facts
+## 資料本身
 
-- Middle 30 s of each recording, WAV mono 16-bit 24 kHz, decoded from an Opus (YouTube) source.
-  Nothing above 12 kHz exists, and Opus has already thrown away some high-frequency detail.
-- Balanced classes, artist-disjoint splits. Train / val / test = 1,026 / 132 / 132.
-- README: no loudness normalisation was applied, so absolute level (RMS) is a real property of
-  the master, not of the preprocessing.
+- 每首是錄音的中段 30 秒,WAV 單聲道 16-bit 24 kHz,從 Opus(YouTube)來源解碼。
+  12 kHz 以上完全沒有,而且 Opus 已經先丟掉一部分高頻細節。
+- 類別平衡,藝人在 split 之間不重疊。train / val / test = 1,026 / 132 / 132。
+- README 說沒有做響度正規化,所以絕對音量(RMS)是母帶本身的性質,不是前處理造成的。
 
-## Hypothesis 1 — "older music has less low end" (vinyl cutting limits)
+## 假設一:「舊音樂低頻比較少」(黑膠刻片的限制)
 
-Long-term average spectrum (Welch, 4096-pt) per decade, energy per band relative to total.
+每個年代的長期平均頻譜(Welch,4096 點),各頻帶能量相對總能量的比例。
 
-| band (median, dB re. total) | 1960s | 1970s | 1980s | 1990s | 2000s | 2010s |
+| 頻帶(中位數,dB 相對總能量) | 1960s | 1970s | 1980s | 1990s | 2000s | 2010s |
 |---|---|---|---|---|---|---|
-| 20–60 Hz (sub-bass)         | -21.7 | -17.4 | -16.0 | -14.5 | -15.0 | -13.1 |
-| 60–120 Hz (bass)            | -8.6  | -8.0  | -8.1  | -7.6  | -7.6  | -7.1  |
-| 8–12 kHz (air)              | -28.6 | -28.8 | -24.1 | -24.2 | -24.8 | -25.2 |
+| 20 到 60 Hz(超低頻)  | -21.7 | -17.4 | -16.0 | -14.5 | -15.0 | -13.1 |
+| 60 到 120 Hz(低音)    | -8.6  | -8.0  | -8.1  | -7.6  | -7.6  | -7.1  |
+| 8 到 12 kHz(空氣感)   | -28.6 | -28.8 | -24.1 | -24.2 | -24.8 | -25.2 |
 
-- **Partly true, and only for sub-bass.** 20–60 Hz rises ~8.6 dB from the 1960s to the 2010s,
-  roughly monotonically (Spearman ρ = 0.30 vs decade index). The 1960s LTAS rolls off steeply
-  below ~80 Hz.
-- **60–120 Hz does not differ** (ANOVA p = 0.45). There is no sign that old masters compensate
-  for missing sub-bass with more upper bass; the 1960s simply have less low end overall.
-- High end: 1960s/70s have 4–5 dB less 8–12 kHz than 1980s+. The 1980s are the brightest decade.
-- Caveat: within-decade spread (σ ≈ 6–9 dB) is larger than the between-decade shift, so the
-  sub-bass feature alone gives only 22.7 % CV top-1 (chance 16.7 %).
+- **部分成立,而且只在超低頻成立。** 20 到 60 Hz 從 1960s 到 2010s 上升約 8.6 dB,
+  大致單調(Spearman ρ = 0.30)。1960s 的頻譜在 80 Hz 以下明顯陡降。
+- **60 到 120 Hz 沒有差異**(ANOVA p = 0.45)。舊母帶沒有用更多低音去補超低頻的缺口,
+  1960s 就是整體低頻比較少。
+- 高頻:1960s 和 70s 的 8 到 12 kHz 比 1980s 以後少 4 到 5 dB。1980s 是最亮的年代。
+- 注意:年代內的標準差(6 到 9 dB)比年代之間的差距還大,
+  所以只用超低頻特徵的 CV top-1 只有 22.7%(隨機 16.7%)。
 
-## Hypothesis 2 — loudness war / dynamics
+## 假設二:loudness war 與動態
 
-| feature (median) | 1960s | 1970s | 1980s | 1990s | 2000s | 2010s | ANOVA F |
+| 特徵(中位數) | 1960s | 1970s | 1980s | 1990s | 2000s | 2010s | ANOVA F |
 |---|---|---|---|---|---|---|---|
-| RMS (dBFS)                             | -14.0 | -14.7 | -14.5 | -13.0 | -11.0 | -10.6 | 33.8 |
-| crest factor (dB)                      | 13.9  | 14.5  | 14.5  | 13.0  | 11.0  | 10.6  | 38.9 |
-| DR, top-20 % blocks (peak−RMS, dB)     | 10.6  | 11.2  | 11.3  | 10.7  | 8.9   | 8.7   | 47.9 |
-| 400 ms block crest, median (dB)        | 11.7  | 12.1  | 12.2  | 11.7  | 10.6  | 10.3  | 46.5 |
-| longest run pinned at ceiling (samples)| 5     | 5     | 6     | 9     | 22    | 26    | 43.4 |
-| samples within 0.5 dB of peak (%)      | 0.02  | 0.01  | 0.02  | 0.06  | 0.42  | 0.50  | 26.1 |
-| waveform kurtosis                      | 0.96  | 1.21  | 1.37  | 1.06  | 0.52  | 0.52  | 9.7  |
+| RMS(dBFS)                             | -14.0 | -14.7 | -14.5 | -13.0 | -11.0 | -10.6 | 33.8 |
+| crest factor(dB)                      | 13.9  | 14.5  | 14.5  | 13.0  | 11.0  | 10.6  | 38.9 |
+| DR,最大聲 20% 區塊的 peak 減 RMS(dB) | 10.6  | 11.2  | 11.3  | 10.7  | 8.9   | 8.7   | 47.9 |
+| 400 ms 區塊 crest 中位數(dB)          | 11.7  | 12.1  | 12.2  | 11.7  | 10.6  | 10.3  | 46.5 |
+| 連續貼著峰值的最長 sample 數           | 5     | 5     | 6     | 9     | 22    | 26    | 43.4 |
+| 距峰值 0.5 dB 以內的 sample 比例(%)   | 0.02  | 0.01  | 0.02  | 0.06  | 0.42  | 0.50  | 26.1 |
+| 波形 kurtosis                          | 0.96  | 1.21  | 1.37  | 1.06  | 0.52  | 0.52  | 9.7  |
 
-- **The transient loss is in the *new* decades, not the old ones.** 2000s/2010s masters are
-  ~3 dB louder, have ~3 dB less crest, and show a brick-wall-limiter signature: many samples
-  pinned at the ceiling for 20+ consecutive samples, flattened amplitude distribution.
-- These are the strongest single features in the whole EDA (F ≈ 40–48).
-- **Onset / attack-shape features are *not* discriminative** (onset-strength mean, peak/median,
-  kurtosis, attack rise rate, spectral-flux statistics: F = 2–10, and the sign is opposite to the
-  intuition). Drum hits in modern masters are still sharp; they are just clipped to the same
-  height as everything else. What matters is peak-to-RMS headroom, not attack shape.
-- **Macro-dynamics are useless here** (loudness range, 3 s-block loudness std: F < 3). A
-  30 s middle excerpt does not contain verse/chorus contrast.
+- **transient 被削掉的是新歌,不是舊歌。** 2000s 和 2010s 的母帶大約大聲 3 dB、crest 少 3 dB,
+  而且有 brickwall limiter 的簽名:連續 20 幾個 sample 貼在天花板、振幅分布被壓扁。
+- 這幾個是整個 EDA 裡最有判別力的單一特徵(F ≈ 40 到 48)。
+- **onset 和 attack 形狀的特徵沒有判別力**(onset strength 平均、尖峰比、kurtosis、
+  attack 上升速率、spectral flux 統計:F = 2 到 10,方向還和直覺相反)。
+  新母帶的鼓點依然很尖,只是被削到和其他聲音一樣高。重點是 peak 對 RMS 的餘裕,不是 attack 形狀。
+- **宏觀動態沒有用**(loudness range、3 秒區塊音量標準差:F < 3)。
+  中段 30 秒抓不到主歌和副歌的對比。
 
-## What the hand-crafted features can and cannot do
+## 手工特徵做得到和做不到的事
 
-5-fold CV on train, StandardScaler + logistic regression:
+train 上 5-fold CV,StandardScaler 加 logistic regression:
 
-| feature set | top-1 | top-3 |
+| 特徵組 | top-1 | top-3 |
 |---|---|---|
-| sub-bass ratio only              | 0.227 | – |
-| crest factor only                | 0.239 | 0.665 |
-| 15 spectral features             | 0.314 | 0.727 |
-| 16 dynamics features             | 0.307 | 0.716 |
-| spectral + dynamics (31)         | 0.317 | 0.750 |
-| chance                           | 0.167 | 0.500 |
+| 只用超低頻比例            | 0.227 | – |
+| 只用 crest factor          | 0.239 | 0.665 |
+| 頻譜特徵 15 維             | 0.314 | 0.727 |
+| 動態特徵 16 維             | 0.307 | 0.716 |
+| 頻譜 + 動態 31 維          | 0.317 | 0.750 |
+| 隨機                       | 0.167 | 0.500 |
 
-- Spectral and dynamics features are **redundant**: both measure "production era". Combining
-  them adds only +0.3 % top-1.
-- Confusion structure: two clusters — {1960s, 1970s, 1980s} and {2000s, 2010s}. Errors are
-  mostly between neighbouring decades. **1990s is the hardest class** (28–34 / 171 correct);
-  it overlaps both clusters.
-- Conclusion: production features plateau around 32 % top-1. Going further requires features
-  that describe musical *content* (timbre of instruments, arrangement, genre), i.e. a
-  pretrained audio encoder (MERT). The hand-crafted block is kept as a small complementary
-  feature group and as an interpretable baseline.
+- 頻譜和動態特徵是**重複的**:兩組量的都是「製作年代」,拼起來只多 0.3% top-1。
+- 混淆結構分兩群:{1960s, 1970s, 1980s} 和 {2000s, 2010s}。錯誤多半在相鄰年代之間。
+  **1990s 最難分**(171 首只對 28 到 34 首),它和兩群都重疊。
+- 結論:製作特徵的天花板大約 32% top-1。要再往上,需要描述音樂**內容**的特徵
+  (樂器音色、編曲、曲風),也就是預訓練音訊編碼器(MERT)。
+  手工特徵保留為一小塊補充特徵和可解釋的 baseline。
 
-## Selected hand-crafted features (24 dims, `src/handcrafted.py`)
+## 最終選用的手工特徵(24 維,`src/handcrafted.py`)
 
-8 band energies (incl. sub 20–60 and bass 60–120), below-100 Hz ratio, 60–120 / 20–60 tilt,
-centroid, rolloff 85/99 %, RMS, crest, near-peak ratio, waveform kurtosis, longest ceiling
-run, block crest median, DR top-20 %, LRA proxy, 400 ms loudness std, band-limited crest
-(60–250 Hz and 2–8 kHz). Onset-based features were dropped.
+8 個頻帶能量(含 20 到 60 和 60 到 120 Hz)、100 Hz 以下比例、60 到 120 除以 20 到 60 的 tilt、
+頻譜重心、85% 和 99% rolloff、RMS、crest、貼近峰值比例、波形 kurtosis、連續貼頂最長長度、
+區塊 crest 中位數、DR 最大聲 20%、LRA proxy、400 ms 音量標準差、低頻帶與高頻帶各自的 crest。
+onset 類特徵全部捨棄。
 
-## Planned experiments
-
-1. MERT-v1-95M frozen, 6 × 5 s chunks, per-layer mean + std pooled to one vector per recording.
-   Per-layer sweep on validation; logistic regression / SVM / MLP.
-2. Ablation: handcrafted only vs MERT only vs concatenation.
-3. Input-length ablation: first 1 / 2 / 3 / 6 chunks (5 / 10 / 15 / 30 s).
-4. Confusion analysis: neighbour-error rate, t-SNE of the chosen layer coloured by decade.
-5. Optional (GPU box): MERT-v1-330M, short-chunk CNN on log-mel as a from-scratch comparison.
+實驗結果見 `experiments.md`。

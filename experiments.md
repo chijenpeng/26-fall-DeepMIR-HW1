@@ -1,0 +1,113 @@
+# 實驗紀錄(持續更新)
+
+所有數字都是 **validation split** 的結果(A 132 首、B 102 首)。
+A 一首 = 0.76%,B 一首 = 0.98%,所以 2 到 3% 的差距都在雜訊範圍內。
+每組實驗在 `results/` 都有 `<名稱>_val.json`(含混淆矩陣 counts)和 `<名稱>_cm.png`(左 counts、右 row-normalized)。
+
+## 特徵定義
+
+| 代號 | 內容 | 維度 | 腳本 |
+|---|---|---|---|
+| handcrafted | 24 維製作特徵:8 個頻帶能量比例、100 Hz 以下比例、低頻 tilt、頻譜重心、rolloff 85/99%、RMS、crest、貼近峰值比例、波形 kurtosis、連續貼頂長度、區塊 crest、DR、LRA proxy、400 ms 音量標準差、低頻帶與高頻帶 crest | 24 | `src/handcrafted.py`、`src/extract_handcrafted.py` |
+| mert Lk | MERT-v1-95M 凍結,30 秒切成 6 段 5 秒,每段取第 k 層 frame 的時間平均和時間標準差,再把 6 段平均。每層 768 × 2 = 1536 維 | 1536 × 層數 | `src/extract_mert.py`、`src/features.py` |
+| mert Lk(nostd) | 同上但只取時間平均 | 768 × 層數 | 同上 |
+| lang | Whisper-small 語言偵測的後驗機率(en, pt, es, de, it, fr, other),取 log | 7 | `src/extract_lang.py` |
+| mert@vocals / mert@accomp | Demucs(htdemucs)分離出的人聲 / 伴奏,再各自過 MERT | 同 mert | `src/separate.py` |
+
+分類器一律先 StandardScaler,再接 logistic regression(L2)、RBF SVM 或單隱藏層 MLP;
+C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
+
+## Task A:發行年代
+
+### 單層 sweep(mert,logreg)
+
+| 層 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| top-1 | .333 | .364 | .371 | .356 | .364 | .402 | .424 | .424 | .439 | .439 | .424 | .417 | .402 |
+| top-3 | .833 | .795 | .795 | .773 | .795 | .811 | .833 | .818 | .811 | .818 | .811 | .758 | .750 |
+
+中間層(6 到 10)最好,符合 MERT 論文的觀察:中層偏音色和製作,高層偏音高和內容。
+
+### 主要比較
+
+| 實驗名稱 | 特徵 | 分類器 | top-1 | top-3 | 相鄰年代錯誤比例 |
+|---|---|---|---|---|---|
+| A_handcrafted_logreg | handcrafted | logreg | .379 | .848 | .49 |
+| A_handcrafted_svm | handcrafted | SVM | .409 | .856 | – |
+| A_mert_L8_smallC | mert L8 | logreg | .439 | .848 | .59 |
+| A_mert_L8_nostd | mert L8(只有平均) | logreg | .455 | .811 | .58 |
+| A_mert_L8_svm | mert L8 | SVM | .424 | .826 | .54 |
+| **A_mert_L6-8-10** | **mert L6+L8+L10** | **logreg** | **.485** | .818 | .59 |
+| A_mert_L6-8-10_nostd | mert L6+L8+L10(只有平均) | logreg | .462 | .886 | .62 |
+| A_mert_L6-8-10_svm | mert L6+L8+L10 | SVM | .477 | .826 | .54 |
+| A_mert_L5-12 | mert L5 到 L12 | logreg | .470 | .856 | .61 |
+| A_mert_all13 | mert 全部 13 層 | logreg | .470 | .841 | .60 |
+| A_both_L8_logreg | handcrafted + mert L8 | logreg | .439 | .795 | .61 |
+| A_both_L8_svm | handcrafted + mert L8 | SVM | .455 | .841 | .53 |
+| A_both_L8_mlp | handcrafted + mert L8 | MLP | .424 | .780 | .63 |
+| A_both_L6-8-10 | handcrafted + mert L6+L8+L10 | logreg | .477 | .811 | .62 |
+
+### 輸入長度(mert L8,logreg,只用前 k 段 5 秒)
+
+| 長度 | 5 s | 10 s | 15 s | 30 s |
+|---|---|---|---|---|
+| top-1 | .356 | .432 | .455 | .439 |
+| top-3 | .727 | .750 | .765 | .848 |
+
+### 把年代當序數(mert L6+L8+L10)
+
+| 方法 | top-1 | top-3 | 備註 |
+|---|---|---|---|
+| Ridge 回歸到年代索引,四捨五入 | .311 | .788 | MAE 1.06 個年代;top-3 用距離排序 |
+| 階層式:先分 {60s,70s} / {80s,90s} / {00s,10s} 三群,群內再二分 | .477 | .879 | 和平的六類 logreg 差不多,但 top-3 較高 |
+| 階層式(handcrafted) | .394 | .856 | |
+
+### 觀察
+
+- 手工特徵 41% → MERT 單層 44% → 多層拼接 48.5%。手工特徵加進 MERT 沒有再進步,
+  代表 MERT 中層已經含有製作年代的資訊。
+- 錯誤有 54 到 62% 落在相鄰年代。混淆矩陣(A_mert_L6-8-10):
+  1960s 最準(22 首對 16 首),1970s 和 1990s 最差,1970s 多被判成 1960s,1990s 散到 1980s 和 2000s。
+- 回歸明顯比分類差:年代索引不是等距的「聲音距離」(1960s 到 70s 的差距遠大於 2000s 到 10s)。
+- t-SNE(`results/A_mert_L6-8-10_tsne.png`):只有微弱的梯度,1960s/70s 偏一邊、2000s/10s 偏另一邊,
+  中間大量混合,右下角有一小團 1960s/70s 的緊密群集。整體沒有清楚的年代群。
+- MERT-95M 凍結特徵在 46 到 49% 之間是平台期。待做:MERT-330M(server)。
+
+## Task B:發行市場(全部是 1980s)
+
+### 單層 sweep(mert,logreg)
+
+| 層 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| top-1 | .382 | .363 | .373 | .392 | .402 | .373 | .353 | .422 | .373 | .294 | .343 | .294 | .324 |
+| top-3 | .676 | .706 | .716 | .696 | .765 | .784 | .745 | .725 | .716 | .686 | .618 | .686 | .657 |
+
+### 主要比較
+
+| 實驗名稱 | 特徵 | 分類器 | top-1 | top-3 |
+|---|---|---|---|---|
+| B_handcrafted_svm | handcrafted | SVM | .216 | .588 |
+| B_mert_L7 | mert L7 | logreg | .422 | .725 |
+| **B_mert_L4-7** | **mert L4+L7** | **logreg** | **.422** | **.794** |
+| B_mert_L3-4-5-7 | mert L3+L4+L5+L7 | logreg | .392 | .814 |
+| B_mert_L0-12_all | mert 全部 13 層 | logreg | .392 | .755 |
+| B_mert_L7_svm | mert L7 | SVM | .412 | .804 |
+| B_mert_L4-7_svm | mert L4+L7 | SVM | .422 | .784 |
+| B_both_L4-7 | handcrafted + mert L4+L7 | logreg | .422 | .794 |
+
+### 觀察
+
+- **手工製作特徵在 B 上等於隨機**(21.6%,隨機 16.7%)。同一年代的歌,loudness 和頻譜平衡沒有市場差異。
+  所以 B 的最終模型不含手工特徵。
+- 混淆矩陣(B_mert_L4-7,每類 17 首):Brazil 最準(10 首),Spain 7,Italy 7,Germany 6,
+  US 8,UK 5。**US 和 UK 互混最嚴重**(UK 有 8 首被判成 US)。Brazil 和 Spain 之間也有混淆。
+- t-SNE(`results/B_mert_L4-7_tsne.png`):Brazil 有一團明顯的群集,Italy 在最右邊有一小團緊密群集,
+  其餘四類大量混合。
+- 這支持「語言是主要線索」的假設:葡語和義語市場有可見的結構,英語市場(US、UK)分不開。
+- 待做(server):Whisper 語言後驗、Demucs 人聲 / 伴奏分開過 MERT、MERT-330M。
+
+## 繳交相關
+
+- 保底預測檔:`results/submission_baseline.json`(A 用 A_mert_L6-8-10,B 用 B_mert_L4-7),
+  格式已和官方範例核對,繳交時改名為 `<學號>.json`。
+- 待辦:報告 PDF、README(推論步驟)、requirements.txt、開放存取的雲端連結。
