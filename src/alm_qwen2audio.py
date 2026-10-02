@@ -22,11 +22,23 @@ PROMPTS = {
         "naive": ("This is a 30-second excerpt of a music recording released in the United States. "
                   "Our goal is to identify the decade in which the recording was released. "
                   "Which decade is it? Answer with exactly one of: 1960s, 1970s, 1980s, 1990s, 2000s, 2010s."),
+        "cues": ("Listen to this 30-second excerpt of a music recording released in the United States. "
+                 "Consider cues that changed over the decades: recording and production quality (tape hiss, "
+                 "stereo width, dynamic range, overall loudness), instrumentation (synthesizers, drum machines, "
+                 "electric versus acoustic instruments), vocal style and genre. Do not default to one decade; "
+                 "all six decades are equally likely. In which decade was it released? "
+                 "Answer with exactly one of: 1960s, 1970s, 1980s, 1990s, 2000s, 2010s."),
     },
     "B": {
         "naive": ("This is a 30-second excerpt of a music recording released in the 1980s. "
                   "Our goal is to identify the country (release market) in which this record was issued. "
                   "Which market is it? Answer with exactly one of: US, UK, Brazil, Spain, Germany, Italy."),
+        "cues": ("Listen to this 30-second excerpt of a music recording released in the 1980s. "
+                 "First identify the language of the lyrics: Portuguese suggests Brazil, Spanish suggests Spain, "
+                 "Italian suggests Italy, German suggests Germany, English suggests the US or the UK. "
+                 "Then consider the genre and production style typical of each national market in the 1980s. "
+                 "All six markets are equally likely. In which country was this record released? "
+                 "Answer with exactly one of: US, UK, Brazil, Spain, Germany, Italy."),
     },
 }
 SYNONYMS = {"B": {"united states": "US", "usa": "US", "america": "US", "united kingdom": "UK", "britain": "UK",
