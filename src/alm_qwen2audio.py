@@ -28,6 +28,25 @@ PROMPTS = {
                  "electric versus acoustic instruments), vocal style and genre. Do not default to one decade; "
                  "all six decades are equally likely. In which decade was it released? "
                  "Answer with exactly one of: 1960s, 1970s, 1980s, 1990s, 2000s, 2010s."),
+        "production": (
+            "Listen carefully to this 30-second excerpt of a music recording released in the United States and "
+            "estimate the decade of release from how the record was produced and mastered, not only from its style.\n"
+            "Pay close attention to the low end. Records cut to vinyl in the 1960s and 1970s contain almost no "
+            "sub-bass below about 60 Hz, because deep bass makes the stylus jump; the bass is thin and sits around "
+            "100 Hz. From the 1990s onward, and especially in the 2000s and 2010s, mixes have deep, full sub-bass "
+            "and kick drums that extend far below 60 Hz.\n"
+            "Pay attention to the high end. 1960s and 1970s tape recordings are dull on top, with audible hiss and "
+            "little energy above 8 kHz. 1980s records are the brightest: crisp digital reverb, gated drums, "
+            "synthesizers and drum machines. Later decades are bright but smoother.\n"
+            "Pay attention to loudness and dynamics. 1960s to 1980s masters are quiet with wide dynamic range: "
+            "drum hits clearly poke above the rest of the mix. 2000s and 2010s masters are much louder and "
+            "heavily limited (the loudness war): everything is squashed to the same level, transients are "
+            "flattened and the mix sounds dense and constant.\n"
+            "Also use instrumentation and vocal style: live rooms, organs and horns in the 1960s and 1970s; "
+            "synth-pop and big snare reverb in the 1980s; grunge, hip-hop and R&B production in the 1990s; "
+            "Auto-Tune, programmed drums and electronic pop in the 2000s and 2010s.\n"
+            "Do not default to one decade; all six decades are equally likely. In which decade was it released? "
+            "Answer with exactly one of: 1960s, 1970s, 1980s, 1990s, 2000s, 2010s."),
     },
     "B": {
         "naive": ("This is a 30-second excerpt of a music recording released in the 1980s. "
