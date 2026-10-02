@@ -36,8 +36,11 @@ def build_X(a, layers):
             keep = [names.index(n) for n in a.hc_subset.split(",")]
             X = X[:, keep]
         parts.append(X); meta = z
-    if "mert" in blocks:
-        z = load_mert(a.dataset, model=a.mert_model, chunk_sec=a.chunk_sec)
+    for b in sorted(blocks):                       # 'mert' (default file) or 'mert@<path>' (e.g. vocal / accomp stems)
+        if not b.startswith("mert"):
+            continue
+        path = b.split("@", 1)[1] if "@" in b else None
+        z = load_mert(a.dataset, path=path, model=a.mert_model, chunk_sec=a.chunk_sec)
         parts.append(mert_vector(z, layers, n_chunks=a.n_chunks, use_std=not a.no_std))
         if meta is not None:
             assert (meta["sample_id"] == z["sample_id"]).all()
@@ -72,7 +75,7 @@ def run(a, layers, tag):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", required=True, choices=["A", "B"])
-    ap.add_argument("--features", default="both", help="'both' or '+'-joined blocks from {handcrafted, mert, lang}")
+    ap.add_argument("--features", default="both", help="'both' or '+'-joined blocks from {handcrafted, mert, mert@<npz path>, lang}")
     ap.add_argument("--lang_model", default="whisper-small")
     ap.add_argument("--layers", default="7", help="comma list, or 'all' to sweep every layer one at a time")
     ap.add_argument("--mert_model", default="MERT-v1-95M")
