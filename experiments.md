@@ -401,4 +401,21 @@ Italy  [   7   2   1   5   0   2 ]
 
 - 保底預測檔:`results/submission_baseline.json`(A 用 A_mert_L6-8-10,B 用 B_mert_L4-7),
   格式已和官方範例核對,繳交時改名為 `<學號>.json`。
+- **目前最佳候選預測檔:`results/submission_best_frozen.json`**
+  - A:`A_mert330_L5-6-14`(MERT-330M 第 5、6、14 層 mean+std,logreg C=0.001),val top-1 .500 / top-3 .879
+  - B:`B_mert_L7_lang`(MERT-95M 第 7 層 mean+std 加 Whisper-small 語言後驗,logreg),val top-1 .559 / top-3 .775
+  - 選凍結特徵而不選 fine-tune 的理由:A 的 fine-tune 最佳 .515 只多兩首且 top-3 較差;
+    凍結模型推論只需抽特徵加線性層,TA 重跑最不容易出錯。
+  - test 的 top-1 分布:A 六類各 15 到 30 首、B 六類各 12 到 26 首,沒有明顯塌向單一類別。
+
+### 候選最終模型總表(validation)
+
+| 任務 | 模型 | top-1 | top-3 | 備註 |
+|---|---|---|---|---|
+| A | 凍結 330M L5+L6+L14 + logreg | **.500** | **.879** | 目前選用 |
+| A | fine-tune 95M,epoch 11 | .515 | .833 | 差兩首,top-3 較低,推論較重 |
+| A | 凍結 95M L6+L8+L10 + logreg | .485 | .818 | 保底 |
+| B | 凍結 95M L7 + lang + logreg | **.559** | .775 | 目前選用 |
+| B | 凍結 95M L4+L7 + lang | .510 | .843 | top-3 較高的替代 |
+| B | fine-tune 95M,epoch 16 | .461 | .735 | |
 - 待辦:報告 PDF、README(推論步驟)、requirements.txt、開放存取的雲端連結。
