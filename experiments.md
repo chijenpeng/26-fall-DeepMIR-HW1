@@ -270,7 +270,42 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
   ALM 的語言模型只拿到最後一層,所以 A 的製作線索在進到 LM 之前就被丟掉了,這和前面「ALM 聽不到製作線索」的推論一致。
 - **尺寸的影響也相反。** A 最小的 tiny 最好(.470,幾乎追平 MERT-95M 的 .485),大模型淺層反而更差;
   B 大致越大越好,large-v3 單一凍結層 .578 已超過「MERT 加語言」的 .559,top-3 .902 是所有實驗最高。
-- 下一步:B 用 Whisper-large 深層 + MERT + 語言後驗組合;A 用 tiny 淺層 + MERT-330M 組合。Fine-tune 尺寸比較(tiny 到 medium,A、B 各 20 epoch)進行中。
+### Whisper 特徵與 MERT、語言後驗的組合
+
+Task B(`wl` = whisper-large-v3,`ws` = small,`wm` = medium;`mert7` = MERT-95M 第 7 層;logreg):
+
+| 實驗名稱 | 特徵 | top-1 | top-3 |
+|---|---|---|---|
+| B_wl_L30 | wl L30 | .578 | .843 |
+| B_wl_L23-30 | wl L23+L30 | .578 | .882 |
+| B_wl_L30_lang | wl L30 + lang | .578 | .843 |
+| B_wl_L30_mert7 | wl L30 + mert7 | .598 | .892 |
+| B_wl_L30_mert7_lang | wl L30 + mert7 + lang | .598 | .901 |
+| **B_wl_L23-30_mert7_lang** | **wl L23+L30 + mert7 + lang** | **.607** | **.901** |
+| B_ws_L12_lang | ws L12 + lang | .568 | .823 |
+| B_wm_L13_lang | wm L13 + lang | .558 | .852 |
+| B_wl_L30_svm | wl L30,SVM | .539 | .823 |
+
+- Whisper-large 深層已經隱含語言身分,再加語言後驗沒有變化(.578 → .578);加 MERT 才有進步(→ .598),
+  代表 MERT 補的是語言以外的曲風和製作資訊。三者合起來 .607 / .901 是 B 的新高。
+
+Task A(`wt` = whisper-tiny,`wla` = whisper-large-v3,`m330` = MERT-330M 第 5、6、14 層):
+
+| 實驗名稱 | 特徵 | top-1 | top-3 |
+|---|---|---|---|
+| A_wt_L1 | wt L1 | .469 | .818 |
+| A_wt_L0-1-2 | wt L0+L1+L2 | .446 | .810 |
+| A_wla_L3-4-5 | wla L3+L4+L5 | .401 | .818 |
+| **A_wt_L1_m330** | **wt L1 + m330** | **.522** | **.863** |
+| A_wt_L1_m330_hc | wt L1 + m330 + handcrafted | .515 | .863 |
+| A_wla_L4_m330 | wla L4 + m330 | .492 | .856 |
+
+- Whisper-tiny 第 1 層(384 × 2 維)加 MERT-330M 三層 → .522,比 MERT-330M 單獨的 .500 高,
+  兩個編碼器互補:tiny 淺層保留的是 MERT 的 CQT 前端不強調的寬頻聲學資訊。手工特徵加進去仍然沒用。
+- 大的 Whisper 淺層反而不如 tiny:大模型的淺層已經開始往語音特化。
+
+### Fine-tune 尺寸比較
+Whisper tiny / base / small / medium 的 fine-tune(A、B 各 20 epoch)進行中,結果待補。
 
 ## Audio Language Model(ALM)
 
@@ -422,7 +457,11 @@ Italy  [   7   2   1   5   0   2 ]
 
 - 保底預測檔:`results/submission_baseline.json`(A 用 A_mert_L6-8-10,B 用 B_mert_L4-7),
   格式已和官方範例核對,繳交時改名為 `<學號>.json`。
-- **目前最佳候選預測檔:`results/submission_best_frozen.json`**
+- **目前最佳候選預測檔:`results/submission_best_v2.json`**
+  - A:`A_wt_L1_m330`(Whisper-tiny 第 1 層 + MERT-330M 第 5、6、14 層,logreg),val top-1 .522 / top-3 .863
+  - B:`B_wl_L23-30_mert7_lang`(Whisper-large-v3 第 23、30 層 + MERT-95M 第 7 層 + Whisper-small 語言後驗,logreg),val top-1 .607 / top-3 .901
+  - 代價:推論需要 Whisper-large-v3(編碼器 640M)、MERT-330M、MERT-95M、Whisper-small 四個預訓練模型,README 要寫清楚。
+- 前一版候選:`results/submission_best_frozen.json`
   - A:`A_mert330_L5-6-14`(MERT-330M 第 5、6、14 層 mean+std,logreg C=0.001),val top-1 .500 / top-3 .879
   - B:`B_mert_L7_lang`(MERT-95M 第 7 層 mean+std 加 Whisper-small 語言後驗,logreg),val top-1 .559 / top-3 .775
   - 選凍結特徵而不選 fine-tune 的理由:A 的 fine-tune 最佳 .515 只多兩首且 top-3 較差;
@@ -433,10 +472,12 @@ Italy  [   7   2   1   5   0   2 ]
 
 | 任務 | 模型 | top-1 | top-3 | 備註 |
 |---|---|---|---|---|
-| A | 凍結 330M L5+L6+L14 + logreg | **.500** | **.879** | 目前選用 |
+| A | Whisper-tiny L1 + 凍結 330M L5+L6+L14 + logreg | **.522** | .863 | 目前選用(v2) |
+| B | Whisper-large L23+L30 + MERT-95M L7 + lang + logreg | **.607** | **.901** | 目前選用(v2) |
+| A | 凍結 330M L5+L6+L14 + logreg | .500 | .879 | 前一版 |
 | A | fine-tune 95M,epoch 11 | .515 | .833 | 差兩首,top-3 較低,推論較重 |
 | A | 凍結 95M L6+L8+L10 + logreg | .485 | .818 | 保底 |
-| B | 凍結 95M L7 + lang + logreg | **.559** | .775 | 目前選用 |
+| B | 凍結 95M L7 + lang + logreg | .559 | .775 | 前一版 |
 | B | 凍結 95M L4+L7 + lang | .510 | .843 | top-3 較高的替代 |
 | B | fine-tune 95M,epoch 16 | .461 | .735 | |
 - 待辦:報告 PDF、README(推論步驟)、requirements.txt、開放存取的雲端連結。
