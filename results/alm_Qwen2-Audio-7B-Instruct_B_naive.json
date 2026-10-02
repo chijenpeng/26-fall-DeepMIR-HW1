@@ -1,0 +1,4559 @@
+{
+ "prompt": "This is a 30-second excerpt of a music recording released in the 1980s. Our goal is to identify the country (release market) in which this record was issued. Which market is it? Answer with exactly one of: US, UK, Brazil, Spain, Germany, Italy.",
+ "metrics": {
+  "score_top1": 0.5294117647058824,
+  "score_top3": 0.7352941176470589,
+  "confusion_counts": [
+   [
+    16,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    8,
+    9,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    1,
+    1,
+    15,
+    0,
+    0,
+    0
+   ],
+   [
+    2,
+    2,
+    2,
+    11,
+    0,
+    0
+   ],
+   [
+    8,
+    4,
+    1,
+    3,
+    1,
+    0
+   ],
+   [
+    7,
+    2,
+    1,
+    5,
+    0,
+    2
+   ]
+  ],
+  "gen_top1": 0.47058823529411764,
+  "gen_invalid_rate": 0.00980392156862745,
+  "n_val": 102,
+  "gen_label_dist": {
+   "US": 55,
+   "UK": 7,
+   "Brazil": 18,
+   "Spain": 17,
+   "Germany": 2,
+   "Italy": 2,
+   "null": 1
+  }
+ },
+ "records": {
+  "B_00c58205be82": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5735677480697632,
+    "UK": -2.1985678672790527,
+    "Brazil": -5.823567867279053,
+    "Spain": -3.8860678672790527,
+    "Germany": -5.636067867279053,
+    "Italy": -9.073567390441895
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_023b5d62e5c1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -4.025768756866455,
+    "UK": -0.5882689356803894,
+    "Brazil": -7.088268756866455,
+    "Spain": -5.588268756866455,
+    "Germany": -6.275768756866455,
+    "Italy": -9.463269233703613
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_038a3c29daa0": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.894404411315918,
+    "UK": -12.269404411315918,
+    "Brazil": -0.01940399594604969,
+    "Spain": -11.144404411315918,
+    "Germany": -10.519404411315918,
+    "Italy": -12.081904411315918
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_03a1043d453f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -7.1108622550964355,
+    "UK": -3.1108622550964355,
+    "Brazil": -6.2983622550964355,
+    "Spain": -0.2358623445034027,
+    "Germany": -6.4858622550964355,
+    "Italy": -10.423362731933594
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Brazil",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_04dc3318c737": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.2271365225315094,
+    "UK": -4.539636611938477,
+    "Brazil": -8.414636611938477,
+    "Spain": -5.477136611938477,
+    "Germany": -6.227136611938477,
+    "Italy": -10.508386611938477
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_052cf7e5c1c2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -2.425992488861084,
+    "UK": -1.3634923696517944,
+    "Brazil": -6.613492488861084,
+    "Spain": -2.550992488861084,
+    "Germany": -2.050992488861084,
+    "Italy": -8.425992012023926
+   },
+   "ranking": [
+    "UK",
+    "Germany",
+    "US",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_0b8b415e295f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -8.976126670837402,
+    "UK": -11.038626670837402,
+    "Brazil": -0.0386262871325016,
+    "Spain": -10.413626670837402,
+    "Germany": -9.788626670837402,
+    "Italy": -11.288626670837402
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_0ed23f44ab52": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.6038811206817627,
+    "UK": -2.6038811206817627,
+    "Brazil": -3.0413811206817627,
+    "Spain": -3.1663811206817627,
+    "Germany": -2.7288811206817627,
+    "Italy": -6.978880882263184
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Spain",
+    "Italy"
+   ]
+  },
+  "B_0f6fc0bc1868": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.9572951793670654,
+    "UK": -1.5197951793670654,
+    "Brazil": -5.7072954177856445,
+    "Spain": -4.1447954177856445,
+    "Germany": -6.0197954177856445,
+    "Italy": -9.082295417785645
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_126e3ebe2d0c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -7.3395562171936035,
+    "UK": -9.777056694030762,
+    "Brazil": -0.08955635130405426,
+    "Spain": -9.652056694030762,
+    "Germany": -9.152056694030762,
+    "Italy": -10.152056694030762
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_15ae10c29766": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.30109232664108276,
+    "UK": -3.2385923862457275,
+    "Brazil": -6.551092147827148,
+    "Spain": -5.176092147827148,
+    "Germany": -7.176092147827148,
+    "Italy": -10.801092147827148
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_1614c1f5f654": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.855573654174805,
+    "UK": -7.105573654174805,
+    "Brazil": -3.2930736541748047,
+    "Spain": -0.16807371377944946,
+    "Germany": -7.605573654174805,
+    "Italy": -9.793073654174805
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_18cfac6507c7": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.8086678981781006,
+    "UK": -2.4336678981781006,
+    "Brazil": -5.37116813659668,
+    "Spain": -3.6836678981781006,
+    "Germany": -4.62116813659668,
+    "Italy": -8.55866813659668
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_1b784dbfd133": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -4.531757354736328,
+    "UK": -0.5317575931549072,
+    "Brazil": -7.531757354736328,
+    "Spain": -6.344257354736328,
+    "Germany": -7.281757354736328,
+    "Italy": -10.594257354736328
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_1cadf75d0f70": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.49489206075668335,
+    "UK": -4.119892120361328,
+    "Brazil": -6.244892120361328,
+    "Spain": -4.432392120361328,
+    "Germany": -5.369892120361328,
+    "Italy": -8.526142120361328
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_1d290830d776": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.3765816688537598,
+    "UK": -0.9390815496444702,
+    "Brazil": -6.68908166885376,
+    "Spain": -4.87658166885376,
+    "Germany": -4.56408166885376,
+    "Italy": -9.345331192016602
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_23859524ca8b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -7.856378078460693,
+    "UK": -4.356378078460693,
+    "Brazil": -6.418878078460693,
+    "Spain": -0.1063782125711441,
+    "Germany": -7.418878078460693,
+    "Italy": -11.793878555297852
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Brazil",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_2589160dd16f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Italy",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -6.325552940368652,
+    "UK": -3.5755527019500732,
+    "Brazil": -5.450552940368652,
+    "Spain": -2.0130527019500732,
+    "Germany": -3.8255527019500732,
+    "Italy": -0.888052761554718
+   },
+   "ranking": [
+    "Italy",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_285dcd4e55d6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.546849250793457,
+    "UK": -3.609349250793457,
+    "Brazil": -6.109349250793457,
+    "Spain": -4.109349250793457,
+    "Germany": -6.171849250793457,
+    "Italy": -9.859349250793457
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_2c77e7e40344": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -2.9815807342529297,
+    "UK": -0.9190806150436401,
+    "Brazil": -5.16908073425293,
+    "Spain": -3.9190807342529297,
+    "Germany": -4.23158073425293,
+    "Italy": -8.66908073425293
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_2ebc6d7b3e3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.752935886383057,
+    "UK": -5.252935886383057,
+    "Brazil": -3.3779361248016357,
+    "Spain": -0.2529360353946686,
+    "Germany": -5.815435886383057,
+    "Italy": -9.877936363220215
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_2f0ad8d5a63d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -9.218073844909668,
+    "UK": -9.780573844909668,
+    "Brazil": -0.030573736876249313,
+    "Spain": -7.968073844909668,
+    "Germany": -8.718073844909668,
+    "Italy": -10.780573844909668
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Germany",
+    "US",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_3162ade9cf9c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5277765393257141,
+    "UK": -3.2777764797210693,
+    "Brazil": -5.715276718139648,
+    "Spain": -3.6527764797210693,
+    "Germany": -5.152776718139648,
+    "Italy": -7.746526718139648
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_36c1faa8fb4b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.0986313745379448,
+    "UK": -6.973631381988525,
+    "Brazil": -9.098630905151367,
+    "Spain": -6.161131381988525,
+    "Germany": -7.473631381988525,
+    "Italy": -11.161130905151367
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_3805cef6d8cd": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Italy",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -6.426668643951416,
+    "UK": -3.801668643951416,
+    "Brazil": -5.489168643951416,
+    "Spain": -1.8016685247421265,
+    "Germany": -3.926668643951416,
+    "Italy": -0.9266685247421265
+   },
+   "ranking": [
+    "Italy",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_3bac35003c3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.6068070530891418,
+    "UK": -2.419306993484497,
+    "Brazil": -7.419307231903076,
+    "Spain": -5.231807231903076,
+    "Germany": -7.231807231903076,
+    "Italy": -9.575556755065918
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_41719fd69fde": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.16556541621685028,
+    "UK": -5.353065490722656,
+    "Brazil": -6.978065490722656,
+    "Spain": -4.790565490722656,
+    "Germany": -6.040565490722656,
+    "Italy": -10.665565490722656
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_4248e4a8db42": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.3898290395736694,
+    "UK": -1.3898290395736694,
+    "Brazil": -6.389829158782959,
+    "Spain": -3.827329158782959,
+    "Germany": -5.202329158782959,
+    "Italy": -8.8273286819458
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_4cc0b4329d82": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.049131155014038,
+    "UK": -3.486631155014038,
+    "Brazil": -3.486631155014038,
+    "Spain": -4.549131393432617,
+    "Germany": -4.924131393432617,
+    "Italy": -7.861631393432617
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Brazil",
+    "Spain",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_4dca6d91ea05": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Italy",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -6.3904900550842285,
+    "UK": -2.6404900550842285,
+    "Brazil": -2.5779900550842285,
+    "Spain": -2.9529900550842285,
+    "Germany": -4.0154900550842285,
+    "Italy": -1.1404900550842285
+   },
+   "ranking": [
+    "Italy",
+    "Brazil",
+    "UK",
+    "Spain",
+    "Germany",
+    "US"
+   ]
+  },
+  "B_4f87c1623a57": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4249571561813354,
+    "UK": -1.3624571561813354,
+    "Brazil": -5.924957275390625,
+    "Spain": -3.987457275390625,
+    "Germany": -5.862457275390625,
+    "Italy": -9.018707275390625
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_5134ce77958b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5375111699104309,
+    "UK": -3.100011110305786,
+    "Brazil": -6.287511348724365,
+    "Spain": -4.850011348724365,
+    "Germany": -5.975011348724365,
+    "Italy": -8.068760871887207
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_5391ecf8e03b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the UK.",
+   "gen_label": "UK",
+   "scores": {
+    "US": -4.736791610717773,
+    "UK": -1.6742914915084839,
+    "Brazil": -7.736791610717773,
+    "Spain": -4.424291610717773,
+    "Germany": -2.9867916107177734,
+    "Italy": -9.361791610717773
+   },
+   "ranking": [
+    "UK",
+    "Germany",
+    "Spain",
+    "US",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_551a965f7433": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -1.8454973697662354,
+    "UK": -0.8454974293708801,
+    "Brazil": -5.0329976081848145,
+    "Spain": -2.6579973697662354,
+    "Germany": -4.2829976081848145,
+    "Italy": -8.501747131347656
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_58b96492b47f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.1814178228378296,
+    "UK": -1.6189178228378296,
+    "Brazil": -5.556417942047119,
+    "Spain": -4.243917942047119,
+    "Germany": -6.743917942047119,
+    "Italy": -10.212667465209961
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_59aea13aaf6a": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.5231714248657227,
+    "UK": -1.398171305656433,
+    "Brazil": -6.710671424865723,
+    "Spain": -5.523171424865723,
+    "Germany": -8.116921424865723,
+    "Italy": -9.398171424865723
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_59d2d848231f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.7208877205848694,
+    "UK": -3.5333876609802246,
+    "Brazil": -5.658387660980225,
+    "Spain": -5.595887660980225,
+    "Germany": -7.345887660980225,
+    "Italy": -8.283388137817383
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_609ea6718e36": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Germany",
+   "gen_label": "Germany",
+   "scores": {
+    "US": -9.356435775756836,
+    "UK": -9.168935775756836,
+    "Brazil": -10.481435775756836,
+    "Spain": -7.043935775756836,
+    "Germany": -0.23143570125102997,
+    "Italy": -12.200185775756836
+   },
+   "ranking": [
+    "Germany",
+    "Spain",
+    "UK",
+    "US",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_63d98c759a55": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.036664009094238,
+    "UK": -11.724164009094238,
+    "Brazil": -0.03666358068585396,
+    "Spain": -10.536664009094238,
+    "Germany": -9.849164009094238,
+    "Italy": -11.036664009094238
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_65c3fb6e8773": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4453710317611694,
+    "UK": -1.9453710317611694,
+    "Brazil": -4.695371150970459,
+    "Spain": -3.257871150970459,
+    "Germany": -3.382871150970459,
+    "Italy": -8.1328706741333
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_6ac9badc2b7c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.1322526931762695,
+    "UK": -2.7572526931762695,
+    "Brazil": -5.0697526931762695,
+    "Spain": -1.00725257396698,
+    "Germany": -3.8822526931762695,
+    "Italy": -1.81975257396698
+   },
+   "ranking": [
+    "Spain",
+    "Italy",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_6f088d504a7d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The correct answer is not provided in the question prompt.",
+   "gen_label": null,
+   "scores": {
+    "US": -1.5356018543243408,
+    "UK": -1.7231018543243408,
+    "Brazil": -6.723101615905762,
+    "Spain": -4.973101615905762,
+    "Germany": -5.660601615905762,
+    "Italy": -9.879351615905762
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_71b02d6a92ce": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.2693824768066406,
+    "UK": -1.2068824768066406,
+    "Brazil": -4.394382476806641,
+    "Spain": -3.0818824768066406,
+    "Germany": -4.269382476806641,
+    "Italy": -8.42563247680664
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_72ed1d20fc3d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -5.1922149658203125,
+    "UK": -0.6922147870063782,
+    "Brazil": -8.473464965820312,
+    "Spain": -6.6297149658203125,
+    "Germany": -6.8172149658203125,
+    "Italy": -10.223464965820312
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_756fb72cfeb5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.2562878727912903,
+    "UK": -3.6937878131866455,
+    "Brazil": -6.943788051605225,
+    "Spain": -4.506288051605225,
+    "Germany": -6.506288051605225,
+    "Italy": -9.475037574768066
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_762d6e3dfa1a": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.011650323867798,
+    "UK": -1.5741503238677979,
+    "Brazil": -5.199150085449219,
+    "Spain": -3.261650323867798,
+    "Germany": -4.824150085449219,
+    "Italy": -8.480400085449219
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_774cb9f8b56e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.5633747577667236,
+    "UK": -2.1883747577667236,
+    "Brazil": -3.5008747577667236,
+    "Spain": -5.8758745193481445,
+    "Germany": -6.3133745193481445,
+    "Italy": -8.000874519348145
+   },
+   "ranking": [
+    "UK",
+    "Brazil",
+    "US",
+    "Spain",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_79d7f2ed1d1c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The correct answer is not provided in the question prompt.",
+   "gen_label": null,
+   "scores": {
+    "US": -1.634087324142456,
+    "UK": -1.509087324142456,
+    "Brazil": -6.259087562561035,
+    "Spain": -5.384087562561035,
+    "Germany": -4.946587562561035,
+    "Italy": -9.446587562561035
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_7d32f6ebe0cc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.2736129760742188,
+    "UK": -1.5236129760742188,
+    "Brazil": -4.773612976074219,
+    "Spain": -3.0861129760742188,
+    "Germany": -3.8986129760742188,
+    "Italy": -7.648612976074219
+   },
+   "ranking": [
+    "UK",
+    "Spain",
+    "US",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_8d2e2cc755f2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.2600059509277344,
+    "UK": -4.697505950927734,
+    "Brazil": -6.885005950927734,
+    "Spain": -3.9475059509277344,
+    "Germany": -5.260005950927734,
+    "Italy": -9.322505950927734
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_8d8c4e578532": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.3391190767288208,
+    "UK": -1.3391190767288208,
+    "Brazil": -4.964118957519531,
+    "Spain": -3.3391189575195312,
+    "Germany": -5.026618957519531,
+    "Italy": -9.057868957519531
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_8f20bf5a475c": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.435790061950684,
+    "UK": -1.1232900619506836,
+    "Brazil": -6.873290061950684,
+    "Spain": -4.498290061950684,
+    "Germany": -4.998290061950684,
+    "Italy": -8.342040061950684
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_8f3ac6f7b9e5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.5227572917938232,
+    "UK": -1.5852572917938232,
+    "Brazil": -4.647757530212402,
+    "Spain": -3.2102572917938232,
+    "Germany": -4.647757530212402,
+    "Italy": -7.554007530212402
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_933419ce4489": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.22563107311725616,
+    "UK": -3.47563099861145,
+    "Brazil": -7.288131237030029,
+    "Spain": -4.975631237030029,
+    "Germany": -6.663131237030029,
+    "Italy": -10.350630760192871
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_943526d6e57e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.3760501742362976,
+    "UK": -4.188549995422363,
+    "Brazil": -6.001049995422363,
+    "Spain": -3.8760502338409424,
+    "Germany": -5.188549995422363,
+    "Italy": -9.344799995422363
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_9926353fbfdc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.8089622259140015,
+    "UK": -1.6214622259140015,
+    "Brazil": -4.746462345123291,
+    "Spain": -3.933962345123291,
+    "Germany": -4.933962345123291,
+    "Italy": -9.340211868286133
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_9ad93ebf588e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.2898447513580322,
+    "UK": -1.9148447513580322,
+    "Brazil": -3.7898447513580322,
+    "Spain": -3.2273447513580322,
+    "Germany": -3.9773447513580322,
+    "Italy": -8.102344512939453
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_9b2dd58128af": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -8.913037300109863,
+    "UK": -11.038037300109863,
+    "Brazil": -0.03803693875670433,
+    "Spain": -9.850537300109863,
+    "Germany": -8.975537300109863,
+    "Italy": -11.225537300109863
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_9db44818efec": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.3222084939479828,
+    "UK": -5.322208404541016,
+    "Brazil": -6.884708404541016,
+    "Spain": -4.572208404541016,
+    "Germany": -6.447208404541016,
+    "Italy": -10.384708404541016
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_a4d81d53558e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.10230483114719391,
+    "UK": -5.727304935455322,
+    "Brazil": -8.789804458618164,
+    "Spain": -6.477304935455322,
+    "Germany": -8.102304458618164,
+    "Italy": -11.196054458618164
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_a5c4be395f25": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.80006217956543,
+    "UK": -7.98756217956543,
+    "Brazil": -0.11256226152181625,
+    "Spain": -5.42506217956543,
+    "Germany": -7.61256217956543,
+    "Italy": -8.67506217956543
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_ad44fe430db6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.5738468170166016,
+    "UK": -1.3238468170166016,
+    "Brazil": -5.386346817016602,
+    "Spain": -3.6988468170166016,
+    "Germany": -4.886346817016602,
+    "Italy": -8.480096817016602
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_ad4ef17695e6": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -9.611591339111328,
+    "UK": -11.674091339111328,
+    "Brazil": -0.04909127578139305,
+    "Spain": -10.424091339111328,
+    "Germany": -9.611591339111328,
+    "Italy": -11.611591339111328
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_b20b26c20ea9": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.0422003269195557,
+    "UK": -1.7922003269195557,
+    "Brazil": -6.729700088500977,
+    "Spain": -5.354700088500977,
+    "Germany": -6.729700088500977,
+    "Italy": -9.479700088500977
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_b2f3eb1702f1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -11.209919929504395,
+    "UK": -12.022419929504395,
+    "Brazil": -0.022420264780521393,
+    "Spain": -11.647419929504395,
+    "Germany": -10.647419929504395,
+    "Italy": -12.022419929504395
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_b45abda322fc": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -2.8504257202148438,
+    "UK": -1.8504257202148438,
+    "Brazil": -5.412925720214844,
+    "Spain": -1.4754257202148438,
+    "Germany": -3.2879257202148438,
+    "Italy": -7.100425720214844
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "US",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_b673453d3589": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Italians do it better!",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -5.703557014465332,
+    "UK": -1.9535572528839111,
+    "Brazil": -5.016057014465332,
+    "Spain": -2.516057252883911,
+    "Germany": -3.266057252883911,
+    "Italy": -2.078557252883911
+   },
+   "ranking": [
+    "UK",
+    "Italy",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_b8c9f3dbe184": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.9614330530166626,
+    "UK": -2.148932933807373,
+    "Brazil": -5.148932933807373,
+    "Spain": -4.898932933807373,
+    "Germany": -4.961432933807373,
+    "Italy": -7.523932933807373
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_c500d8e176c4": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.1442829370498657,
+    "UK": -2.894282817840576,
+    "Brazil": -5.269282817840576,
+    "Spain": -3.706782817840576,
+    "Germany": -5.456782817840576,
+    "Italy": -7.644282817840576
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_c58d407cada1": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.938889265060425,
+    "UK": -1.5013892650604248,
+    "Brazil": -5.126389503479004,
+    "Spain": -4.626389503479004,
+    "Germany": -5.876389503479004,
+    "Italy": -8.501389503479004
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_c689e8aad7a7": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.1233330965042114,
+    "UK": -2.748332977294922,
+    "Brazil": -4.685832977294922,
+    "Spain": -3.685832977294922,
+    "Germany": -4.623332977294922,
+    "Italy": -7.560832977294922
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_c74be1cb79a9": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.711370468139648,
+    "UK": -12.398870468139648,
+    "Brazil": -0.023870695382356644,
+    "Spain": -11.336370468139648,
+    "Germany": -10.336370468139648,
+    "Italy": -12.086370468139648
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_c8827f647eb8": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.041783332824707,
+    "UK": -11.791783332824707,
+    "Brazil": -0.04178314283490181,
+    "Spain": -11.104283332824707,
+    "Germany": -10.041783332824707,
+    "Italy": -11.104283332824707
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_c8e2865bcac2": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.0492208003997803,
+    "UK": -3.7367208003997803,
+    "Brazil": -2.3617208003997803,
+    "Spain": -2.2992208003997803,
+    "Germany": -5.861721038818359,
+    "Italy": -7.486721038818359
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_cb872c6b28bb": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.11801782250404358,
+    "UK": -5.868017673492432,
+    "Brazil": -8.43051815032959,
+    "Spain": -4.243017673492432,
+    "Germany": -7.680517673492432,
+    "Italy": -10.83676815032959
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_cf3a82be7bcf": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -4.4726762771606445,
+    "UK": -5.1601762771606445,
+    "Brazil": -1.0351760387420654,
+    "Spain": -1.0351760387420654,
+    "Germany": -5.5976762771606445,
+    "Italy": -8.160176277160645
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_d2f82beafc60": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.7798728942871094,
+    "UK": -1.4673728942871094,
+    "Brazil": -6.154872894287109,
+    "Spain": -4.467372894287109,
+    "Germany": -4.717372894287109,
+    "Italy": -9.46737289428711
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d50f0dbf8b2e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.1898542046546936,
+    "UK": -4.752354145050049,
+    "Brazil": -7.814854145050049,
+    "Spain": -5.127354145050049,
+    "Germany": -7.439854145050049,
+    "Italy": -10.158604621887207
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d56287266afa": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.4801179766654968,
+    "UK": -3.0426180362701416,
+    "Brazil": -7.1051177978515625,
+    "Spain": -4.7301177978515625,
+    "Germany": -5.0426177978515625,
+    "Italy": -9.917617797851562
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d7d6be259b70": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.1252424716949463,
+    "UK": -1.8752424716949463,
+    "Brazil": -6.500242233276367,
+    "Spain": -5.187742233276367,
+    "Germany": -6.250242233276367,
+    "Italy": -9.468992233276367
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d86f0830b5db": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.31801000237464905,
+    "UK": -3.818010091781616,
+    "Brazil": -6.318009853363037,
+    "Spain": -5.693009853363037,
+    "Germany": -7.443009853363037,
+    "Italy": -10.443010330200195
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_da3eb54225a8": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -8.000110626220703,
+    "UK": -10.437610626220703,
+    "Brazil": -0.06261099874973297,
+    "Spain": -9.875110626220703,
+    "Germany": -9.312610626220703,
+    "Italy": -10.500110626220703
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_de88d9731598": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -4.396671772003174,
+    "UK": -5.334171772003174,
+    "Brazil": -1.6466717720031738,
+    "Spain": -0.521671712398529,
+    "Germany": -5.146671772003174,
+    "Italy": -9.271671295166016
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_df736a4b61ca": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.461163520812988,
+    "UK": -13.398663520812988,
+    "Brazil": -0.02366325445473194,
+    "Spain": -10.398663520812988,
+    "Germany": -9.898663520812988,
+    "Italy": -12.211163520812988
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "Spain",
+    "US",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_e24542d49c3e": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -4.35841178894043,
+    "UK": -2.4834117889404297,
+    "Brazil": -2.1709117889404297,
+    "Spain": -2.4209117889404297,
+    "Germany": -3.1709117889404297,
+    "Italy": -7.98341178894043
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "UK",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_e2481da3f704": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the UK.",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.1604175567626953,
+    "UK": -1.2229174375534058,
+    "Brazil": -4.910417556762695,
+    "Spain": -3.4104175567626953,
+    "Germany": -4.722917556762695,
+    "Italy": -8.941667556762695
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_e4db4ef2c052": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -1.2493174076080322,
+    "UK": -1.1243174076080322,
+    "Brazil": -6.499317169189453,
+    "Spain": -3.1243174076080322,
+    "Germany": -5.499317169189453,
+    "Italy": -8.811817169189453
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_e5f6ddfd4b23": {
+   "split": "test",
+   "label": "",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5048893690109253,
+    "UK": -3.254889488220215,
+    "Brazil": -8.004889488220215,
+    "Spain": -5.067389488220215,
+    "Germany": -5.879889488220215,
+    "Italy": -10.098639488220215
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_e72b08ea76b5": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.346696376800537,
+    "UK": -3.909196376800537,
+    "Brazil": -3.471696376800537,
+    "Spain": -0.22169625759124756,
+    "Germany": -7.034196376800537,
+    "Italy": -9.721695899963379
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_e80a5549cffe": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The correct answer is not provided in the question prompt.",
+   "gen_label": null,
+   "scores": {
+    "US": -2.078078269958496,
+    "UK": -1.140578269958496,
+    "Brazil": -7.078078269958496,
+    "Spain": -5.078078269958496,
+    "Germany": -5.953078269958496,
+    "Italy": -9.796828269958496
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_e86ea10af862": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.02323579788208,
+    "UK": -3.585736036300659,
+    "Brazil": -3.085736036300659,
+    "Spain": -0.398235946893692,
+    "Germany": -3.960736036300659,
+    "Italy": -4.39823579788208
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "Germany",
+    "Italy",
+    "US"
+   ]
+  },
+  "B_e8df0b863744": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -4.428305625915527,
+    "UK": -1.1158056259155273,
+    "Brazil": -5.365805625915527,
+    "Spain": -4.115805625915527,
+    "Germany": -1.9283056259155273,
+    "Italy": -8.240805625915527
+   },
+   "ranking": [
+    "UK",
+    "Germany",
+    "Spain",
+    "US",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_e97520a2bb76": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.864846229553223,
+    "UK": -3.2398462295532227,
+    "Brazil": -5.114846229553223,
+    "Spain": -1.3648462295532227,
+    "Germany": -2.4898462295532227,
+    "Italy": -1.8023462295532227
+   },
+   "ranking": [
+    "Spain",
+    "Italy",
+    "Germany",
+    "UK",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_ea7e7571558d": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.2456839084625244,
+    "UK": -0.9956839084625244,
+    "Brazil": -3.9956839084625244,
+    "Spain": -3.6206839084625244,
+    "Germany": -4.495683670043945,
+    "Italy": -9.026933670043945
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_eab0e99ee28b": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4799137115478516,
+    "UK": -2.7299137115478516,
+    "Brazil": -4.792413711547852,
+    "Spain": -3.4799137115478516,
+    "Germany": -4.604913711547852,
+    "Italy": -7.604913711547852
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_ebb9119ccebb": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.4889955520629883,
+    "UK": -1.3014954328536987,
+    "Brazil": -5.488995552062988,
+    "Spain": -4.238995552062988,
+    "Germany": -5.238995552062988,
+    "Italy": -9.207745552062988
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_efe7fc5caccd": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.0480241775512695,
+    "UK": -4.4855241775512695,
+    "Brazil": -4.2980241775512695,
+    "Spain": -0.17302408814430237,
+    "Germany": -6.3605241775512695,
+    "Italy": -11.07927417755127
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_f15a12e5fcec": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.518373489379883,
+    "UK": -1.0183736085891724,
+    "Brazil": -6.080873489379883,
+    "Spain": -2.768373489379883,
+    "Germany": -5.580873489379883,
+    "Italy": -8.330873489379883
+   },
+   "ranking": [
+    "UK",
+    "Spain",
+    "US",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_f236cdc3cc3f": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.399896621704102,
+    "UK": -12.087396621704102,
+    "Brazil": -0.02489621378481388,
+    "Spain": -11.212396621704102,
+    "Germany": -10.149896621704102,
+    "Italy": -12.024896621704102
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_f8f75b9d9038": {
+   "split": "test",
+   "label": "",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -2.806607246398926,
+    "UK": -0.9941071271896362,
+    "Brazil": -5.119107246398926,
+    "Spain": -3.869107246398926,
+    "Germany": -6.744107246398926,
+    "Italy": -8.337857246398926
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_f904d6eafa80": {
+   "split": "test",
+   "label": "",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.090832710266113,
+    "UK": -11.403332710266113,
+    "Brazil": -0.02833271399140358,
+    "Spain": -11.153332710266113,
+    "Germany": -10.653332710266113,
+    "Italy": -11.778332710266113
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_fe04a16f7ec3": {
+   "split": "test",
+   "label": "",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.6065924167633057,
+    "UK": -1.5440924167633057,
+    "Brazil": -6.731592178344727,
+    "Spain": -4.544092178344727,
+    "Germany": -3.7940924167633057,
+    "Italy": -8.731592178344727
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_007c484b6818": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Germany",
+   "gen_label": "Germany",
+   "scores": {
+    "US": -4.323602199554443,
+    "UK": -3.4486021995544434,
+    "Brazil": -2.7611021995544434,
+    "Spain": -1.5736021995544434,
+    "Germany": -1.5736021995544434,
+    "Italy": -8.136102676391602
+   },
+   "ranking": [
+    "Spain",
+    "Germany",
+    "Brazil",
+    "UK",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_01a4fa3fe992": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -5.221869945526123,
+    "UK": -0.5968698263168335,
+    "Brazil": -8.909369468688965,
+    "Spain": -7.159369945526123,
+    "Germany": -7.534369945526123,
+    "Italy": -10.565619468688965
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_022c2f8dc19a": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.0947670936584473,
+    "UK": -1.9072670936584473,
+    "Brazil": -3.4072670936584473,
+    "Spain": -3.3447670936584473,
+    "Germany": -3.2822670936584473,
+    "Italy": -8.032266616821289
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_02d2444c09a3": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5081221461296082,
+    "UK": -3.195622205734253,
+    "Brazil": -6.945621967315674,
+    "Spain": -4.570621967315674,
+    "Germany": -5.820621967315674,
+    "Italy": -9.226872444152832
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_033aece126da": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.7246202826499939,
+    "UK": -2.9121203422546387,
+    "Brazil": -4.599620342254639,
+    "Spain": -3.6621203422546387,
+    "Germany": -4.474620342254639,
+    "Italy": -8.03711986541748
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_0449c50279fd": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.37474250793457,
+    "UK": -4.62474250793457,
+    "Brazil": -4.18724250793457,
+    "Spain": -0.24974234402179718,
+    "Germany": -5.18724250793457,
+    "Italy": -6.18724250793457
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "Germany",
+    "Italy",
+    "US"
+   ]
+  },
+  "B_0606553d288f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.4720384180545807,
+    "UK": -4.222038269042969,
+    "Brazil": -5.784538269042969,
+    "Spain": -3.472038507461548,
+    "Germany": -4.972038269042969,
+    "Italy": -8.972038269042969
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_0c623488dbf1": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.231799125671387,
+    "UK": -5.981799125671387,
+    "Brazil": -0.16929899156093597,
+    "Spain": -3.8567988872528076,
+    "Germany": -5.794299125671387,
+    "Italy": -7.481799125671387
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Germany",
+    "UK",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_0cf44d0e5aa7": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.102724075317383,
+    "UK": -0.7277241945266724,
+    "Brazil": -6.665224075317383,
+    "Spain": -4.290224075317383,
+    "Germany": -6.352724075317383,
+    "Italy": -8.977724075317383
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_0d0ab9eed1ea": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.974027633666992,
+    "UK": -5.911527633666992,
+    "Brazil": -5.661527633666992,
+    "Spain": -0.16152769327163696,
+    "Germany": -7.599027633666992,
+    "Italy": -11.349027633666992
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_0e8bf622b5b9": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.17749160528182983,
+    "UK": -4.927491664886475,
+    "Brazil": -9.052491188049316,
+    "Spain": -5.989991664886475,
+    "Germany": -8.552491188049316,
+    "Italy": -11.771241188049316
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_0f7563a35a96": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -11.270297050476074,
+    "UK": -13.770297050476074,
+    "Brazil": -0.02029685489833355,
+    "Spain": -11.457797050476074,
+    "Germany": -9.957797050476074,
+    "Italy": -12.207797050476074
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_0fa5ccababcf": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.005506992340088,
+    "UK": -1.630506992340088,
+    "Brazil": -4.880506992340088,
+    "Spain": -3.068006992340088,
+    "Germany": -3.880506992340088,
+    "Italy": -6.693006992340088
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_13918a12adca": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.9817886352539062,
+    "UK": -2.1067886352539062,
+    "Brazil": -6.794288635253906,
+    "Spain": -4.669288635253906,
+    "Germany": -6.731788635253906,
+    "Italy": -10.200538635253906
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_14c07e31cabd": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.590898513793945,
+    "UK": -13.059648513793945,
+    "Brazil": -0.02839876338839531,
+    "Spain": -11.778398513793945,
+    "Germany": -10.278398513793945,
+    "Italy": -11.590898513793945
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Italy",
+    "Spain",
+    "UK"
+   ]
+  },
+  "B_1d029a46b04f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.44091179966926575,
+    "UK": -3.0659117698669434,
+    "Brazil": -6.378411769866943,
+    "Spain": -4.065911769866943,
+    "Germany": -5.565911769866943,
+    "Italy": -9.284662246704102
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_1d3fc0cfce49": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.43633586168289185,
+    "UK": -2.498835802078247,
+    "Brazil": -6.311336040496826,
+    "Spain": -4.436336040496826,
+    "Germany": -7.186336040496826,
+    "Italy": -9.498835563659668
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_20c23d10897b": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.9092155694961548,
+    "UK": -1.1592155694961548,
+    "Brazil": -6.971715450286865,
+    "Spain": -5.284215450286865,
+    "Germany": -6.471715450286865,
+    "Italy": -9.377965927124023
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_21b8b9504576": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.6223931312561035,
+    "UK": -2.8723931312561035,
+    "Brazil": -4.1848931312561035,
+    "Spain": -1.184893250465393,
+    "Germany": -2.9973931312561035,
+    "Italy": -1.559893250465393
+   },
+   "ranking": [
+    "Spain",
+    "Italy",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_220ad0950ab6": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Italy",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -5.383469104766846,
+    "UK": -2.3834691047668457,
+    "Brazil": -5.383469104766846,
+    "Spain": -1.5084692239761353,
+    "Germany": -4.633469104766846,
+    "Italy": -1.2584692239761353
+   },
+   "ranking": [
+    "Italy",
+    "Spain",
+    "UK",
+    "Germany",
+    "US",
+    "Brazil"
+   ]
+  },
+  "B_235e59cedbb9": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Italy",
+   "gen_label": "Italy",
+   "scores": {
+    "US": -7.111435890197754,
+    "UK": -4.673935890197754,
+    "Brazil": -6.048935890197754,
+    "Spain": -3.298935890197754,
+    "Germany": -3.923935890197754,
+    "Italy": -0.6114358901977539
+   },
+   "ranking": [
+    "Italy",
+    "Spain",
+    "Germany",
+    "UK",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_23f6c68ce7a1": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.382708549499512,
+    "UK": -3.5077085494995117,
+    "Brazil": -1.4452085494995117,
+    "Spain": -0.6952085494995117,
+    "Germany": -5.132708549499512,
+    "Italy": -8.570208549499512
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_29ba1bae7f9a": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.23576177656650543,
+    "UK": -4.923261642456055,
+    "Brazil": -6.860761642456055,
+    "Spain": -5.923261642456055,
+    "Germany": -7.673261642456055,
+    "Italy": -10.079511642456055
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_2d1144798a47": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.45204031467437744,
+    "UK": -2.952040195465088,
+    "Brazil": -6.264540195465088,
+    "Spain": -5.452040195465088,
+    "Germany": -6.764540195465088,
+    "Italy": -9.983290672302246
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_41bc89f1f599": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.812434196472168,
+    "UK": -2.624934196472168,
+    "Brazil": -3.937434196472168,
+    "Spain": -3.687434196472168,
+    "Germany": -4.562434196472168,
+    "Italy": -7.187434196472168
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_450fb66e02c7": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.375762939453125,
+    "UK": -2.438262939453125,
+    "Brazil": -7.063262939453125,
+    "Spain": -5.563262939453125,
+    "Germany": -6.625762939453125,
+    "Italy": -9.594512939453125
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_47eb9eba0af4": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.077524662017822,
+    "UK": -5.327524662017822,
+    "Brazil": -1.2025246620178223,
+    "Spain": -0.9525246024131775,
+    "Germany": -5.265024662017822,
+    "Italy": -8.765024185180664
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_50102c3b7d22": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.9523512125015259,
+    "UK": -1.5773512125015259,
+    "Brazil": -5.577351093292236,
+    "Spain": -5.327351093292236,
+    "Germany": -6.202351093292236,
+    "Italy": -8.483601570129395
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_51c61db82099": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.5388851165771484,
+    "UK": -1.038885235786438,
+    "Brazil": -5.851385116577148,
+    "Spain": -4.476385116577148,
+    "Germany": -5.538885116577148,
+    "Italy": -9.476385116577148
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_53ab4248e799": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.039767265319824,
+    "UK": -12.539767265319824,
+    "Brazil": -0.039767514914274216,
+    "Spain": -12.039767265319824,
+    "Germany": -10.227267265319824,
+    "Italy": -11.977267265319824
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy",
+    "Spain",
+    "UK"
+   ]
+  },
+  "B_550c82a44dde": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.1084461212158203,
+    "UK": -1.4209460020065308,
+    "Brazil": -6.85844612121582,
+    "Spain": -5.17094612121582,
+    "Germany": -4.92094612121582,
+    "Italy": -9.54594612121582
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_55bdcf43a277": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.21181583404541,
+    "UK": -12.52431583404541,
+    "Brazil": -0.02431569993495941,
+    "Spain": -11.64931583404541,
+    "Germany": -9.96181583404541,
+    "Italy": -11.21181583404541
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Italy",
+    "Spain",
+    "UK"
+   ]
+  },
+  "B_58bbc8b17c59": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -11.582770347595215,
+    "UK": -13.801520347595215,
+    "Brazil": -0.02027057111263275,
+    "Spain": -11.520270347595215,
+    "Germany": -10.207770347595215,
+    "Italy": -12.332770347595215
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "Spain",
+    "US",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_58cc41574fbe": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -9.532330513000488,
+    "UK": -11.969830513000488,
+    "Brazil": -0.032330308109521866,
+    "Spain": -11.219830513000488,
+    "Germany": -9.969830513000488,
+    "Italy": -11.282330513000488
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_5ae0b896d915": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.8783482909202576,
+    "UK": -3.8158483505249023,
+    "Brazil": -3.9408483505249023,
+    "Spain": -4.315848350524902,
+    "Germany": -6.378348350524902,
+    "Italy": -8.628348350524902
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Brazil",
+    "Spain",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_5ced4de80cb2": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The correct answer is not provided in the question prompt.",
+   "gen_label": null,
+   "scores": {
+    "US": -1.1623567342758179,
+    "UK": -1.9748567342758179,
+    "Brazil": -5.787356853485107,
+    "Spain": -4.787356853485107,
+    "Germany": -4.912356853485107,
+    "Italy": -9.16235637664795
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_675ff44fc9a6": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Germany",
+   "gen_label": "Germany",
+   "scores": {
+    "US": -9.39197063446045,
+    "UK": -7.391970634460449,
+    "Brazil": -10.26697063446045,
+    "Spain": -6.391970634460449,
+    "Germany": -0.2669704854488373,
+    "Italy": -11.20447063446045
+   },
+   "ranking": [
+    "Germany",
+    "Spain",
+    "UK",
+    "US",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_69062b4d04a5": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this music recording is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.3105266094207764,
+    "UK": -2.8105266094207764,
+    "Brazil": -4.0605268478393555,
+    "Spain": -2.4980266094207764,
+    "Germany": -3.2480266094207764,
+    "Italy": -7.5605268478393555
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Germany",
+    "US",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_6f5b80a9f689": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.43414419889450073,
+    "UK": -2.9341442584991455,
+    "Brazil": -7.184144020080566,
+    "Spain": -5.059144020080566,
+    "Germany": -6.184144020080566,
+    "Italy": -9.871644020080566
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_700a0812e908": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.370872437953949,
+    "UK": -4.058372497558594,
+    "Brazil": -6.245872497558594,
+    "Spain": -3.7458724975585938,
+    "Germany": -4.683372497558594,
+    "Italy": -9.027122497558594
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_71c8c7a07ba6": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -4.588619709014893,
+    "UK": -4.713619709014893,
+    "Brazil": -1.776119589805603,
+    "Spain": -0.776119589805603,
+    "Germany": -4.151119709014893,
+    "Italy": -8.276119232177734
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "Germany",
+    "US",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_7d050a5269fb": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4457828998565674,
+    "UK": -1.8207828998565674,
+    "Brazil": -4.070782661437988,
+    "Spain": -3.6957828998565674,
+    "Germany": -4.008282661437988,
+    "Italy": -7.695782661437988
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_7edf8cf51fa1": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.862016201019287,
+    "UK": -1.3620160818099976,
+    "Brazil": -7.049516201019287,
+    "Spain": -5.049516201019287,
+    "Germany": -5.237016201019287,
+    "Italy": -9.893265724182129
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_8108811dadb2": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -1.622107744216919,
+    "UK": -1.247107744216919,
+    "Brazil": -6.43460750579834,
+    "Spain": -3.372107744216919,
+    "Germany": -4.99710750579834,
+    "Italy": -8.37210750579834
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_81251e0db31f": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.5017304420471191,
+    "UK": -2.939230442047119,
+    "Brazil": -7.314230442047119,
+    "Spain": -5.064230442047119,
+    "Germany": -6.564230442047119,
+    "Italy": -9.814229965209961
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_83aff42e7239": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.94296932220459,
+    "UK": -4.94296932220459,
+    "Brazil": -1.1929694414138794,
+    "Spain": -2.94296932220459,
+    "Germany": -4.44296932220459,
+    "Italy": -7.38046932220459
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Spain",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_87149914b371": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.002599239349365,
+    "UK": -3.5025994777679443,
+    "Brazil": -4.377599239349365,
+    "Spain": -0.19009938836097717,
+    "Germany": -6.627599239349365,
+    "Italy": -9.440099716186523
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_885568afc061": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.036093711853027,
+    "UK": -12.536093711853027,
+    "Brazil": -0.03609330952167511,
+    "Spain": -11.723593711853027,
+    "Germany": -10.286093711853027,
+    "Italy": -11.473593711853027
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy",
+    "Spain",
+    "UK"
+   ]
+  },
+  "B_889540221b89": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.43611422181129456,
+    "UK": -2.7486143112182617,
+    "Brazil": -6.998614311218262,
+    "Spain": -4.311114311218262,
+    "Germany": -6.561114311218262,
+    "Italy": -9.529864311218262
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_8b78937b44e1": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -7.490201473236084,
+    "UK": -9.677700996398926,
+    "Brazil": -0.05270126834511757,
+    "Spain": -6.427701473236084,
+    "Germany": -7.677701473236084,
+    "Italy": -10.365200996398926
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_8f4ab6bb7c02": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.9370033740997314,
+    "UK": -2.0620033740997314,
+    "Brazil": -6.124503135681152,
+    "Spain": -4.437003135681152,
+    "Germany": -4.374503135681152,
+    "Italy": -8.499503135681152
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_99f65134c641": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -10.461750984191895,
+    "UK": -12.149250984191895,
+    "Brazil": -0.024251358583569527,
+    "Spain": -11.024250984191895,
+    "Germany": -9.336750984191895,
+    "Italy": -11.399250984191895
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_9cdcc40848cc": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.755337715148926,
+    "UK": -2.255337715148926,
+    "Brazil": -5.817837715148926,
+    "Spain": -3.692837715148926,
+    "Germany": -3.255337715148926,
+    "Italy": -7.880337715148926
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Germany",
+    "Spain",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_a0af7a755f77": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.736454963684082,
+    "UK": -6.486454963684082,
+    "Brazil": -3.298955202102661,
+    "Spain": -0.23645520210266113,
+    "Germany": -6.361454963684082,
+    "Italy": -10.423954963684082
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_a0ce59fbdb77": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this music recording is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -3.4711570739746094,
+    "UK": -0.9086570739746094,
+    "Brazil": -7.533657073974609,
+    "Spain": -5.783657073974609,
+    "Germany": -6.346157073974609,
+    "Italy": -9.43990707397461
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_a1c2276456aa": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.05089189484715462,
+    "UK": -7.863391876220703,
+    "Brazil": -10.613391876220703,
+    "Spain": -7.738391876220703,
+    "Germany": -8.300891876220703,
+    "Italy": -12.363391876220703
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_a59d7ed218f8": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -6.154858589172363,
+    "UK": -7.092358589172363,
+    "Brazil": -0.4673585295677185,
+    "Spain": -1.4673585891723633,
+    "Germany": -5.904858589172363,
+    "Italy": -9.279858589172363
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "Germany",
+    "US",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_aaafa76a5afb": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.057950735092163,
+    "UK": -1.807950735092163,
+    "Brazil": -6.057950973510742,
+    "Spain": -5.057950973510742,
+    "Germany": -6.245450973510742,
+    "Italy": -8.995450973510742
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_aaf96e732265": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.6635591983795166,
+    "UK": -2.0385591983795166,
+    "Brazil": -5.7885589599609375,
+    "Spain": -3.9760591983795166,
+    "Germany": -5.9135589599609375,
+    "Italy": -8.601058959960938
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_ab933d1646c4": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this record is the US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.923250436782837,
+    "UK": -1.235750436782837,
+    "Brazil": -5.610750198364258,
+    "Spain": -4.485750198364258,
+    "Germany": -5.048250198364258,
+    "Italy": -9.548250198364258
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_ac016c46e914": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.1617783010005951,
+    "UK": -4.911778450012207,
+    "Brazil": -8.036778450012207,
+    "Spain": -4.911778450012207,
+    "Germany": -6.911778450012207,
+    "Italy": -10.568028450012207
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_b05d6ee46da0": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.6665195226669312,
+    "UK": -2.7915196418762207,
+    "Brazil": -6.041519641876221,
+    "Spain": -4.291519641876221,
+    "Germany": -6.291519641876221,
+    "Italy": -9.197769165039062
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_b066d818b297": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.373076438903809,
+    "UK": -7.873076438903809,
+    "Brazil": -0.24807636439800262,
+    "Spain": -8.185576438903809,
+    "Germany": -7.935576438903809,
+    "Italy": -8.373076438903809
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "UK",
+    "Germany",
+    "Spain",
+    "Italy"
+   ]
+  },
+  "B_b3422bcc415c": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.45072364807128906,
+    "UK": -3.513223648071289,
+    "Brazil": -6.200723648071289,
+    "Spain": -4.638223648071289,
+    "Germany": -5.325723648071289,
+    "Italy": -8.950723648071289
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_b75081eeb64b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.976431369781494,
+    "UK": -3.8514316082000732,
+    "Brazil": -2.8514316082000732,
+    "Spain": -0.22643156349658966,
+    "Germany": -6.976431369781494,
+    "Italy": -9.788931846618652
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_b8256aa710bc": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -9.166181564331055,
+    "UK": -12.197431564331055,
+    "Brazil": -0.04118180647492409,
+    "Spain": -11.478681564331055,
+    "Germany": -9.416181564331055,
+    "Italy": -10.978681564331055
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy",
+    "Spain",
+    "UK"
+   ]
+  },
+  "B_b9d4bd40dabf": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.3250819444656372,
+    "UK": -3.5125818252563477,
+    "Brazil": -7.137581825256348,
+    "Spain": -5.200081825256348,
+    "Germany": -6.950081825256348,
+    "Italy": -10.106331825256348
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_bd49b44fb472": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.21126671135425568,
+    "UK": -5.14876651763916,
+    "Brazil": -7.02376651763916,
+    "Spain": -5.14876651763916,
+    "Germany": -6.27376651763916,
+    "Italy": -10.11751651763916
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_beaa2bb0b89b": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.982996940612793,
+    "UK": -1.732996940612793,
+    "Brazil": -5.545496940612793,
+    "Spain": -4.357996940612793,
+    "Germany": -4.357996940612793,
+    "Italy": -7.889246940612793
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_c7809dcd0640": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.380929470062256,
+    "UK": -4.880929470062256,
+    "Brazil": -5.943429470062256,
+    "Spain": -0.1934295892715454,
+    "Germany": -5.193429470062256,
+    "Italy": -10.005929946899414
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_c7e70dd767df": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.7520439624786377,
+    "UK": -2.3770439624786377,
+    "Brazil": -4.939543724060059,
+    "Spain": -3.8770439624786377,
+    "Germany": -5.564543724060059,
+    "Italy": -8.533293724060059
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_c954e68e5b33": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -5.746096134185791,
+    "UK": -9.12109661102295,
+    "Brazil": -0.18359622359275818,
+    "Spain": -2.433596134185791,
+    "Germany": -7.058596134185791,
+    "Italy": -9.49609661102295
+   },
+   "ranking": [
+    "Brazil",
+    "Spain",
+    "US",
+    "Germany",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_ca75f4db02f5": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.3372228145599365,
+    "UK": -0.7747228145599365,
+    "Brazil": -6.212223052978516,
+    "Spain": -4.962223052978516,
+    "Germany": -5.587223052978516,
+    "Italy": -9.430973052978516
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_cbd6d40a4231": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.3893970847129822,
+    "UK": -2.951897144317627,
+    "Brazil": -6.764397144317627,
+    "Spain": -4.514397144317627,
+    "Germany": -5.826897144317627,
+    "Italy": -9.295646667480469
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_cc76a89f5dcc": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this music recording is the UK.",
+   "gen_label": "UK",
+   "scores": {
+    "US": -5.465076446533203,
+    "UK": -0.8400766849517822,
+    "Brazil": -8.340076446533203,
+    "Spain": -7.152576446533203,
+    "Germany": -7.527576446533203,
+    "Italy": -11.090076446533203
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_ce67238ec511": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4904614686965942,
+    "UK": -3.1154613494873047,
+    "Brazil": -3.4904613494873047,
+    "Spain": -4.115461349487305,
+    "Germany": -5.927961349487305,
+    "Italy": -7.490461349487305
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Brazil",
+    "Spain",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_cfa197f66fa2": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The market for this record is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.1927491426467896,
+    "UK": -1.9427491426467896,
+    "Brazil": -6.6302490234375,
+    "Spain": -4.7552490234375,
+    "Germany": -7.0052490234375,
+    "Italy": -9.5989990234375
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_d397202f7eff": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -11.146805763244629,
+    "UK": -13.584305763244629,
+    "Brazil": -0.021805888041853905,
+    "Spain": -11.459305763244629,
+    "Germany": -10.021805763244629,
+    "Italy": -12.146805763244629
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_d4d7691cfb36": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.21969819068908691,
+    "UK": -4.719697952270508,
+    "Brazil": -7.094697952270508,
+    "Spain": -5.219697952270508,
+    "Germany": -6.219697952270508,
+    "Italy": -9.875947952270508
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d5eeaab99e51": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.07017897069454193,
+    "UK": -6.945178985595703,
+    "Brazil": -10.132678985595703,
+    "Spain": -5.820178985595703,
+    "Germany": -7.945178985595703,
+    "Italy": -12.007678985595703
+   },
+   "ranking": [
+    "US",
+    "Spain",
+    "UK",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_d738dbb99fa4": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.906599521636963,
+    "UK": -0.5315995216369629,
+    "Brazil": -7.531599521636963,
+    "Spain": -5.969099521636963,
+    "Germany": -7.719099521636963,
+    "Italy": -10.437849044799805
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_da0e2ef5c2eb": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.9219961762428284,
+    "UK": -1.2969961166381836,
+    "Brazil": -7.109496116638184,
+    "Spain": -3.9844961166381836,
+    "Germany": -5.421996116638184,
+    "Italy": -8.546996116638184
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_de366c3afcc0": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -8.980680465698242,
+    "UK": -11.480680465698242,
+    "Brazil": -0.04318031668663025,
+    "Spain": -10.793180465698242,
+    "Germany": -9.543180465698242,
+    "Italy": -10.918180465698242
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "Italy",
+    "UK"
+   ]
+  },
+  "B_de7879ffd48f": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.19140459597110748,
+    "UK": -4.253904819488525,
+    "Brazil": -6.378904819488525,
+    "Spain": -4.878904819488525,
+    "Germany": -6.628904819488525,
+    "Italy": -9.535154342651367
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_e6107a40e9d5": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.283511161804199,
+    "UK": -2.096011161804199,
+    "Brazil": -4.783511161804199,
+    "Spain": -1.5335111618041992,
+    "Germany": -3.971011161804199,
+    "Italy": -1.5960111618041992
+   },
+   "ranking": [
+    "Spain",
+    "Italy",
+    "UK",
+    "Germany",
+    "Brazil",
+    "US"
+   ]
+  },
+  "B_e65a9bb9ea27": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.711513042449951,
+    "UK": -6.274013042449951,
+    "Brazil": -5.086513042449951,
+    "Spain": -0.21151287853717804,
+    "Germany": -6.899013042449951,
+    "Italy": -10.899012565612793
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "US",
+    "UK",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_e887687df493": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "UK",
+   "gen_label": "UK",
+   "scores": {
+    "US": -3.3692002296447754,
+    "UK": -0.8692001104354858,
+    "Brazil": -6.431700229644775,
+    "Spain": -4.619200229644775,
+    "Germany": -4.681700229644775,
+    "Italy": -9.462949752807617
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_ea54f022e8d4": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.442874431610107,
+    "UK": -6.942874431610107,
+    "Brazil": -1.1928743124008179,
+    "Spain": -0.5678743124008179,
+    "Germany": -5.505374431610107,
+    "Italy": -9.00537395477295
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "Germany",
+    "US",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_ec326d639aad": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -7.473962783813477,
+    "UK": -6.598962783813477,
+    "Brazil": -3.4739630222320557,
+    "Spain": -0.0989629253745079,
+    "Germany": -6.411462783813477,
+    "Italy": -9.348962783813477
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "Germany",
+    "UK",
+    "US",
+    "Italy"
+   ]
+  },
+  "B_ec8878ce06b5": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -9.65848159790039,
+    "UK": -11.22098159790039,
+    "Brazil": -0.033481158316135406,
+    "Spain": -10.59598159790039,
+    "Germany": -9.34598159790039,
+    "Italy": -11.28348159790039
+   },
+   "ranking": [
+    "Brazil",
+    "Germany",
+    "US",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_ef64273eee4e": {
+   "split": "validation",
+   "label": "Brazil",
+   "gen_text": "Brazil",
+   "gen_label": "Brazil",
+   "scores": {
+    "US": -8.724820137023926,
+    "UK": -11.412320137023926,
+    "Brazil": -0.03732000291347504,
+    "Spain": -11.349820137023926,
+    "Germany": -9.974820137023926,
+    "Italy": -11.662320137023926
+   },
+   "ranking": [
+    "Brazil",
+    "US",
+    "Germany",
+    "Spain",
+    "UK",
+    "Italy"
+   ]
+  },
+  "B_efe2cf1ad3d8": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.4195427894592285,
+    "UK": -2.3570427894592285,
+    "Brazil": -5.2320427894592285,
+    "Spain": -4.5445427894592285,
+    "Germany": -4.7320427894592285,
+    "Italy": -8.13829231262207
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_f3407cab7d7b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -6.25173282623291,
+    "UK": -4.93923282623291,
+    "Brazil": -5.62673282623291,
+    "Spain": -0.2517327666282654,
+    "Germany": -7.43923282623291,
+    "Italy": -10.53298282623291
+   },
+   "ranking": [
+    "Spain",
+    "UK",
+    "Brazil",
+    "US",
+    "Germany",
+    "Italy"
+   ]
+  },
+  "B_f34458365689": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -5.487154960632324,
+    "UK": -4.737154960632324,
+    "Brazil": -1.8621548414230347,
+    "Spain": -0.5496548414230347,
+    "Germany": -4.174654960632324,
+    "Italy": -4.362154960632324
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "Germany",
+    "Italy",
+    "UK",
+    "US"
+   ]
+  },
+  "B_f6d4bb0e62a0": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "The market for this record is US.",
+   "gen_label": "US",
+   "scores": {
+    "US": -1.7739472389221191,
+    "UK": -2.336447238922119,
+    "Brazil": -5.648947238922119,
+    "Spain": -3.898947238922119,
+    "Germany": -4.648947238922119,
+    "Italy": -7.523947238922119
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_f7fd3ba8af94": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.7951614856719971,
+    "UK": -2.795161485671997,
+    "Brazil": -4.982661247253418,
+    "Spain": -3.607661485671997,
+    "Germany": -4.482661247253418,
+    "Italy": -7.982661247253418
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_f80110c84970": {
+   "split": "validation",
+   "label": "UK",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.943785548210144,
+    "UK": -2.4437856674194336,
+    "Brazil": -5.381285667419434,
+    "Spain": -4.506285667419434,
+    "Germany": -4.631285667419434,
+    "Italy": -8.693785667419434
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_fa0e895ecfd0": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.26975688338279724,
+    "UK": -3.70725679397583,
+    "Brazil": -6.58225679397583,
+    "Spain": -5.01975679397583,
+    "Germany": -5.76975679397583,
+    "Italy": -9.957257270812988
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_fb1c266c084e": {
+   "split": "validation",
+   "label": "Italy",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.2716104984283447,
+    "UK": -3.6466104984283447,
+    "Brazil": -7.396610260009766,
+    "Spain": -5.021610260009766,
+    "Germany": -6.834110260009766,
+    "Italy": -9.802860260009766
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_fbfcce1b9fa1": {
+   "split": "validation",
+   "label": "Germany",
+   "gen_text": "The market for this music recording is the United States.",
+   "gen_label": "US",
+   "scores": {
+    "US": -2.8911375999450684,
+    "UK": -1.828637719154358,
+    "Brazil": -5.703637599945068,
+    "Spain": -3.6411375999450684,
+    "Germany": -4.078637599945068,
+    "Italy": -8.703638076782227
+   },
+   "ranking": [
+    "UK",
+    "US",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_fc28ecaa8c0e": {
+   "split": "validation",
+   "label": "US",
+   "gen_text": "US",
+   "gen_label": "US",
+   "scores": {
+    "US": -0.4913778007030487,
+    "UK": -3.116377830505371,
+    "Brazil": -6.991377830505371,
+    "Spain": -5.491377830505371,
+    "Germany": -6.116377830505371,
+    "Italy": -9.491377830505371
+   },
+   "ranking": [
+    "US",
+    "UK",
+    "Spain",
+    "Germany",
+    "Brazil",
+    "Italy"
+   ]
+  },
+  "B_fd25e478b03b": {
+   "split": "validation",
+   "label": "Spain",
+   "gen_text": "Spain",
+   "gen_label": "Spain",
+   "scores": {
+    "US": -7.460524559020996,
+    "UK": -7.273024559020996,
+    "Brazil": -3.835524559020996,
+    "Spain": -0.1480245590209961,
+    "Germany": -7.335524559020996,
+    "Italy": -10.898024559020996
+   },
+   "ranking": [
+    "Spain",
+    "Brazil",
+    "UK",
+    "Germany",
+    "US",
+    "Italy"
+   ]
+  }
+ }
+}
