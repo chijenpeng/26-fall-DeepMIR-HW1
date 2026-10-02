@@ -49,6 +49,7 @@ if __name__ == "__main__":
     probs = np.concatenate([P[:, sel], 1 - P[:, sel].sum(1, keepdims=True)], 1).astype(np.float32)
     top = np.array([codes[j] for j in P.argmax(1)])
     tag = a.model.split("/")[-1]
+    FEATURES.mkdir(exist_ok=True)
     out = a.out or FEATURES / f"{a.dataset}_lang_{tag}.npz"
     np.savez(out, probs=probs, names=np.array(LANGS + ["other"]), top=top, sample_id=m.sample_id.values,
              split=m.split.values, label=m.label.fillna("").values, model=tag)
