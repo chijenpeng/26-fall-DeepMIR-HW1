@@ -36,12 +36,14 @@ def build_X(a, layers):
             keep = [names.index(n) for n in a.hc_subset.split(",")]
             X = X[:, keep]
         parts.append(X); meta = z
-    for b in sorted(blocks):                       # 'mert' (default file) or 'mert@<path>' (e.g. vocal / accomp stems)
+    for b in sorted(blocks):     # 'mert' (default file) | 'mert@<path>' | 'mert@<path>:l1,l2' (per-file layer override)
         if not b.startswith("mert"):
             continue
-        path = b.split("@", 1)[1] if "@" in b else None
+        path, blayers = (b.split("@", 1)[1] if "@" in b else None), layers
+        if path and ":" in path:
+            path, ls = path.rsplit(":", 1); blayers = [int(x) for x in ls.split(",")]
         z = load_mert(a.dataset, path=path, model=a.mert_model, chunk_sec=a.chunk_sec)
-        parts.append(mert_vector(z, layers, n_chunks=a.n_chunks, use_std=not a.no_std))
+        parts.append(mert_vector(z, blayers, n_chunks=a.n_chunks, use_std=not a.no_std))
         if meta is not None:
             assert (meta["sample_id"] == z["sample_id"]).all()
         meta = z

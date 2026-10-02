@@ -251,6 +251,27 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 - 保留的 checkpoint:A 的 epoch 11、15、21,B 的 epoch 7、16、22(bf16,`results/ckpt/`,不進 git)。
 - MERT-330M 的 40-epoch fine-tune 進行中(`ft40_330M_A/B`),結果待補。
 
+## 編碼器尺寸比較:Whisper 編碼器家族(凍結,`src/extract_whisper.py` + `src/layer_sweep.py`)
+
+同一架構、五種尺寸(tiny 8M、base 20M、small 88M、medium 300M、large-v3 640M 的編碼器),整段 30 秒輸入,
+每層取時間平均加標準差,logreg。Whisper 編碼器也是 Qwen2-Audio 的耳朵,所以這組實驗同時回答「ALM 的編碼器看得到什麼」。
+
+| 尺寸 | 層數 | A 最佳 top-1(層) | A 最佳 top-3 | B 最佳 top-1(層) | B 最佳 top-3(層) |
+|---|---|---|---|---|---|
+| tiny | 4 | **.470**(L1) | .818 | .549(L3) | .843 |
+| base | 6 | .371(L1) | .773 | .510(L4) | .853 |
+| small | 12 | .417(L2) | .795 | .569(L12) | .814 |
+| medium | 24 | .432(L4) | .788 | .559(L13) | .873(L10) |
+| large-v3 | 32 | .424(L4) | .818 | **.578**(L30) | **.902**(L23) |
+
+- **兩個任務的層趨勢完全相反。** A 的最佳永遠在最淺的 1 到 4 層,越深越差(large-v3 從 L4 的 .42 掉到最後一層的 .27);
+  B 的最佳永遠在最深層,且隨深度單調上升(large-v3 從 L0 的 .28 升到 L30 的 .58)。
+- 解釋:Whisper 淺層保留聲學和頻譜資訊(製作線索在這裡),深層是音素和語言身分(市場線索在這裡)。
+  ALM 的語言模型只拿到最後一層,所以 A 的製作線索在進到 LM 之前就被丟掉了,這和前面「ALM 聽不到製作線索」的推論一致。
+- **尺寸的影響也相反。** A 最小的 tiny 最好(.470,幾乎追平 MERT-95M 的 .485),大模型淺層反而更差;
+  B 大致越大越好,large-v3 單一凍結層 .578 已超過「MERT 加語言」的 .559,top-3 .902 是所有實驗最高。
+- 下一步:B 用 Whisper-large 深層 + MERT + 語言後驗組合;A 用 tiny 淺層 + MERT-330M 組合。Fine-tune 尺寸比較(tiny 到 medium,A、B 各 20 epoch)進行中。
+
 ## Audio Language Model(ALM)
 
 ### 討論:ALM 對我們找到的製作線索敏感嗎?
