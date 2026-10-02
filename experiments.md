@@ -133,6 +133,48 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 - 這支持「語言是主要線索」的假設:葡語和義語市場有可見的結構,英語市場(US、UK)分不開。
 - 待做(server):Whisper 語言後驗、Demucs 人聲 / 伴奏分開過 MERT、MERT-330M。
 
+## Audio Language Model(ALM)
+
+### 討論:ALM 對我們找到的製作線索敏感嗎?
+
+幾乎不敏感。ALM 回答問題的方式比較像一個人聽了之後憑曲風和常識猜,原因在它的輸入管線:
+
+- Qwen2-Audio 的音訊編碼器是 Whisper-large。輸入是 16 kHz 的 128-bin log-mel 頻譜圖,8 kHz 以上沒有。
+  每個 clip 以自己的峰值正規化,動態範圍截到 80 dB,所以**絕對音量(RMS)完全消失**,loudness war 最強的線索沒了。
+- 時間解析度 10 ms 一格。我們抓到的 limiter 簽名(20 幾個 sample 貼頂,約 1 ms)在 mel 頻譜圖上看不到,
+  只剩包絡層級的「整首都很平」。
+- 超低頻勉強有:mel 刻度低頻 bin 很密,20 到 60 Hz 大概落在前一兩個 bin,但很粗。
+- 編碼器是為語音辨識訓練的,Qwen2-Audio 再用音訊問答、描述、音樂標籤微調。學到的表徵偏「什麼語言、什麼樂器、
+  什麼曲風、什麼情緒」,不是母帶特徵。
+- 語言模型那層靠文字先驗:拿到「像 disco、有合成器、英文演唱」後,用讀過的文字知識推「disco 大概 1970 年代」。
+  它沒被明確教過年代標籤,是在用常識推論。
+
+預期:Task A 會比 MERT 加 logreg 差,而且會系統性把復古風格的新歌判成舊歌;Task B 會做得還可以,
+因為語言和曲風正是它擅長的,但英文歌一律猜 US 或 UK,Germany 和 Italy 的英文發行分不出來,和語言特徵的弱點相同。
+Audio Flamingo 用 CLAP 類編碼器(音訊配文字描述訓練),更偏語意,訓練描述裡可能有「vintage」「lo-fi」這類詞,
+對錄音質感有一點敏感,但同樣看不到 sample 層級的動態。
+
+ALM 和手工特徵是互補的兩端:一個靠語意常識,一個靠製作指紋。
+
+### 硬體可行性(A4500 20 GB × 2、3090 24 GB)
+
+| 模型 | 參數量 | bf16 VRAM | 備註 |
+|---|---|---|---|
+| Qwen2-Audio-7B-Instruct | 約 8.4B | 約 17 到 18 GB | A4500 勉強、3090 可以;transformers 4.45 原生支援 |
+| Qwen2-Audio 4-bit | 同上 | 約 6 到 7 GB | 需 bitsandbytes |
+| Audio Flamingo 2 | 約 3B | 約 7 到 8 GB | NVIDIA 自家 codebase,要獨立環境 |
+| Audio Flamingo 3 | 約 7B | 約 15 到 17 GB | 同上 |
+
+選 Qwen2-Audio-7B-Instruct:30 秒剛好是 Whisper 編碼器的原生視窗,環境不用另建。
+
+### 實驗設計(`src/alm_qwen2audio.py`)
+
+- Prompt `naive`:樸素陳述目標(「這是一段美國發行的 30 秒錄音,我們要判斷發行年代,請回答六個選項之一」),附上音訊。
+- 每個 clip 做兩種輸出:(1) 自由回答(greedy,16 token 內)再用 regex 解析標籤,無法解析記為 invalid;
+  (2) 對六個標籤做 teacher-forced log-prob,排序得 top-3,這種模式永遠有合法輸出。
+- 先跑 validation 和 test;prompt 比較(至少兩種)之後再加。
+- 結果:待補。
+
 ## 繳交相關
 
 - 保底預測檔:`results/submission_baseline.json`(A 用 A_mert_L6-8-10,B 用 B_mert_L4-7),
