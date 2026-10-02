@@ -32,7 +32,7 @@ def load_all(m, proc):
     wavs = []
     for p in tqdm(m.path, desc="loading audio"):
         x, sr = load_mono(p); assert sr == SR
-        wavs.append(torch.from_numpy(proc(x, sampling_rate=sr, return_tensors="pt")["input_values"][0]))
+        wavs.append(proc(x, sampling_rate=sr, return_tensors="pt")["input_values"][0].float())
     return wavs
 
 
