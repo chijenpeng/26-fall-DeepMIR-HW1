@@ -43,7 +43,7 @@ python src/inference.py \
 - A CUDA GPU is used when available. The code also falls back to Apple MPS or the CPU, but only the CUDA path was tested.
 
 **Verified:** running this command on the released audio reproduces `submission/r14725022.json` exactly
-(132 / 132 Task 1 and 102 / 102 Task 2 clips with identical top-3 lists). It took 56 seconds on one
+(132 / 132 Task 1 and 102 / 102 Task 2 clips with identical top-3 lists). It took 64 seconds on one
 NVIDIA RTX A4500 with the models already downloaded.
 
 ## Repository layout
