@@ -44,7 +44,7 @@ done
 # Task 1: which features
 T A_handcrafted_svm        --dataset A --features handcrafted --clf svm --C 0.3 1 3 10
 T A_mert_L8                --dataset A --features mert --layers 8 $C4
-T A_mert_L6-8-10           --dataset A --features mert --layers 6,8,10 $C4
+T A_mert_L6-7-9            --dataset A --features mert --layers 6,7,9 $C4          # the three best single layers
 T A_wt_L1                  --dataset A --features $WT --layers 7 $C4
 T A_mert330_L5-6-14        --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 $C4
 T A_mert330_L5             --dataset A --features mert --mert_model MERT-v1-330M --layers 5 $C4       # best single layer
@@ -87,7 +87,7 @@ for s in 5 10 15 30; do
 done
 
 # ------------------------------------------------------------------ 5. optional experiments: multiple excerpts, regression, t-SNE
-$PY src/train_chunks.py --dataset A --layers 6,8,10
+$PY src/train_chunks.py --dataset A --layers 6,7,9
 $PY src/train_chunks.py --dataset A --mert_model MERT-v1-330M --layers 5,6,14 --name A_chunks330
 $PY src/train_chunks.py --dataset B --layers 7
 $PY src/train_chunks.py --dataset B --mert_model MERT-v1-330M --layers 8,9,12 --name B_chunks330

@@ -367,19 +367,19 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
     \toprule
     & & \multicolumn{2}{c}{Clip-level} & \multicolumn{2}{c}{Chunk-level} \\ \cmidrule(lr){3-4}\cmidrule(l){5-6}
     Task & Features & Top-1 & Top-3 & Top-1 & Top-3 \\ \midrule
-    1 & MERT-v1-95M, layers 6, 8, 10  & 48.5 & 81.8 & 47.7 & 84.8 \\
+    1 & MERT-v1-95M, layers 6, 7, 9   & 47.0 & 88.6 & 51.5 & 83.3 \\
     1 & MERT-v1-330M, layers 5, 6, 14 & 50.0 & 87.9 & 50.0 & 86.4 \\
     2 & MERT-v1-95M, layer 7          & 42.2 & 72.5 & 45.1 & 76.5 \\
     2 & MERT-v1-330M, layers 8, 9, 12 & 42.2 & 69.6 & 44.1 & 76.5 \\
     \bottomrule
   \end{tabular}}
-  \vspace{0.4em}
+  \vspace{0.1em}
 
   \raggedright
   \begin{tight}\footnotesize
-    \item Task 1: no gain. Six chunks of one recording are highly correlated, so they add little new information for a linear model
+    \item Task 1: no consistent gain. MERT-95M trades top-1 (+4.5 points) for top-3 ($-$5.3) and MERT-330M gains nothing: chunks of one recording are highly correlated
     \item Task 2: a small gain (+2 to +3 points top-1, +4 to +7 top-3), about 2 to 3 validation clips
-    \item We keep clip-level features for the final models: same accuracy, six times fewer training rows
+    \item We keep clip-level features for the final models: no consistent gain, six times fewer training rows
   \end{tight}
   {\scriptsize\color{gray}MERT features only, not the full final models: Whisper features were extracted on whole 30 s clips.\par}
 \end{frame}
@@ -587,23 +587,24 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 \begin{frame}[t,label=ablation]{Ablation (1a): which features? Task 1}
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
-      {\footnotesize\setlength{\tabcolsep}{4pt}
+      {\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{0.92}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        \textbf{Task 1: decade} & Top-1 & Top-3 \\ \midrule
+        \textbf{Task 1}, validation (132 clips) & Top-1 & Top-3 \\ \midrule
         Hand-crafted production (24-d) & 40.9 & 84.8 \\
         Whisper-tiny, layer 1 & 47.0 & 81.8 \\
         MERT-v1-95M, best layer (7) & 47.7 & 82.6 \\
-        MERT-v1-95M, layers 6, 8, 10 & 48.5 & 81.8 \\ \midrule
+        MERT-v1-95M, layers 6, 7, 9 & 47.0 & \best{88.6} \\
         MERT-v1-330M, best layer (5) & 51.5 & 87.9 \\
-        \quad + Whisper-tiny layer 1 {\color{gray}(not used)} & 50.8 & \best{88.6} \\ \midrule
-        MERT-v1-330M, layers 5, 6, 14 & 50.0 & 87.9 \\
-        \quad + Whisper-tiny layer 1 \textbf{(final)} & \best{52.3} & 86.4 \\
+        MERT-v1-330M, layers 5, 6, 14 & 50.0 & 87.9 \\ \midrule
+        \multicolumn{3}{@{}l}{\emph{Whisper-tiny layer 1 + MERT-v1-330M \dots}} \\
+        \quad layer 5 {\color{gray}(not used)} & 50.8 & \best{88.6} \\
+        \quad layers 5, 6, 14 \textbf{(final)} & \best{52.3} & 86.4 \\
         \quad\quad + hand-crafted & 51.5 & 86.4 \\
         \bottomrule
       \end{tabular}}
 
-      \vspace{0.4em}
+      \vspace{0.3em}
       {\scriptsize\color{gray}Logistic-regression rows: mean + std pooling, one grid $C \in \{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$ chosen on validation. Hand-crafted row: seeded RBF SVM.\par}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -612,11 +613,11 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         \item The two families are complementary (+2.3 points from Whisper-tiny); hand-crafted features add nothing on top of MERT
       \end{tight}
       \vspace{0.4em}
-      {\footnotesize\textbf{Why layers 5, 6, 14 and not the best single layer?}}
+      {\footnotesize\textbf{Why layers 5, 6, 14?}}
       \begin{tight}\footnotesize
-        \item The three layers come from an earlier sweep with a narrower $C$ grid, where they beat every single layer
-        \item With the unified grid, layer 5 alone reaches 51.5\%
-        \item Tested: layer 5 + Whisper-tiny gives 50.8\%, below the submitted 52.3\%. All variants are \alert{within 2 clips}
+        \item \textbf{Rule, same for both MERTs}: the three best single layers of the layer sweep (95M: 7, 9, 6; 330M: 5, 14, 6)
+        \item Alone, three layers do not beat the best single layer in top-1 (47.0 vs.\ 47.7, 50.0 vs.\ 51.5). Combined with Whisper-tiny they do: \alert{52.3\% vs.\ 50.8\%}
+        \item These differences are only 1 to 2 clips out of 132
       \end{tight}
     \end{column}
   \end{columns}
@@ -628,7 +629,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       {\footnotesize\setlength{\tabcolsep}{4pt}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        \textbf{Task 2: market} & Top-1 & Top-3 \\ \midrule
+        \textbf{Task 2}, validation (102 clips) & Top-1 & Top-3 \\ \midrule
         Hand-crafted production (24-d) & 22.5 & 57.8 \\
         MERT-v1-95M, layer 7 & 42.2 & 72.5 \\
         MERT-v1-330M, layer 9 & 45.1 & 72.5 \\
@@ -755,13 +756,13 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
 \begin{frame}[t]{Ablation (4): frozen features vs.\ fine-tuning}
   \centering
-  {\scriptsize\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{0.88}
+  {\scriptsize\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{0.82}
   \begin{tabular}{@{}lrrrcccc@{}}
     \toprule
     & & & & \multicolumn{2}{c}{Task 1 top-1} & \multicolumn{2}{c}{Task 2 top-1} \\ \cmidrule(lr){5-6}\cmidrule(l){7-8}
     Encoder & Params & Epochs & Batch & fine-tuned (best epoch) & frozen & fine-tuned (best epoch) & frozen \\ \midrule
-    MERT-v1-95M      & 95 M  & 8  & 16 & 46.2 (6)  & 48.5 & 39.2 (6)  & 42.2 \\
-    MERT-v1-95M      & 95 M  & 40 & 16 & \best{51.5} (11) & 48.5 & 46.1 (16) & 42.2 \\
+    MERT-v1-95M      & 95 M  & 8  & 16 & 46.2 (6)  & 47.7 & 39.2 (6)  & 42.2 \\
+    MERT-v1-95M      & 95 M  & 40 & 16 & \best{51.5} (11) & 47.7 & 46.1 (16) & 42.2 \\
     MERT-v1-330M     & 330 M & 40 & 16 & 48.5 (20) & 51.5 & 44.1 (26) & 46.1 \\
     Whisper-tiny     & 8 M   & 20 & 8  & 34.8 (4)  & 47.0 & 50.0 (3)  & 54.9 \\
     Whisper-base     & 20 M  & 20 & 8  & 31.8 (3)  & 37.9 & 54.9 (13) & 52.9 \\
@@ -773,7 +774,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
   \raggedright
   {\scriptsize\color{gray}\textbf{Setup.} Linear head on a learned weighted sum of all layers. AdamW, encoder lr $2{\times}10^{-5}$ (Whisper $10^{-5}$), head lr $10^{-3}$,
-  one-cycle schedule, label smoothing 0.1. ``Frozen'' = best layer(s) of the same encoder + logistic regression.\par}
+  one-cycle schedule, label smoothing 0.1. ``Frozen'' = best single layer of the same encoder + logistic regression.\par}
   \begin{tight}\footnotesize
     \item \alert{The gain from fine-tuning is marginal.} It beats the frozen features of the same encoder in 3 of 14 runs and never beats the final model. Averaging a fine-tuned MERT with the final model adds only +0.7 (Task 1) and +2.9 points (Task 2)
     \item It trains 95 M to 330 M parameters instead of 40 k and is unstable \alert{because the data are small} (1,026 and 798 training clips; next slide). \textbf{We keep the frozen model}
