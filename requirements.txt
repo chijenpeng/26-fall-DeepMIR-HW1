@@ -1,4 +1,4 @@
-# Inference requirements. Tested with Python 3.11 on Linux (CUDA 12) and macOS.
+# Inference requirements. Tested with Python 3.11 on Linux with CUDA 12 (NVIDIA RTX A4500).
 # For a specific CUDA build of torch, install it first from https://pytorch.org and then run this file.
 numpy==2.4.6
 scipy==1.17.1

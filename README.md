@@ -15,7 +15,7 @@ predictions are `r14725022.json`.
 
 ## Inference
 
-Tested with Python 3.11.
+Tested with Python 3.11 on Linux with CUDA 12.
 
 ```bash
 pip install -r requirements.txt
@@ -36,7 +36,7 @@ python src/inference.py \
 - Five pretrained models are downloaded from the Hugging Face Hub on first use (about 6 GB in total):
   `openai/whisper-tiny`, `openai/whisper-small`, `openai/whisper-large-v3`,
   `m-a-p/MERT-v1-95M`, `m-a-p/MERT-v1-330M`. MERT uses `trust_remote_code=True`.
-- A GPU is used when available (CUDA or Apple MPS), otherwise the CPU.
+- A CUDA GPU is used when available. The code also falls back to Apple MPS or the CPU, but only the CUDA path was tested.
 
 **Verified:** running this command on the released audio reproduces `r14725022.json` exactly
 (132 / 132 Task 1 and 102 / 102 Task 2 clips with identical top-3 lists). It took 56 seconds on one
