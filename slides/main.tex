@@ -1,3 +1,4 @@
+% !TEX program = xelatex
 % DeepMIR HW1 report slides. Build: latexmk -xelatex main.tex   (16:9, theme = Moloch, the maintained Metropolis)
 \documentclass[aspectratio=169,11pt]{beamer}
 \usetheme[progressbar=frametitle]{moloch}        % swap for metropolis / focus / Arguelles to change the look
@@ -7,7 +8,9 @@
 \setsansfont{FiraSans}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-SemiBold, ItalicFont=*-Italic, BoldItalicFont=*-SemiBoldItalic]
 \setmonofont{FiraMono}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Bold, Scale=0.9]
 \usepackage{xeCJK}
-\setCJKmainfont{PingFang TC}\setCJKsansfont{PingFang TC}\setCJKmonofont{PingFang TC}
+\setCJKmainfont{PingFangTC-Regular}[BoldFont=PingFangTC-Semibold]
+\setCJKsansfont{PingFangTC-Regular}[BoldFont=PingFangTC-Semibold]
+\setCJKmonofont{PingFangTC-Regular}
 
 % ---------- packages ----------
 \usepackage{booktabs, graphicx, array, multirow}

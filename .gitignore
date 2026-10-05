@@ -27,3 +27,4 @@ slides/**/*.fls
 slides/**/*.fdb_latexmk
 slides/**/*.xdv
 slides/preview/*.pdf
+slides/**/*.synctex.gz
