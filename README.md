@@ -154,9 +154,19 @@ inference path above was re-run end to end after the consolidation.
 
 - `checkpoints/best/` (in this repository): the two scikit-learn pipelines used for the submission.
   Each file is a dict with the fitted `StandardScaler + LogisticRegression` under `"clf"`.
-- Other checkpoints are not needed for inference and are not part of the submission:
-  the classifiers of the frozen-feature ablations are re-created in seconds by `train.py`, and the
-  fine-tuned encoders by `finetune_mert.py` / `finetune_whisper.py`.
+  This is all that inference needs.
+- Ablation checkpoints are **not** part of the submission and are not needed for inference. They are
+  attached to the release
+  [`checkpoints-v1`](https://github.com/chijenpeng/26-fall-DeepMIR-HW1/releases/tag/checkpoints-v1):
+  the best epoch of each fine-tuning run (12 `*_best.pt` files, 6.2 GB in total) and the classifiers
+  of the frozen-feature experiments (`frozen_ablation_classifiers.zip`), with `SHA256SUMS.txt`.
+  The release notes list every file with its validation accuracy and show how to load it. To fetch them:
+
+  ```bash
+  gh release download checkpoints-v1 --repo chijenpeng/26-fall-DeepMIR-HW1 --dir checkpoints/release
+  ```
+
+  All of them can also be re-created with `scripts/reproduce_all.sh`.
 
 ## Environment
 
