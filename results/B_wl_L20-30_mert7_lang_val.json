@@ -1,54 +1,54 @@
 {
-  "top1": 0.5882352941176471,
-  "top3": 0.803921568627451,
+  "top1": 0.6372549019607843,
+  "top3": 0.9117647058823529,
   "confusion_counts": [
     [
-      10,
+      11,
       3,
+      0,
+      0,
+      1,
+      2
+    ],
+    [
+      3,
+      10,
       0,
       0,
       3,
       1
-    ],
-    [
-      4,
-      11,
-      0,
-      0,
-      2,
-      0
     ],
     [
       0,
       0,
       14,
+      0,
       1,
-      1,
-      1
+      2
     ],
     [
+      0,
+      2,
+      0,
+      14,
       1,
-      0,
-      0,
-      13,
-      3,
       0
     ],
     [
-      5,
+      3,
       3,
       1,
-      1,
-      6,
+      2,
+      7,
       1
     ],
     [
-      4,
-      3,
-      0,
-      3,
       1,
-      6
+      6,
+      0,
+      1,
+      0,
+      9
     ]
   ],
   "labels": [
@@ -60,13 +60,13 @@
     "Italy"
   ],
   "dataset": "B",
-  "features": "mert@features/B_mert_whisper-large-v3_30s.npz:30",
+  "features": "mert@features/B_mert_whisper-large-v3_30s.npz:20,30+mert+lang",
   "layers": [
     7
   ],
-  "C": 0.0003,
+  "C": 0.001,
   "clf": "logreg",
-  "dim": 2560,
+  "dim": 6663,
   "n_chunks": null,
-  "neighbour_error_rate": 0.3333333333333333
+  "neighbour_error_rate": 0.2702702702702703
 }

@@ -60,9 +60,9 @@
     "Italy"
   ],
   "dataset": "B",
-  "features": "mert",
+  "features": "mert@features/B_mert_MERT-v1-330M_5s.npz:9",
   "layers": [
-    9
+    7
   ],
   "C": 0.001,
   "clf": "logreg",

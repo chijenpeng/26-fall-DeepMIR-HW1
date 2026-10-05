@@ -1,0 +1,28 @@
+{
+  "dataset": "A",
+  "frozen": "results/A_wt_L1_m330.joblib",
+  "finetuned": "ft40_A",
+  "rows": [
+    {
+      "model": "frozen",
+      "top1": 0.5227272727272727,
+      "top3": 0.8636363636363636
+    },
+    {
+      "model": "finetuned",
+      "top1": 0.5151515151515151,
+      "top3": 0.8333333333333334
+    },
+    {
+      "model": "average, finetuned weight 0.3",
+      "top1": 0.5303030303030303,
+      "top3": 0.8787878787878788
+    },
+    {
+      "model": "average, finetuned weight 0.5",
+      "top1": 0.49242424242424243,
+      "top3": 0.8636363636363636
+    }
+  ],
+  "agreement": 0.5833333333333334
+}

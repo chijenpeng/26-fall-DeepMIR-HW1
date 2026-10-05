@@ -1,0 +1,28 @@
+{
+  "dataset": "B",
+  "frozen": "results/B_wl_L23-30_mert7_lang.joblib",
+  "finetuned": "ftw_medium_B",
+  "rows": [
+    {
+      "model": "frozen",
+      "top1": 0.6078431372549019,
+      "top3": 0.9019607843137255
+    },
+    {
+      "model": "finetuned",
+      "top1": 0.5784313725490197,
+      "top3": 0.8333333333333334
+    },
+    {
+      "model": "average, finetuned weight 0.3",
+      "top1": 0.6274509803921569,
+      "top3": 0.9019607843137255
+    },
+    {
+      "model": "average, finetuned weight 0.5",
+      "top1": 0.6078431372549019,
+      "top3": 0.9019607843137255
+    }
+  ],
+  "agreement": 0.6274509803921569
+}
