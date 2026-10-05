@@ -27,7 +27,7 @@ def make_clf(kind, C):
     if kind == "logreg":
         return LogisticRegression(max_iter=5000, C=C)
     if kind == "svm":
-        return SVC(C=C, kernel="rbf", probability=True)
+        return SVC(C=C, kernel="rbf", probability=True, random_state=0)   # seeded: probability=True fits an internal CV
     if kind == "mlp":
         return MLPClassifier(hidden_layer_sizes=(256,), alpha=1e-2, max_iter=2000, early_stopping=True, random_state=0)
     raise ValueError(kind)
