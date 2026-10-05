@@ -1,0 +1,13 @@
+# Inference requirements. Tested with Python 3.11 on Linux (CUDA 12) and macOS.
+# For a specific CUDA build of torch, install it first from https://pytorch.org and then run this file.
+numpy==2.4.6
+scipy==1.17.1
+pandas==3.0.6
+soundfile==0.14.0
+librosa==0.11.0
+tqdm==4.70.1
+joblib==1.6.0
+scikit-learn==1.9.1
+torch==2.14.1
+transformers==4.45.2
+nnAudio==0.3.4

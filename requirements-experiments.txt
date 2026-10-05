@@ -1,0 +1,8 @@
+# Extra packages for re-running the experiments (not needed for inference).
+-r requirements.txt
+torchaudio==2.11.0
+matplotlib==3.11.2
+seaborn==0.13.2
+pillow==12.3.0
+demucs==4.1.0
+accelerate==1.15.0
