@@ -6,7 +6,6 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = {"A": ROOT / "dataset_A", "B": ROOT / "dataset_B"}
 FEATURES = Path(os.environ.get("HW1_FEATURES", ROOT / "features"))   # inference.py points this at its own work dir
 RESULTS = ROOT / "results"
-CHECKPOINTS = ROOT / "checkpoints"
 LABELS = {
     "A": ["1960s", "1970s", "1980s", "1990s", "2000s", "2010s"],
     "B": ["US", "UK", "Brazil", "Spain", "Germany", "Italy"],

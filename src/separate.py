@@ -10,7 +10,7 @@ from pathlib import Path
 from tqdm import tqdm
 from demucs.pretrained import get_model
 from demucs.apply import apply_model
-from config import DATA, SR, load_manifest
+from config import DATA, load_manifest
 from handcrafted import load_mono
 from extract_mert import get_device
 

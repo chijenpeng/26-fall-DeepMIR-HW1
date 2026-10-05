@@ -1,4 +1,4 @@
-"""Extract MERT hidden states for every file -> features/<ds>_mert.npz
+"""Extract MERT hidden states for every file -> features/<ds>_mert_<model>_<chunk_sec>s.npz
 
 Each 30 s excerpt is cut into CHUNK_SEC chunks; for every chunk and every transformer layer we
 store the time-mean and time-std of the frame embeddings (float16). Recording-level vectors and

@@ -3,7 +3,7 @@
   python src/regression.py --features mert --layers 6,8,10
 Both are evaluated with the same top-1 / top-3 / confusion protocol as the classifiers.
 """
-import argparse, json, numpy as np
+import argparse, numpy as np
 from sklearn.linear_model import Ridge, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline

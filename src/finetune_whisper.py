@@ -3,7 +3,7 @@
   CUDA_VISIBLE_DEVICES=0 python src/finetune_whisper.py --dataset A --size small --epochs 20
 
 Head: softmax-weighted sum over encoder layers -> time mean -> dropout -> linear. Same logging,
-per-epoch bf16 checkpoints, history json and curve plot as finetune_mert.py.
+periodic bf16 checkpoints (--ckpt_every), history json and curve plot as finetune_mert.py.
 """
 import argparse, json, numpy as np, torch, torch.nn as nn, librosa
 from tqdm import tqdm

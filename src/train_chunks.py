@@ -3,7 +3,7 @@
 
   python src/train_chunks.py --dataset A --layers 6,8,10
 """
-import argparse, json, numpy as np, joblib
+import argparse, numpy as np, joblib
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline

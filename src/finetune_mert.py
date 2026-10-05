@@ -1,10 +1,10 @@
-"""Fine-tune MERT-v1-95M end-to-end on random 5 s chunks; evaluate by averaging the 6 chunks.
+"""Fine-tune MERT (default MERT-v1-95M, see --model) end-to-end on random 5 s chunks; evaluate by averaging the 6 chunks.
 
   CUDA_VISIBLE_DEVICES=0 python src/finetune_mert.py --dataset A --epochs 8
 
-Head: softmax-weighted sum over the 13 hidden layers -> time mean -> dropout -> linear.
+Head: softmax-weighted sum over all hidden layers -> time mean -> dropout -> linear.
 Saves results/ft_<ds>_best.pt (head + encoder weights), results/ft_<ds>_val.json and
-results/ft_<ds>_proba.npz (validation + test probabilities, for the submission file).
+results/ft_<ds>_proba.npz (validation + test probabilities).
 """
 import argparse, json, numpy as np, torch, torch.nn as nn
 from tqdm import tqdm

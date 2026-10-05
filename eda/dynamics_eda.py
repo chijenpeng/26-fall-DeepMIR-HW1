@@ -58,14 +58,14 @@ if __name__=="__main__":
         Fs,p=f_oneway(*[F.loc[F.label==d,c] for d in decs]); rho,_=spearmanr(idx,F[c]); rows.append((c,round(Fs,1),f"{p:.1e}",round(rho,3)))
     print("\n=== ANOVA F / Spearman rho vs decade ===\n", pd.DataFrame(rows,columns=["feature","F","p","rho"]).sort_values("F",ascending=False).to_string(index=False))
     from sklearn.linear_model import LogisticRegression; from sklearn.preprocessing import StandardScaler
-    from sklearn.pipeline import make_pipeline; from sklearn.model_selection import cross_val_score, StratifiedKFold, cross_val_predict
+    from sklearn.pipeline import make_pipeline; from sklearn.model_selection import StratifiedKFold, cross_val_predict
     from sklearn.metrics import top_k_accuracy_score, confusion_matrix
     cv=StratifiedKFold(5,shuffle=True,random_state=0); y=idx.values
     def ev(X,name):
         clf=make_pipeline(StandardScaler(),LogisticRegression(max_iter=3000)); pr=cross_val_predict(clf,X,y,cv=cv,method="predict_proba")
         print(f"{name:45s} top1={np.mean(pr.argmax(1)==y):.3f} top3={top_k_accuracy_score(y,pr,k=3):.3f}"); return pr
     ev(F[["crest_dB"]].values,"crest only")
-    pr=ev(F.iloc[:,2:].values,f"dynamics features ({F.shape[1]-2})")
+    ev(F.iloc[:,2:].values,f"dynamics features ({F.shape[1]-2})")
     old=pd.read_csv(f"{OUT}/trainA_spectral_feats.csv"); assert (old.sample_id==F.sample_id).all()
     ev(old.iloc[:,2:].values,"spectral features (15, previous)")
     pr=ev(np.hstack([old.iloc[:,2:].values,F.iloc[:,2:].values]),"spectral + dynamics")

@@ -1,8 +1,8 @@
 """Produce the submission JSON: top-3 labels per test sample for both datasets.
 
   python src/predict.py --model_A results/A_both_L7_logreg.joblib --model_B results/B_both_L7_logreg.joblib \
-      --out <studentID>.json [--data_root_A ... --data_root_B ...]
-Assumes features for the given data roots were extracted first (see README).
+      --out <studentID>.json
+Assumes features were extracted first (see README).
 """
 import argparse, json, numpy as np, joblib
 from types import SimpleNamespace

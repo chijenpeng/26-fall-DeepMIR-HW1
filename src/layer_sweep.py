@@ -2,7 +2,7 @@
   python src/layer_sweep.py --dataset A --mert_model MERT-v1-330M --C 0.003 0.01
 Prints 'layer k: top1=... top3=... (C=...)' lines (same format train.py --layers all uses).
 """
-import argparse, json, numpy as np
+import argparse, numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
