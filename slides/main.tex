@@ -382,37 +382,45 @@
   \end{tight}
 \end{frame}
 
-\begin{frame}[t]{Task 1 as regression or hierarchical prediction}
-  \begin{columns}[T]
-    \begin{column}{0.56\textwidth}
-      \small
-      Decades are ordered, so we test two formulations that use the order. Features: MERT-v1-95M, layers 6, 8, 10.
-      \vspace{0.5em}
+\begin{frame}[t]{Task 1 as year regression}
+  \small
+  Decades are ordered, so we test a formulation that uses the order. Same features as the final model; only the predictor changes.
+  \vspace{0.3em}
 
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
       {\footnotesize
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Formulation & Top-1 & Top-3 \\ \midrule
-        Flat 6-class logistic regression & \best{48.5} & 81.8 \\
-        Ridge regression on the decade index & 31.1 & 78.8 \\
-        Hierarchical: 3 eras, then 2 decades each & 47.7 & \best{87.9} \\
+        Classification (final model) & \best{52.3} & \best{86.4} \\
+        Ridge regression & 31.8 & 77.3 \\
+        \bottomrule
+      \end{tabular}}
+
+      \vspace{0.6em}
+      {\footnotesize \textbf{Regression}: predict $0, \dots, 5$ and round to the nearest decade; top-3 = the three nearest decades.
+      Mean absolute error 0.98 decades.\par}
+    \end{column}
+    \begin{column}{0.54\textwidth}
+      \raggedleft
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lrrrrrr@{}}
+        \toprule
+        Clips predicted as & 60s & 70s & 80s & 90s & 00s & 10s \\ \midrule
+        True count     & 22 & 22 & 22 & 22 & 22 & 22 \\
+        Classification & 27 & 20 & 19 & 21 & 18 & 27 \\
+        Regression     & \alert{4} & 22 & 35 & 38 & 28 & \alert{5} \\
         \bottomrule
       \end{tabular}}
     \end{column}
-    \begin{column}{0.44\textwidth}
-      \footnotesize
-      \textbf{Regression}: predict $0, \dots, 5$, round to the nearest decade; top-3 = the three nearest decades. Mean absolute error 1.06 decades.
-
-      \vspace{0.5em}
-      \textbf{Hierarchical}: \{60s, 70s\}, \{80s, 90s\}, \{00s, 10s\}; $P(\text{decade}) = P(\text{era}) \cdot P(\text{decade} \mid \text{era})$.
-    \end{column}
   \end{columns}
-  \vspace{0.8em}
+  \vspace{0.4em}
 
   \begin{tight}\footnotesize
-    \item \alert{Regression is much worse}: predictions collapse toward the middle. Only 7 clips are predicted as 1960s and 9 as 2010s, against 22 true clips each
-    \item Hierarchical prediction matches the flat classifier on top-1 and gives the best top-3 (+6 points); its era-level accuracy is 71\%
-    \item The flat classifier already learns the order by itself (see the t-SNE slide), so the explicit structure adds little
+    \item \alert{Regression is much worse} ($-20.5$ points top-1): predictions collapse toward the middle, only 4 clips are called 1960s and 5 are called 2010s
+    \item Tuning does not fix it: with a ridge penalty from $10^2$ to $10^6$ the best top-1 is 32\%; stronger regularization worsens the collapse
+    \item The classifier already learns the order by itself (see the t-SNE slide), so nothing is gained from imposing it
   \end{tight}
 \end{frame}
 
