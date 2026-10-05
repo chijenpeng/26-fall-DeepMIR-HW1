@@ -721,7 +721,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
 \begin{frame}[t]{Ablation (4): frozen features vs.\ fine-tuning}
   \centering
-  {\scriptsize\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{0.78}
+  {\scriptsize\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{0.74}
   \begin{tabular}{@{}lrrcccc@{}}
     \toprule
     & & & \multicolumn{2}{c}{Task 1 top-1} & \multicolumn{2}{c}{Task 2 top-1} \\ \cmidrule(lr){4-5}\cmidrule(l){6-7}
@@ -739,7 +739,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \end{tabular}}
 
   \raggedright
-  {\scriptsize\color{gray}\textbf{Fine-tuned}: the whole encoder is trained; a linear head reads \textbf{all layers} through a learned weighted sum. AdamW, encoder lr $2{\times}10^{-5}$ (Whisper $10^{-5}$), head lr $10^{-3}$, one-cycle, label smoothing 0.1, batch 16 (MERT), 8 (Whisper), 2 (Whisper-medium).
+  {\scriptsize\color{gray}\textbf{Fine-tuned}: the whole encoder is trained; a linear head reads \textbf{all layers} through a learned weighted sum. AdamW, encoder lr $2{\times}10^{-5}$ (Whisper $10^{-5}$), head lr $10^{-3}$, one-cycle, label smoothing 0.1, batch 16 (MERT), 8 (Whisper), 2 (medium).
   \textbf{Frozen}: the \textbf{best single layer} of the same encoder (L = layer) + logistic regression.\par}
   \begin{tight}\footnotesize
     \item \alert{The gain from fine-tuning is marginal}: it beats the frozen best layer of the same encoder in 3 of 14 runs and never the final models
