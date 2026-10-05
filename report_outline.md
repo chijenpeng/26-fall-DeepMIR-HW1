@@ -85,6 +85,64 @@ Task 1    60s 70s 80s 90s 00s 10s  recall     Task 2     US  UK  BR  ES  DE  IT 
 - 與 Whisper 凍結 sweep 呼應:ALM 的語言模型只拿到編碼器最後一層,而製作線索只存在於最淺層。
 - 混淆矩陣圖:`alm_Qwen2-Audio-7B-Instruct_{A,B}_{naive,cues,production}_cm.png`。
 
+## 5. AI 協作聲明(Disclosure)
+
+草稿,中英各一版,用字由你定:
+
+> 本作業的所有程式碼(`src/`、`eda/`、`scripts/`)皆在 Claude Code(Anthropic)的協助下撰寫,
+> 實驗的執行、紀錄整理與分析文字的初稿也由其協助完成。研究假設與方向(例如以超低頻、響度與動態作為年代線索、
+> 以語言作為市場線索)、實驗的取捨與最終模型的選擇由作者決定,所有數字皆來自實際執行本 repo 程式碼的結果,
+> 並由作者檢視確認。
+
+> All code in this submission (`src/`, `eda/`, `scripts/`) was written with the assistance of Claude Code
+> (Anthropic), which also helped run the experiments, keep the experiment log and draft the analysis text.
+> The hypotheses and research direction (e.g. sub-bass, loudness and dynamics as decade cues; language as a
+> market cue), the choice of experiments and the selection of the final models were made by the author.
+> Every number reported here was produced by running the code in this repository and was reviewed by the author.
+
+注意:PDF 的 Rules 只寫「可使用公開程式碼與預訓練模型並引用」,沒有提 AI 工具。若課程另有規定,以課程規定為準。
+
+## 6. 引用(每個用到的預訓練模型、程式庫、資料集、方法)
+
+以下書目資訊是憑記憶整理,**繳交前請對照各 model card / 論文頁面核對年份與編號**。
+
+預訓練模型
+
+| 用途 | 模型 | 引用 |
+|---|---|---|
+| A、B 的音樂特徵;fine-tune | `m-a-p/MERT-v1-95M`、`m-a-p/MERT-v1-330M` | Li et al., "MERT: Acoustic Music Understanding Model with Large-Scale Self-supervised Training," ICLR 2024. arXiv:2306.00107 |
+| A、B 的編碼器特徵;B 的語言後驗;fine-tune | `openai/whisper-{tiny,base,small,medium,large-v3}` | Radford et al., "Robust Speech Recognition via Large-Scale Weak Supervision," ICML 2023. arXiv:2212.04356 |
+| ALM | `Qwen/Qwen2-Audio-7B-Instruct` | Chu et al., "Qwen2-Audio Technical Report," 2024. arXiv:2407.10759 |
+| Source separation | Demucs `htdemucs` | Rouard, Massa, Défossez, "Hybrid Transformers for Music Source Separation," ICASSP 2023. arXiv:2211.08553 |
+
+資料集
+
+- Discogs-VI:Araz, Serra, Bogdanov, "Discogs-VI: A Musical Version Identification Dataset Based on Public Editorial Metadata," ISMIR 2024. arXiv:2410.17400(作業資料集的來源,由助教整理釋出)
+
+程式庫(公開 codebase)
+
+- PyTorch:Paszke et al., NeurIPS 2019。torchaudio:Yang et al., ICASSP 2022。
+- Hugging Face Transformers:Wolf et al., EMNLP 2020 (System Demonstrations)。
+- scikit-learn:Pedregosa et al., JMLR 2011。
+- librosa:McFee et al., SciPy 2015。
+- nnAudio(MERT 的 CQT 前端依賴):Cheuk et al., IEEE Access 2020。
+- Demucs 程式庫:github.com/facebookresearch/demucs(後續維護 github.com/adefossez/demucs)。
+- NumPy(Harris et al., Nature 2020)、SciPy(Virtanen et al., Nature Methods 2020)、pandas、matplotlib(Hunter 2007)、seaborn(Waskom 2021)、soundfile / libsndfile、tqdm、joblib。
+
+方法
+
+- t-SNE:van der Maaten & Hinton, JMLR 2008。
+- Welch 功率譜估計(EDA 的長期平均頻譜):Welch, IEEE Trans. Audio Electroacoust., 1967。
+- Fine-tune 用到的技巧:AdamW(Loshchilov & Hutter, ICLR 2019)、one-cycle 學習率(Smith & Topin, 2019)、
+  label smoothing(Szegedy et al., CVPR 2016)、SpecAugment 的時間遮罩(Park et al., Interspeech 2019)。
+- 若報告討論 loudness war,可引 Vickers, "The Loudness War: Background, Speculation, and Recommendations," AES Convention 129, 2010。
+
+工具
+
+- Claude Code(Anthropic):見第 5 節。
+
+沒有用到、不需引用:short-chunk CNN、Open-Unmix、Spleeter、Audio Flamingo、UMAP。
+
 ## 已知限制(報告要照實寫)
 
 - test 標籤隱藏,只能報 validation 數字並繳交預測檔 `results/submission_best_v2.json`。
