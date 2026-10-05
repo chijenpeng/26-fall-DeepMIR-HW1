@@ -8,9 +8,11 @@ OUT = ROOT / "slides" / "figs"; OUT.mkdir(parents=True, exist_ok=True)
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 11})
 
 
-def confusion(name, out):
-    r = json.load(open(RESULTS / f"{name}_val.json")); cm = np.array(r["confusion_counts"]); L = r["labels"]
-    norm = cm / cm.sum(1, keepdims=True)
+def confusion(name, out, cm=None, L=None):
+    r = None
+    if cm is None:
+        r = json.load(open(RESULTS / f"{name}_val.json")); cm = np.array(r["confusion_counts"]); L = r["labels"]
+    cm = np.array(cm); norm = cm / cm.sum(1, keepdims=True)
     fig, ax = plt.subplots(figsize=(3.9, 3.5))
     ax.imshow(norm, cmap="Blues", vmin=0, vmax=1)
     for i in range(len(L)):
@@ -57,4 +59,43 @@ if __name__ == "__main__":
     for src, dst in [("A_best_logits_tsne.png", "tsne_task1_logits.png"), ("B_best_tsne.png", "tsne_task2_features.png")]:
         im = Image.open(RESULTS / src); w, h = im.size
         im.crop((0, int(h * 0.055), w, h)).save(OUT / dst)
+
+    # ---------------- ablation: per-layer sweeps (relative depth) ----------------
+    from config import LABELS
+    fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.0), sharey=True)
+    enc = [("Whisper-tiny", "{ds}_mert_whisper-tiny_layer_sweep", "#dd8452", "-"), ("Whisper-large-v3", "{ds}_mert_whisper-large-v3_layer_sweep", "#c44e52", "-"),
+           ("MERT-v1-95M", "{ds}_mert_layer_sweep", "#4c72b0", "--"), ("MERT-v1-330M", "{ds}_mert_MERT-v1-330M_layer_sweep", "#55a868", "--")]
+    used = {"A": {"Whisper-tiny": [1], "MERT-v1-330M": [5, 6, 14]}, "B": {"Whisper-large-v3": [23, 30], "MERT-v1-95M": [7]}}
+    for ax, ds, title in zip(axes, "AB", ["Task 1: decade", "Task 2: market"]):
+        for name, pat, c, ls in enc:
+            sw = json.load(open(RESULTS / (pat.format(ds=ds) + ".json"))); n = len(sw) - 1
+            x = [d["layer"] / n for d in sw]; yv = [100 * d["top1"] for d in sw]
+            ax.plot(x, yv, ls, color=c, lw=1.8, label=name)
+            for l in used[ds].get(name, []):
+                ax.plot(l / n, yv[l], "*", color=c, ms=13, mec="k", mew=0.6, zorder=5)
+        ax.axhline(100 / 6, color="gray", lw=0.8, ls=":"); ax.set_title(title, fontsize=11); ax.set_xlabel("Relative depth (0 = input, 1 = last layer)")
+        ax.grid(alpha=.3); [ax.spines[k].set_visible(False) for k in ("top", "right")]
+    axes[0].set_ylabel("Validation top-1 (%)")
+    hd, lb = axes[0].get_legend_handles_labels()
+    fig.legend(hd, lb, frameon=False, fontsize=9, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.07), columnspacing=1.5)
+    plt.tight_layout(pad=0.4); plt.savefig(OUT / "layer_sweep.pdf", bbox_inches="tight", pad_inches=0.04); plt.close()
+
+    # ---------------- ablation: fine-tuning curves (MERT-v1-95M, Task 1, 40 epochs) ----------------
+    h = json.load(open(RESULTS / "ft40_A_history.json"))["history"]; ep = [d["epoch"] for d in h]
+    fig, axes = plt.subplots(1, 2, figsize=(7.4, 2.9))
+    axes[0].plot(ep, [d["loss"] for d in h], color="#4c72b0", lw=2, label="train loss")
+    axes[0].plot(ep, [d["val_loss"] for d in h], color="#dd8452", lw=2, label="validation loss")
+    axes[0].axvline(11, color="gray", ls=":", lw=1); axes[0].set_xlabel("Epoch"); axes[0].set_ylabel("Loss"); axes[0].legend(frameon=False, fontsize=9)
+    axes[1].plot(ep, [100 * d["val_top1"] for d in h], color="#dd8452", lw=2, label="fine-tuned, validation top-1")
+    axes[1].axhline(48.5, color="#4c72b0", ls="--", lw=1.5, label="frozen MERT-v1-95M (48.5)")
+    axes[1].axhline(52.3, color="#55a868", ls="--", lw=1.5, label="final frozen model (52.3)")
+    axes[1].axvline(11, color="gray", ls=":", lw=1); axes[1].set_xlabel("Epoch"); axes[1].set_ylabel("Top-1 (%)"); axes[1].legend(frameon=False, fontsize=8, loc="lower right")
+    for ax in axes:
+        ax.grid(alpha=.3); [ax.spines[k].set_visible(False) for k in ("top", "right")]
+    plt.tight_layout(pad=0.4); plt.savefig(OUT / "finetune_curves.pdf", bbox_inches="tight", pad_inches=0.04); plt.close()
+
+    # ---------------- ALM confusion matrices (naive prompt, log-prob ranking) ----------------
+    for ds, out in [("A", "cm_alm_task1.pdf"), ("B", "cm_alm_task2.pdf")]:
+        m = json.load(open(RESULTS / f"alm_Qwen2-Audio-7B-Instruct_{ds}_naive.json"))["metrics"]
+        confusion(None, out, cm=m["confusion_counts"], L=LABELS[ds])
 

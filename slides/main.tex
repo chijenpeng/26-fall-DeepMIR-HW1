@@ -443,30 +443,40 @@
 
 \begin{frame}[t]{Task 2: mixture vs.\ vocals vs.\ accompaniment}
   \small
-  Demucs (htdemucs) separates each clip into vocals and accompaniment. MERT-v1-95M layer 7 features are extracted from each input.
-  \vspace{0.6em}
+  Demucs (htdemucs) separates each clip into vocals and accompaniment. The \textbf{full final pipeline} (Whisper-large-v3 layers 23, 30 + MERT-v1-95M layer 7 + language ID) is applied to each input.
+  \vspace{0.1em}
 
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
-      {\footnotesize
+      {\footnotesize\setlength{\tabcolsep}{4pt}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        Input to MERT & Top-1 & Top-3 \\ \midrule
-        Mixture & 42.2 & 72.5 \\
-        Vocals & \best{43.1} & \best{78.4} \\
-        Accompaniment & 33.3 & 61.8 \\
-        Mixture + vocals + accompaniment & 46.1 & 76.5 \\ \midrule
-        Mixture + language ID & 55.9 & 77.5 \\
-        Vocals + language ID & 55.9 & 79.4 \\
-        Accompaniment + language ID & 47.1 & 74.5 \\
+        Input & Top-1 & Top-3 \\ \midrule
+        Mixture (final model) & 60.8 & \best{90.2} \\
+        Vocals only & 60.8 & 87.3 \\
+        Accompaniment only & 35.3 & 70.6 \\
+        Mixture + vocals & 60.8 & \best{90.2} \\
+        Mixture + vocals + accompaniment & \best{61.8} & \best{90.2} \\
+        \bottomrule
+      \end{tabular}}
+
+      \vspace{0.6em}
+      {\footnotesize\setlength{\tabcolsep}{3.5pt}
+      \begin{tabular}{@{}lcccccc@{}}
+        \toprule
+        Recall & US & UK & BR & ES & DE & IT \\ \midrule
+        Mixture       & .65 & .53 & .88 & .82 & .35 & .41 \\
+        Vocals        & .59 & .76 & .82 & .76 & .35 & .35 \\
+        Accompaniment & .41 & .59 & .59 & \alert{.06} & .18 & .29 \\
         \bottomrule
       \end{tabular}}
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{tight}\footnotesize
-        \item \alert{Market information is in the vocals}: removing them costs 9 points, keeping only them costs nothing
-        \item Vocals halve the US $\leftrightarrow$ UK confusions (9 $\rightarrow$ 4 clips). The accompaniment does not help (9 clips), and its US recall is 18\%
-        \item With language ID added, vocals and mixture tie at 55.9\%, so the final model uses the mixture: no separation needed at inference
+        \item \alert{Market information is in the vocals}: vocals alone match the mixture; removing them costs 25 points
+        \item Without vocals Spain falls to 6\% recall, and language ID detects no Portuguese, Spanish, German or Italian at all
+        \item Accompaniment alone stays above chance (16.7\%): a weak market signal in the instrumental
+        \item Separation does not help: all three inputs gain one clip at three times the feature size, and US $\leftrightarrow$ UK confusions stay at 8 to 9. The final model uses the mixture
       \end{tight}
     \end{column}
   \end{columns}
@@ -516,27 +526,307 @@
 
 % =====================================================================
 \section{Ablation}
-\begin{frame}[label=ablation]{Frozen features vs.\ fine-tuning}
-  % TODO
+
+\begin{frame}[t,label=ablation]{Ablation (1): which features?}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \centering
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Task 1: decade} & Top-1 & Top-3 \\ \midrule
+        Hand-crafted production (24-d) & 40.9 & 85.6 \\
+        MERT-v1-95M, best layer (8) & 43.9 & 84.8 \\
+        MERT-v1-95M, layers 6, 8, 10 & 48.5 & 81.8 \\
+        Whisper-tiny, layer 1 & 47.0 & 81.8 \\
+        MERT-v1-330M, layers 5, 6, 14 & 50.0 & \best{87.9} \\
+        \quad + Whisper-tiny layer 1 \textbf{(final)} & \best{52.3} & 86.4 \\
+        \quad\quad + hand-crafted & 51.5 & 86.4 \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        \textbf{Task 2: market} & Top-1 & Top-3 \\ \midrule
+        Hand-crafted production (24-d) & 21.6 & 58.8 \\
+        MERT-v1-95M, layer 7 & 42.2 & 72.5 \\
+        MERT-v1-330M, layer 9 & 45.1 & 72.5 \\
+        Whisper-small language ID (7-d) & 53.9 & 79.4 \\
+        Whisper-large-v3, layer 30 & 57.8 & 84.3 \\
+        \quad + MERT-v1-95M layer 7 & 59.8 & 89.2 \\
+        \quad\quad + language ID & 59.8 & \best{90.2} \\
+        \quad\quad\quad + layer 23 \textbf{(final)} & \best{60.8} & \best{90.2} \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+  \end{columns}
+  \vspace{0.6em}
+  \begin{tight}\footnotesize
+    \item \textbf{Task 1}: a music encoder beats a speech encoder, and the two are complementary (+2.3). Hand-crafted features add nothing once MERT is present
+    \item \textbf{Task 2}: the order is reversed. A speech encoder beats explicit language ID, which beats a music encoder; production features are at chance (16.7\%)
+    \item All rows: mean + std pooling, StandardScaler, L2 logistic regression; $C$ chosen on validation from $\{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Ablation (2): which layer?}
+  \centering
+  \includegraphics[width=0.71\linewidth]{layer_sweep.pdf}
+
+  \raggedright
+  \begin{tight}\footnotesize
+    \item One logistic regression per layer; stars mark the layers used in the final models
+    \item \textbf{Task 1}: Whisper is best at its \alert{first} layers (47.0\% at layer 1 of Whisper-tiny) and falls to 27\% at the last. MERT peaks in the middle
+    \item \textbf{Task 2}: Whisper \alert{improves with depth}, from 32\% at layer 1 to 58\% at layer 30 of Whisper-large-v3
+    \item Same encoder, opposite trends: decade cues sit in shallow acoustic layers, market cues in deep layers
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Ablation (3): encoder size, pooling and classifier}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \small\textbf{Encoder size}: top-1 of the best frozen layer\\[0.1em]
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lrcc@{}}
+        \toprule
+        Encoder & Layers & Task 1 (layer) & Task 2 (layer) \\ \midrule
+        Whisper-tiny     & 4  & \best{47.0} (1) & 54.9 (3) \\
+        Whisper-base     & 6  & 37.1 (1) & 51.0 (4) \\
+        Whisper-small    & 12 & 41.7 (2) & 56.9 (12) \\
+        Whisper-medium   & 24 & 43.2 (4) & 55.9 (13) \\
+        Whisper-large-v3 & 32 & 42.4 (4) & \best{57.8} (30) \\ \midrule
+        MERT-v1-95M      & 12 & 43.9 (8) & 42.2 (7) \\
+        MERT-v1-330M     & 24 & \best{48.5} (14) & \best{44.1} (9) \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \small\textbf{Pooling and classifier}\\[0.1em]
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        Task 1, MERT-v1-330M & Top-1 & Top-3 \\ \midrule
+        mean + std, log.\ reg. & \best{50.0} & \best{87.9} \\
+        mean only, log.\ reg. & 46.2 & 87.1 \\
+        mean + std, RBF SVM & 43.9 & 82.6 \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+  \end{columns}
+  \begin{tight}\footnotesize
+    \item Size helps in opposite ways: for Task 1 the \alert{smallest} Whisper is best, for Task 2 the \alert{largest}. A larger MERT helps both
+    \item The std over time is worth +3.8 points; logistic regression beats an RBF SVM on these features
+    \item \textbf{Model selection}: encoder, layers, $C$ and epoch are chosen by validation top-1. Over 100 configurations were compared on 132 and 102 clips, so validation scores are optimistic estimates of test accuracy
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Ablation (4): frozen features vs.\ fine-tuning}
+  \centering
+  {\scriptsize\setlength{\tabcolsep}{5pt}
+  \begin{tabular}{@{}lrrrcccc@{}}
+    \toprule
+    & & & & \multicolumn{2}{c}{Task 1 top-1} & \multicolumn{2}{c}{Task 2 top-1} \\ \cmidrule(lr){5-6}\cmidrule(l){7-8}
+    Encoder & Params & Epochs & Batch & fine-tuned (best epoch) & frozen & fine-tuned (best epoch) & frozen \\ \midrule
+    MERT-v1-95M      & 95 M  & 8  & 16 & 46.2 (6)  & 48.5 & 39.2 (6)  & 42.2 \\
+    MERT-v1-95M      & 95 M  & 40 & 16 & \best{51.5} (11) & 48.5 & 46.1 (16) & 42.2 \\
+    MERT-v1-330M     & 330 M & 40 & 16 & 48.5 (20) & 50.0 & 44.1 (26) & 45.1 \\
+    Whisper-tiny     & 8 M   & 20 & 8  & 34.8 (4)  & 47.0 & 50.0 (3)  & 54.9 \\
+    Whisper-base     & 20 M  & 20 & 8  & 31.8 (3)  & 37.1 & 54.9 (13) & 51.0 \\
+    Whisper-small    & 88 M  & 20 & 8  & 34.8 (4)  & 41.7 & 55.9 (2)  & 56.9 \\
+    Whisper-medium   & 307 M & 20 & 2  & 41.7 (12) & 43.2 & \best{57.8} (4)  & 55.9 \\ \midrule
+    \multicolumn{4}{@{}l}{Final frozen combination (logistic regression)} & & \best{52.3} & & \best{60.8} \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.3em}
+
+  \raggedright
+  {\scriptsize\color{gray}\textbf{Setup.} Linear head on a learned weighted sum of all layers, mean pooling. AdamW; encoder lr $2{\times}10^{-5}$ (Whisper $10^{-5}$), head lr $10^{-3}$;
+  weight decay 0.01; one-cycle schedule; label smoothing 0.1; gradient clipping 1.0; bf16. MERT: random 5 s crops. Whisper: full 30 s clip.
+  ``Frozen'' = best layer(s) of the same encoder + logistic regression.\par}
+  \vspace{0.2em}
+  \begin{tight}\footnotesize
+    \item Fine-tuning beats the frozen features of the same encoder in 4 of 14 runs and \alert{never beats the final frozen combination}. 8 epochs were too few for MERT, but beyond about 12 epochs it only overfits (next slide)
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Ablation (5): fine-tuning overfits}
+  \centering
+  \includegraphics[width=0.76\linewidth]{finetune_curves.pdf}\\[-0.3em]
+  {\scriptsize\color{gray}MERT-v1-95M fine-tuned on Task 1 for 40 epochs; a checkpoint was saved after every epoch.\par}
+
+  \raggedright
+  \begin{tight}\footnotesize
+    \item Validation loss is lowest at \alert{epoch 11} and rises afterwards while training loss falls to 0.63: the model memorizes the 1,026 training clips
+    \item The Whisper runs overfit faster (validation loss minimum at epochs 2 to 5); their learned layer weights concentrate on the \emph{last} layer, the worst one for Task 1
+    \item With 130 to 170 clips per class, a frozen encoder with a strongly regularized linear classifier is as accurate, more stable, and far cheaper
+  \end{tight}
 \end{frame}
 
 % =====================================================================
 \section{Audio Language Model}
-\begin{frame}{Qwen2-Audio, zero-shot}
-  % TODO
+
+\begin{frame}[t]{Qwen2-Audio, zero-shot: setup}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      {\scriptsize\setlength{\tabcolsep}{3pt}
+      \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.74\linewidth}@{}}
+        \toprule
+        Model & Qwen2-Audio-7B-Instruct, no training \\
+        Inference & bf16, one RTX A4500 (20 GB), batch 1, 2.2 s per clip \\
+        Input & full 30 s clip, resampled to 16 kHz \\
+        Data & all validation and test clips: 264 (Task 1), 204 (Task 2) \\
+        Decoding & greedy, at most 16 new tokens \\
+        \bottomrule
+      \end{tabular}}
+      \vspace{0.4em}
+
+      {\footnotesize\textbf{Two outputs per clip}}
+      \begin{tight}\footnotesize
+        \item \textbf{Free generation}, parsed with a regular expression (``United States'' $\rightarrow$ US, etc.). No label found = \emph{invalid}, counted as wrong
+        \item \textbf{Log-probability ranking}: each of the six labels is scored by the log-probability of its tokens given the prompt. Every clip gets a full ranking: top-3 is defined and \alert{no output is invalid}
+      \end{tight}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      {\footnotesize\textbf{Prompt ``naive''} (the audio precedes the text)}
+
+      \vspace{0.3em}
+      {\scriptsize \textbf{Task 1.} \emph{This is a 30-second excerpt of a music recording released in the United States. Our goal is to identify the decade in which the recording was released.
+      Which decade is it? Answer with exactly one of: 1960s, 1970s, 1980s, 1990s, 2000s, 2010s.}\par}
+
+      \vspace{0.6em}
+      {\scriptsize \textbf{Task 2.} \emph{This is a 30-second excerpt of a music recording released in the 1980s. Our goal is to identify the country (release market) in which this record was issued.
+      Which market is it? Answer with exactly one of: US, UK, Brazil, Spain, Germany, Italy.}\par}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Qwen2-Audio, zero-shot: results}
+  \begin{columns}[T]
+    \begin{column}{0.4\textwidth}
+      {\scriptsize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        Validation, naive prompt & Task 1 & Task 2 \\ \midrule
+        Top-1, log-prob ranking & 34.1 & 52.9 \\
+        Top-3, log-prob ranking & 69.7 & 73.5 \\
+        Top-1, free generation & 31.1 & 47.1 \\
+        Invalid free outputs & 1.5\% & 1.0\% \\ \midrule
+        Our model, top-1 & \best{52.3} & \best{60.8} \\
+        Our model, top-3 & \best{86.4} & \best{90.2} \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \centering\fig[0.46\textheight]{cm_alm_task1.pdf}\\[-0.3em]
+      {\scriptsize\color{gray}Task 1}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \centering\fig[0.46\textheight]{cm_alm_task2.pdf}\\[-0.3em]
+      {\scriptsize\color{gray}Task 2}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  \begin{tight}\footnotesize
+    \item Task 1: \alert{55\%} of the free answers are ``1970s'' and none is ``1990s''; the 1980s to 2000s are almost all called 1970s
+    \item Task 2: Brazil and Spain are recognized, but English-language songs are called \alert{US}: Germany 1 of 17 and Italy 2 of 17 correct
+    \item The same weakness as our language feature: the model hears the language, not the market
+  \end{tight}
+  {\scriptsize\color{gray}Confusion matrices: naive prompt, log-probability ranking, counts, rows = true class.\par}
+\end{frame}
+
+\begin{frame}[t]{Qwen2-Audio: three prompt designs}
+  \centering
+  {\footnotesize\setlength{\tabcolsep}{4.5pt}
+  \begin{tabular}{@{}llrccccl@{}}
+    \toprule
+    & & & \multicolumn{2}{c}{Log-prob ranking} & \multicolumn{2}{c}{Free generation} & \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
+    Task & Prompt & Words & Top-1 & Top-3 & Top-1 & Invalid & Most frequent free answer \\ \midrule
+    1 & naive      & 42  & \best{34.1} & \best{69.7} & 31.1 & 1.5\% & 1970s, 55\% of clips \\
+    1 & cues       & 74  & 26.5 & 62.1 & 24.2 & 1.5\% & 1970s, 74\% \\
+    1 & production & 271 & 17.4 & 58.3 & 18.2 & 6.1\% & 2010s, 92\% \\ \midrule
+    2 & naive      & 43  & \best{52.9} & \best{73.5} & 47.1 & 1.0\% & US, 54\% \\
+    2 & cues       & 78  & 22.5 & 61.8 & 28.4 & 11.8\% & US, 47\% \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.1em}
+
+  \raggedright
+  {\scriptsize\color{gray}\textbf{cues}: names what to listen for (production, instrumentation; for Task 2 the language of the lyrics) and states that all classes are equally likely.
+  \textbf{production}: a 271-word listening guide from our own analysis (sub-bass and vinyl, tape hiss, the loudness war). Full texts are in the code.\par}
+  \begin{tight}\footnotesize
+    \item \alert{The longer the prompt, the worse the result}: the text prior overrides the audio. ``production'' ends with a description of the 2010s, and the model answers 2010s for 92\% of clips
+    \item Task 2 ``cues'' contains ``Portuguese suggests Brazil'': in the log-prob mode 96 of 102 clips then rank Brazil first. Label words in a prompt bias token scoring
+    \item Telling the model what to listen for does not help: the language model only receives the last Whisper layer, where decade cues are weakest (Ablation 2)
+  \end{tight}
 \end{frame}
 
 % =====================================================================
 \section{Disclosure}
 \begin{frame}{Use of AI assistance}
-  % TODO: statement from report_outline.md section 5
+  \textbf{Tool}: Claude Code with the Claude Fable 5.1 model (Anthropic).
+  \vspace{0.6em}
+
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{Done with AI assistance}
+      \begin{itemize}\small
+        \item Code implementation: feature extraction, training, evaluation, figures
+        \item Running the experiments on the server and keeping the experiment log
+        \item Preparing these slides
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{My own}
+      \begin{itemize}\small
+        \item The ideas and hypotheses: sub-bass and vinyl mastering, the loudness war and dynamics, language as the market cue
+        \item The decisions: which experiments to run, how to read them, which models to submit
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \vspace{0.8em}
+  {\small Every number in this report comes from running the code in the repository, and I reviewed the results and the text.
+  The assistant also proposed implementation options, such as candidate pretrained encoders, from which I selected.\par}
 \end{frame}
 
 % =====================================================================
 \section{References}
-\begin{frame}[allowframebreaks]{References}
+\begin{frame}[t]{References (1): pretrained models and data}
   \footnotesize
-  % TODO: list from report_outline.md section 6
+  \textbf{Pretrained models}
+  \begin{tight}\footnotesize
+    \item \textbf{MERT} (\texttt{m-a-p/MERT-v1-95M}, \texttt{MERT-v1-330M}): Y.~Li et al., ``MERT: Acoustic Music Understanding Model with Large-Scale Self-supervised Training,'' ICLR 2024. arXiv:2306.00107
+    \item \textbf{Whisper} (\texttt{openai/whisper-tiny}, \texttt{base}, \texttt{small}, \texttt{medium}, \texttt{large-v3}): A.~Radford et al., ``Robust Speech Recognition via Large-Scale Weak Supervision,'' ICML 2023. arXiv:2212.04356
+    \item \textbf{Qwen2-Audio} (\texttt{Qwen/Qwen2-Audio-7B-Instruct}): Y.~Chu et al., ``Qwen2-Audio Technical Report,'' 2024. arXiv:2407.10759
+    \item \textbf{Demucs} (\texttt{htdemucs}): S.~Rouard, F.~Massa, A.~D\'efossez, ``Hybrid Transformers for Music Source Separation,'' ICASSP 2023. arXiv:2211.08553
+  \end{tight}
+  \vspace{0.5em}
+  \textbf{Dataset}
+  \begin{tight}\footnotesize
+    \item \textbf{Discogs-VI} (source of both homework datasets): R.~O.~Araz, X.~Serra, D.~Bogdanov, ``Discogs-VI: A Musical Version Identification Dataset Based on Public Editorial Metadata,'' ISMIR 2024. arXiv:2410.17400
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{References (2): software and methods}
+  \footnotesize
+  \textbf{Public codebases}
+  \begin{tight}\footnotesize
+    \item PyTorch: A.~Paszke et al., NeurIPS 2019. \quad torchaudio: Y.-Y.~Yang et al., ICASSP 2022
+    \item Hugging Face Transformers: T.~Wolf et al., EMNLP 2020 (System Demonstrations)
+    \item scikit-learn: F.~Pedregosa et al., JMLR 2011. \quad librosa: B.~McFee et al., SciPy 2015
+    \item nnAudio (CQT front end required by MERT): K.~W.~Cheuk et al., IEEE Access 2020
+    \item Demucs code: \url{https://github.com/facebookresearch/demucs}
+    \item NumPy, SciPy, pandas, matplotlib, seaborn, soundfile, tqdm, joblib
+  \end{tight}
+  \vspace{0.5em}
+  \textbf{Methods}
+  \begin{tight}\footnotesize
+    \item t-SNE: L.~van der Maaten, G.~Hinton, JMLR 2008. \quad Welch spectral estimate: P.~Welch, IEEE Trans.\ Audio Electroacoust., 1967
+    \item Fine-tuning: AdamW (Loshchilov \& Hutter, ICLR 2019), one-cycle schedule (Smith \& Topin, 2019), label smoothing (Szegedy et al., CVPR 2016), SpecAugment time masking (Park et al., Interspeech 2019)
+  \end{tight}
+  \vspace{0.5em}
+  \textbf{Tool}: Claude Code, Claude Fable 5.1 (Anthropic); see the Disclosure slide.
 \end{frame}
 
 \end{document}
