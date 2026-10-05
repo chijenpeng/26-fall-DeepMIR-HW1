@@ -104,7 +104,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.0), sharey=True)
     enc = [("Whisper-tiny", "{ds}_mert_whisper-tiny_layer_sweep", "#dd8452", "-"),
            ("Whisper-large-v3", "{ds}_mert_whisper-large-v3_layer_sweep", "#c44e52", "-"),
-           ("MERT-v1-95M", "{ds}_mert_layer_sweep", "#4c72b0", "--"),
+           ("MERT-v1-95M", "{ds}_mert_MERT-v1-95M_layer_sweep", "#4c72b0", "--"),
            ("MERT-v1-330M", "{ds}_mert_MERT-v1-330M_layer_sweep", "#55a868", "--")]
     used = {"A": {"Whisper-tiny": [1], "MERT-v1-330M": [5, 6, 14]}, "B": {"Whisper-large-v3": [23, 30], "MERT-v1-95M": [7]}}
     for ax, ds, title in zip(axes, "AB", ["Task 1: decade", "Task 2: market"]):

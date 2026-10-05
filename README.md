@@ -79,6 +79,7 @@ src/
   finetune_mert.py              end-to-end fine-tuning of MERT
   finetune_whisper.py           end-to-end fine-tuning of a Whisper encoder
   finetune_common.py            training step, logging, checkpoints and result files shared by the two fine-tuning scripts
+  ensemble.py                   average a fine-tuned model's probabilities with a frozen-feature classifier
   alm_qwen2audio.py             zero-shot Qwen2-Audio with three prompt designs
 
   # analysis and figures
