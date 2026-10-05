@@ -9,15 +9,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from config import RESULTS, LABELS
-from train import build_X
+from train import add_feature_args, build_X
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", required=True, choices=["A", "B"])
-    ap.add_argument("--features", default="mert"); ap.add_argument("--layers", default="6,8,10")
-    ap.add_argument("--mert_model", default="MERT-v1-95M"); ap.add_argument("--chunk_sec", type=int, default=5)
-    ap.add_argument("--n_chunks", type=int, default=None); ap.add_argument("--no_std", action="store_true")
-    ap.add_argument("--hc_subset", default=None); ap.add_argument("--lang_model", default="whisper-small")
+    add_feature_args(ap, features="mert", layers="6,8,10")
     ap.add_argument("--perplexity", type=float, default=30); ap.add_argument("--name", default=None)
     ap.add_argument("--model", default=None, help="joblib from train.py: embed the classifier's 6-d logit space instead of raw features")
     a = ap.parse_args()

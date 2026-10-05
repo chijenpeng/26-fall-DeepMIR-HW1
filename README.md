@@ -73,7 +73,6 @@ src/
 
   # training and evaluation
   train.py                      logistic regression / SVM / MLP on any combination of feature blocks
-  predict.py                    test predictions from models saved by train.py
   layer_sweep.py                one classifier per encoder layer
   train_chunks.py               chunk-level training (multiple excerpts per recording)
   regression.py                 Task 1 as ridge regression / hierarchical prediction

@@ -7,6 +7,7 @@ Examples
   python src/train.py --dataset A --features both --layers 7 --clf svm
 """
 import argparse, json, numpy as np, joblib
+from types import SimpleNamespace
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
@@ -27,7 +28,31 @@ def make_clf(kind, C):
     raise ValueError(kind)
 
 
+def add_feature_args(ap, features="both", layers="7"):
+    """CLI arguments that define a design matrix. Every script that calls build_X adds exactly these,
+    so the feature specification is written the same way everywhere."""
+    ap.add_argument("--features", default=features,
+                    help="'both' (= handcrafted+mert) or '+'-joined blocks: handcrafted, mert, mert@<npz>[:<layers>], lang, lang@<npz>")
+    ap.add_argument("--layers", default=layers, help="comma list of layers for 'mert' blocks without their own ':<layers>'")
+    ap.add_argument("--mert_model", default="MERT-v1-95M", help="which default feature file the plain 'mert' block reads")
+    ap.add_argument("--chunk_sec", type=int, default=5)
+    ap.add_argument("--n_chunks", type=int, default=None, help="use only the first k chunks (5 s each)")
+    ap.add_argument("--no_std", action="store_true", help="mean pooling only (drop the std statistics)")
+    ap.add_argument("--hc_subset", default=None, help="comma list of handcrafted feature names")
+    ap.add_argument("--lang_model", default="whisper-small", help="which default file the plain 'lang' block reads")
+
+
+def feature_spec(dataset, features, **overrides):
+    """The same specification as add_feature_args, for callers that do not parse a command line."""
+    spec = dict(dataset=dataset, features=features, mert_model="MERT-v1-95M", chunk_sec=5, n_chunks=None,
+                no_std=False, hc_subset=None, lang_model="whisper-small")
+    spec.update(overrides)
+    return SimpleNamespace(**spec)
+
+
 def build_X(a, layers):
+    """Design matrix for the feature specification `a` (see add_feature_args / feature_spec).
+    Returns (X, meta) where meta carries sample_id, split and label for every row."""
     parts, meta = [], None
     blocks = {"both": {"handcrafted", "mert"}}.get(a.features, set(a.features.split("+")))
     if "handcrafted" in blocks:
@@ -79,14 +104,7 @@ def run(a, layers, tag):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", required=True, choices=["A", "B"])
-    ap.add_argument("--features", default="both", help="'both' or '+'-joined blocks from {handcrafted, mert, mert@<npz path>, lang}")
-    ap.add_argument("--lang_model", default="whisper-small")
-    ap.add_argument("--layers", default="7", help="comma list, or 'all' to sweep every layer one at a time")
-    ap.add_argument("--mert_model", default="MERT-v1-95M")
-    ap.add_argument("--chunk_sec", type=int, default=5)
-    ap.add_argument("--n_chunks", type=int, default=None, help="use only first k chunks (5 s each)")
-    ap.add_argument("--no_std", action="store_true")
-    ap.add_argument("--hc_subset", default=None, help="comma list of handcrafted feature names")
+    add_feature_args(ap)                      # --layers also accepts 'all': sweep every layer one at a time
     ap.add_argument("--clf", default="logreg", choices=["logreg", "svm", "mlp"])
     ap.add_argument("--C", type=float, nargs="+", default=[0.01, 0.1, 1.0])
     ap.add_argument("--name", default=None)
@@ -107,6 +125,7 @@ if __name__ == "__main__":
         evaluate(clf.predict_proba(X[meta["split"] == "validation"]),
                  np.array([LABELS[a.dataset].index(l) for l in meta["label"][meta["split"] == "validation"]]),
                  LABELS[a.dataset], name, RESULTS / f"{name}_cm.png")
+        # "clf" is the fitted pipeline; "args" and "layers" record how it was trained (provenance only)
         joblib.dump(dict(clf=clf, args=vars(a), layers=layers), RESULTS / f"{name}.joblib")
         dump(res, RESULTS / f"{name}_val.json")
         print(json.dumps({k: v for k, v in res.items() if k != "confusion_counts"}, indent=1))

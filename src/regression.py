@@ -8,7 +8,7 @@ from sklearn.linear_model import Ridge, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from config import RESULTS, LABELS
-from train import build_X
+from train import add_feature_args, build_X
 from utils import evaluate, neighbour_error_rate, dump
 
 
@@ -48,10 +48,7 @@ def hierarchical(X, y, tr, va, Cs):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--features", default="mert"); ap.add_argument("--layers", default="6,8,10")
-    ap.add_argument("--mert_model", default="MERT-v1-95M"); ap.add_argument("--chunk_sec", type=int, default=5)
-    ap.add_argument("--n_chunks", type=int, default=None); ap.add_argument("--no_std", action="store_true")
-    ap.add_argument("--hc_subset", default=None); ap.add_argument("--lang_model", default="whisper-small")
+    add_feature_args(ap, features="mert", layers="6,8,10")
     ap.add_argument("--name", default=None)
     a = ap.parse_args(); a.dataset = "A"
     layers = [int(x) for x in a.layers.split(",")]

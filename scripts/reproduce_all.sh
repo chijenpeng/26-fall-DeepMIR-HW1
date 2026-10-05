@@ -28,7 +28,11 @@ WT=mert@features/A_mert_whisper-tiny_30s.npz:1;  M330=mert@features/A_mert_MERT-
 WL=mert@features/B_mert_whisper-large-v3_30s.npz
 T A_wt_L1_m330            --dataset A --features $WT+$M330 --layers 7 $C4
 T B_wl_L23-30_mert7_lang  --dataset B --features $WL:23,30+mert+lang --layers 7 $C4
-$PY src/predict.py --model_A results/A_wt_L1_m330.joblib --model_B results/B_wl_L23-30_mert7_lang.joblib --out submission/r14725022.json
+# export the two classifiers and predict the test split from the features extracted above
+mkdir -p checkpoints/best submission
+cp results/A_wt_L1_m330.joblib checkpoints/best/task1_decade.joblib
+cp results/B_wl_L23-30_mert7_lang.joblib checkpoints/best/task2_market.joblib
+$PY src/inference.py --data_A dataset_A --data_B dataset_B --work_dir features --skip_extract --out submission/r14725022.json
 
 # ------------------------------------------------------------------ 3. ablation: features, layers, sizes, pooling, classifier
 for d in A B; do

@@ -14,7 +14,6 @@ from the Hugging Face Hub on first use.
 """
 import argparse, json, os, subprocess, sys
 from pathlib import Path
-from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
@@ -60,7 +59,7 @@ def main():
     sys.path.insert(0, str(SRC))
     import numpy as np, joblib
     from config import LABELS
-    from train import build_X
+    from train import build_X, feature_spec
 
     spec = {
         "A": dict(ckpt="task1_decade.joblib",
@@ -72,9 +71,7 @@ def main():
     for ds, given in (("A", a.data_A), ("B", a.data_B)):
         if not given:
             continue
-        args = SimpleNamespace(dataset=ds, features=spec[ds]["features"], mert_model="MERT-v1-95M", chunk_sec=5,
-                               n_chunks=None, no_std=False, hc_subset=None, lang_model="whisper-small")
-        X, meta = build_X(args, [7])                  # [7] = MERT-v1-95M layer used by Task 2; other blocks carry their own layers
+        X, meta = build_X(feature_spec(ds, spec[ds]["features"]), [7])   # [7] = MERT-v1-95M layer of Task 2; other blocks carry their own layers
         clf = joblib.load(Path(a.ckpt_dir) / spec[ds]["ckpt"])["clf"]
         proba = clf.predict_proba(X)
         sel = np.ones(len(X), bool) if a.split == "all" else (meta["split"] == a.split)
