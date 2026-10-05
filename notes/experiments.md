@@ -795,3 +795,10 @@ Italy  [   7   2   1   5   0   2 ]
   - Ablation (5):「Whisper 的層權重集中在最後一層」只對 tiny、base、small 成立,medium 幾乎是平均的,已改。
   - Ablation (4):「≤ 41 k」改成「about 41 k」(實際是 41,478)。
 - agent 另外確認:最終分數、維度、參數量、C、每張 grid 的每一格、混淆矩陣和各項「幾首」的數字,在所有投影片之間以及跟結果檔都一致。
+
+## 2026-10-05 補:語言那頁的表加上限制條件的說明
+
+- 表上的數字(Germany 83% 判為英語、Italy 55%)是「只在 en、pt、es、de、it 五種語言裡取最可能的」。
+- 不加這個限制、看 Whisper 全部語言的第一名:13% 的 training clip 第一名是五種以外的語言(Shona、Welsh、Khmer、Latin 等,代表偵測器對音樂沒把握)。這時判為英語的比例是 Germany 65%、Italy 46%、Spain 31%、Brazil 6%;判為本地語言的是 Germany 16%、Italy 41%、Spain 48%、Brazil 87%、US 86%、UK 80%。
+- 所以五種語言的表會把沒把握的 clip 大多歸到英語,英語比例偏高。投影片加了這句說明,文字從「over half of the Italian ones are sung in English」改成「about half ... are detected as English」。
+- 模型用的 7 維 language ID 特徵沒有這個限制:en、pt、es、de、it、fr 六個機率,加上其他所有語言的機率總和(training 上平均佔 28%)。

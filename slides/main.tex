@@ -288,7 +288,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 \begin{frame}[t]{Why English-language markets get confused: language}
   \small
   The dataset has \textbf{no language label}. We estimate it with Whisper-small \textbf{language identification}
-  on the 798 training clips, on the mixture and on Demucs-separated vocal stems.
+  on the 798 training clips (mixture and Demucs vocal stems).
   \vspace{0.5em}
 
   \begin{columns}[T]
@@ -307,18 +307,17 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         \bottomrule
       \end{tabular}}
 
-      \vspace{0.4em}
-      {\scriptsize\color{gray}Share of training clips whose most likely language (among en, pt, es, de, it) is the home language or English.\par}
     \end{column}
     \begin{column}{0.45\textwidth}
       \begin{tight}\footnotesize
-        \item Most German releases and over half of the Italian ones are \alert{sung in English}, so their vocals carry no market cue
-        \item Vocal stems give the same answer: the accompaniment is not what misleads the detector
+        \item Most German and about half of the Italian releases are \alert{detected as English}: their vocals carry no market cue
+        \item Vocal stems give the same answer, so the accompaniment is not what misleads the detector
         \item Language separates Brazil and Spain. The English-language group has to be split by genre and production style, a much weaker cue
-        \item A release market is where the record was issued, not the artist's nationality or language
       \end{tight}
     \end{column}
   \end{columns}
+  \vspace{0.2em}
+  {\scriptsize\color{gray}Table: share of training clips whose most likely language \emph{among en, pt, es, de, it} is the home language or English. Without this restriction, 13\% of the clips get another top language (the detector is unsure on music) and English is 65\% for Germany, 46\% for Italy. The 7-d feature of the model is unrestricted: these five languages, French, and the sum of all others.\par}
 \end{frame}
 
 % =====================================================================
@@ -512,7 +511,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
     \toprule
     & \textbf{Task 1: decade} & \textbf{Task 2: market} \\ \midrule
     Confusion pattern & 57\% of errors on a neighboring decade; 2000s $\leftrightarrow$ 2010s is the worst pair & 68\% of errors among US, UK, Germany, Italy; US is over-predicted \\
-    Bias in the data & production changes with the era: sub-bass $+8.6$ dB, crest factor $-3$ dB after 2000 & English-language releases: 83\% of Germany, 55\% of Italy \\
+    Bias in the data & production changes with the era: sub-bass $+8.6$ dB, crest factor $-3$ dB after 2000 & clips detected as English: 83\% of Germany, 55\% of Italy \\
     What the model keys on & mastering loudness and bandwidth as well as musical content & the language of the vocals rather than the market itself \\
     \bottomrule
   \end{tabular}}
