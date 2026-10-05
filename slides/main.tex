@@ -217,13 +217,13 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \resizebox{\linewidth}{!}{%
   \begin{tikzpicture}[node distance=0.5cm]
     \node[io, text width=1.7cm] (in) {\textbf{30 s clip}\\24 kHz mono};
-    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=1.6cm] (w) {\textbf{Whisper-large-v3 encoder}\\16 kHz log-mel input\\32 layers, $d{=}1280$};
-    \node[frozen, text width=3.5cm, right=0.8cm of in] (m) {\textbf{MERT-v1-95M}\\6 $\times$ 5 s chunks\\12 layers, $d{=}768$};
+    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=1.6cm] (w) {\textbf{Whisper-medium encoder}\\16 kHz log-mel input\\24 layers, $d{=}1024$};
+    \node[frozen, text width=3.5cm, right=0.8cm of in] (m) {\textbf{MERT-v1-330M}\\6 $\times$ 5 s chunks\\24 layers, $d{=}1024$};
     \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=-1.6cm] (l) {\textbf{Whisper-small}\\language identification\\(no transcription)};
-    \node[op, text width=5.0cm, right=of w] (wp) {hidden states of \textbf{layers 23, 30}\\1{,}500 frames $\times$ 1280\\mean + std over the frames\\$\rightarrow 2 \times 2 \times 1280 = 5{,}120$-d};
-    \node[op, text width=5.0cm, right=of m] (mp) {hidden states of \textbf{layer 7}\\374 frames $\times$ 768 per 5 s chunk\\mean + std over frames, mean over chunks\\$\rightarrow 2 \times 768 = 1{,}536$-d};
+    \node[op, text width=5.0cm, right=of w] (wp) {hidden states of \textbf{layer 12}\\1{,}500 frames $\times$ 1024\\mean + std over the frames\\$\rightarrow 2 \times 1024 = 2{,}048$-d};
+    \node[op, text width=5.0cm, right=of m] (mp) {hidden states of \textbf{layer 8}\\374 frames $\times$ 1024 per 5 s chunk\\mean + std over frames, mean over chunks\\$\rightarrow 2 \times 1024 = 2{,}048$-d};
     \node[op, text width=5.0cm, right=of l] (lp) {one decoder step on the 30 s clip\\log-probabilities of\\en, pt, es, de, it, fr, other\\$\rightarrow$ 7-d};
-    \node[op, text width=1.9cm, right=0.8cm of mp] (cat) {concatenate\\\textbf{6{,}663-d}\\StandardScaler};
+    \node[op, text width=1.9cm, right=0.8cm of mp] (cat) {concatenate\\\textbf{4{,}103-d}\\StandardScaler};
     \node[train, text width=2.1cm, right=of cat] (lr) {\textbf{Logistic regression}\\L2, $C = 10^{-3}$};
     \node[io, text width=1.5cm, right=of lr] (out) {\textbf{6 markets}\\top-3};
     \draw[arr] (in.east) -- ++(0.4,0) |- (w.west);
@@ -237,14 +237,14 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \end{tikzpicture}}
 
   \vspace{0.3em}
-  \archlegend{39,984}
+  \archlegend{24,624}
   \vspace{0.2em}
 
   \raggedright\small
   \begin{tight}\footnotesize
-    \item \textbf{Whisper-large-v3, layers 23, 30}: deepest layers work best, the opposite of Task 1; this fits language being the main cue
-    \item \textbf{MERT-v1-95M, layer 7}: +3 points on top of Whisper and language ID (57.8\% $\rightarrow$ 60.8\%); a music encoder adds what a speech encoder misses
-    \item \textbf{Whisper-small language ID}: an explicit 7-d posterior; a small gain (top-3 89.2\% $\rightarrow$ 90.2\%) because deep Whisper layers already encode language
+    \item \textbf{Whisper-medium, layer 12}: the best single Whisper layer for this task (58.8\%). It is the middle of the encoder; Task 1 uses the first layer
+    \item \textbf{MERT-v1-330M, layer 8}: +5 clips on top of Whisper and language ID (58.8\% $\rightarrow$ 63.7\%); a music encoder adds what a speech encoder misses
+    \item \textbf{Whisper-small language ID}: an explicit 7-d posterior; a small gain (+1 clip, 62.7\% $\rightarrow$ 63.7\%) because the Whisper layer already encodes language
     \item Pooling as in Task 1: 1,500 Whisper frames per clip; 374 MERT frames per 5 s chunk
   \end{tight}
 \end{frame}
@@ -255,8 +255,8 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       \small
       \textbf{Model}: frozen encoders + logistic regression
       \begin{tight}\footnotesize
-        \item Whisper-large-v3 encoder, \textbf{layers 23, 30}
-        \item MERT-v1-95M, \textbf{layer 7}
+        \item Whisper-medium encoder, \textbf{layer 12}
+        \item MERT-v1-330M, \textbf{layer 8}
         \item Whisper-small language-ID posteriors
       \end{tight}
       \vspace{0.25em}
@@ -265,17 +265,17 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Validation, 102 clips & Top-1 & Top-3 \\ \midrule
-        Best model & \best{60.8\%} & \best{90.2\%} \\
+        Best model & \best{63.7\%} & \best{86.3\%} \\
         \bottomrule
       \end{tabular}
       \vspace{0.7em}
 
       \textbf{Errors}
       \begin{tight}\footnotesize
-        \item \alert{US $\leftrightarrow$ UK} is the largest confusion (9 clips)
-        \item \alert{UK is over-predicted}: 23 called UK, only 9 correct
-        \item Brazil (.88) and Spain (.82) are rarely missed
-        \item Germany, Italy: 12 of their 21 errors go to US / UK
+        \item \alert{US $\leftrightarrow$ UK} is the largest confusion (8 clips)
+        \item \alert{US is over-predicted}: 23 called US, only 11 correct
+        \item Germany is the hardest market: 6 of 17 correct, 6 called US
+        \item Germany, Italy: 10 of their 17 errors go to US / UK
       \end{tight}
     \end{column}
     \begin{column}{0.44\textwidth}
@@ -336,10 +336,10 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         \toprule
         & \multicolumn{2}{c}{Task 1} & \multicolumn{2}{c}{Task 2} \\ \cmidrule(lr){2-3}\cmidrule(l){4-5}
         Length & Top-1 & Top-3 & Top-1 & Top-3 \\ \midrule
-        5 s  & 39.4 & 81.1 & 45.1 & 80.4 \\
-        10 s & 47.0 & 82.6 & 52.0 & 88.2 \\
-        15 s & 49.2 & 86.4 & 57.8 & 85.3 \\
-        30 s & \best{52.3} & \best{86.4} & \best{60.8} & \best{90.2} \\
+        5 s  & 39.4 & 81.1 & 51.0 & 81.4 \\
+        10 s & 47.0 & 82.6 & 57.8 & 84.3 \\
+        15 s & 49.2 & \best{86.4} & 56.9 & \best{87.3} \\
+        30 s & \best{52.3} & \best{86.4} & \best{63.7} & 86.3 \\
         \bottomrule
       \end{tabular}}
     \end{column}
@@ -350,8 +350,8 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \vspace{0.3em}
 
   \begin{tight}\footnotesize
-    \item Top-1 rises monotonically on both tasks and has \alert{not saturated} at 30 s; Task 1 top-3 is flat after 15 s
-    \item Task 2 gains more (+15.7 vs.\ +12.9 points)
+    \item Top-1 rises with length on both tasks and has \alert{not saturated} at 30 s (Task 2 loses one clip between 10 s and 15 s); top-3 is flat after 15 s
+    \item Both tasks gain about 13 points of top-1 from 5 s to 30 s (+12.9 and +12.7)
   \end{tight}
 \end{frame}
 
@@ -444,7 +444,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
 \begin{frame}[t]{Task 2: mixture vs.\ vocals vs.\ accompaniment}
   \small
-  Demucs (htdemucs) separates each clip into vocals and accompaniment. The \textbf{full final pipeline} (Whisper-large-v3 layers 23, 30 + MERT-v1-95M layer 7 + language ID) is applied to each input.
+  Demucs (htdemucs) separates each clip into vocals and accompaniment. The \textbf{full final pipeline} (Whisper-medium layer 12 + MERT-v1-330M layer 8 + language ID) is applied to each input.
   \vspace{0.1em}
 
   \begin{columns}[T]
@@ -453,11 +453,11 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Input & Top-1 & Top-3 \\ \midrule
-        Mixture (final model) & 60.8 & \best{90.2} \\
-        Vocals only & 60.8 & 87.3 \\
-        Accompaniment only & 35.3 & 70.6 \\
-        Mixture + vocals & 60.8 & \best{90.2} \\
-        Mixture + vocals + accompaniment & \best{61.8} & \best{90.2} \\
+        Mixture (final model) & \best{63.7} & 86.3 \\
+        Vocals only & 55.9 & 84.3 \\
+        Accompaniment only & 41.2 & 72.5 \\
+        Mixture + vocals & 61.8 & 85.3 \\
+        Mixture + vocals + accompaniment & 61.8 & \best{89.2} \\
         \bottomrule
       \end{tabular}}
 
@@ -466,18 +466,18 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       \begin{tabular}{@{}lcccccc@{}}
         \toprule
         Recall & US & UK & BR & ES & DE & IT \\ \midrule
-        Mixture       & .65 & .53 & .88 & .82 & .35 & .41 \\
-        Vocals        & .59 & .76 & .82 & .76 & .35 & .35 \\
-        Accompaniment & .41 & .59 & .59 & \alert{.06} & .18 & .29 \\
+        Mixture       & .65 & .65 & .76 & .76 & .35 & .65 \\
+        Vocals        & .76 & .47 & .71 & .76 & .29 & .35 \\
+        Accompaniment & .53 & .47 & .59 & \alert{.18} & .24 & .47 \\
         \bottomrule
       \end{tabular}}
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{tight}\footnotesize
-        \item \alert{Market information is in the vocals}: vocals alone match the mixture; removing them costs 25 points
-        \item Without vocals Spain falls to 6\% recall, and language ID detects no Portuguese, Spanish, German or Italian at all
-        \item Accompaniment alone stays above chance (16.7\%): a weak market signal in the instrumental
-        \item Separation does not help: all three inputs gain one clip at three times the feature size, and US $\leftrightarrow$ UK confusions stay at 8 to 9. The final model uses the mixture
+        \item \alert{Most market information is in the vocals}: vocals alone lose 8 clips against the mixture, accompaniment alone loses 23
+        \item Without vocals Spain falls to 18\% recall, and language ID detects no Portuguese, Spanish, German or Italian at all
+        \item Accompaniment alone stays well above chance (41.2\% vs.\ 16.7\%): the instrumental also carries a market signal
+        \item Separation does not help: adding the stems to the mixture costs 2 clips of top-1 at two to three times the feature size. The final model uses the mixture
       \end{tight}
     \end{column}
   \end{columns}
@@ -498,7 +498,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \end{columns}
   \begin{tight}\footnotesize
     \item Task 1: decades line up along \alert{one arc from the 1960s to the 2010s}, although the classifier was never told they are ordered; 2000s and 2010s overlap
-    \item Task 2: Brazil, Spain and Italy form clusters \alert{before any training}; US, UK and most of Germany share one English-language cloud
+    \item Task 2: only Brazil forms a clear cluster \alert{before any training}; the other five markets share one cloud, with small groups of Spain and Italy inside it
   \end{tight}
   {\scriptsize\color{gray}Dots = train, stars = validation. Train points in the logit space are fitted; only the stars show generalization.\par}
 \end{frame}
@@ -512,7 +512,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.37\textwidth}>{\raggedright\arraybackslash}p{0.37\textwidth}@{}}
     \toprule
     & \textbf{Task 1: decade} & \textbf{Task 2: market} \\ \midrule
-    Confusion pattern & 57\% of errors on a neighboring decade; 2000s $\leftrightarrow$ 2010s is the worst pair & 75\% of errors among US, UK, Germany, Italy; UK is over-predicted \\
+    Confusion pattern & 57\% of errors on a neighboring decade; 2000s $\leftrightarrow$ 2010s is the worst pair & 68\% of errors among US, UK, Germany, Italy; US is over-predicted \\
     Bias in the data & production changes with the era: sub-bass $+8.6$ dB, crest factor $-3$ dB after 2000 & English-language releases: 83\% of Germany, 55\% of Italy \\
     What the model keys on & mastering loudness and bandwidth as well as musical content & the language of the vocals rather than the market itself \\
     \bottomrule
@@ -559,7 +559,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         Correct clips & 54 / 132 & 23 / 102 \\
         Chance top-1 & 16.7 & 16.7 \\
         $p$ vs.\ chance & $< 0.0001$ & \alert{0.076} \\ \midrule
-        Final model & 52.3 & 60.8 \\
+        Final model & 52.3 & 63.7 \\
         \bottomrule
       \end{tabular}}
 
@@ -643,29 +643,29 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
 \begin{frame}[t]{Ablation (1b): how the Task 2 model is selected}
   \footnotesize
-  Eight Whisper layers tie at 58.8\% top-1. We take the two with the best top-3: \textbf{Whisper-medium layer 12} (58.8 / 84.3) and \textbf{Whisper-large-v3 layer 31} (58.8 / 83.3). All cells include the language ID.
-  \vspace{0.3em}
+  Best single Whisper layer of all five sizes: eight layers tie at 58.8\% top-1, the tie is broken by top-3 $\rightarrow$ \textbf{Whisper-medium, layer 12} (58.8 / 84.3 alone). ``+ Whisper'' includes the language ID (58.8 / 86.3 without MERT).
+  \vspace{0.2em}
 
   \centering
-  {\footnotesize\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{0.9}
-  \begin{tabular}{@{}l cc cc cc@{}}
+  {\footnotesize\setlength{\tabcolsep}{4.5pt}\renewcommand{\arraystretch}{0.9}
+  \begin{tabular}{@{}l ccc ccc@{}}
     \toprule
-    & \multicolumn{2}{c}{MERT layers} & \multicolumn{2}{c}{Whisper-medium, layer 12} & \multicolumn{2}{c}{Whisper-large-v3, layer 31} \\ \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(l){6-7}
-    MERT layer set & 95M & 330M & + 95M & + 330M & + 95M & + 330M \\ \midrule
-    Best layer & 7 & 8 & 62.7 / 87.3 & \best{63.7} / 86.3 & 57.8 / \best{91.2} & 59.8 / 88.2 \\
-    Three best layers & 3, 4, 7 & 8, 9, 12 & 59.8 / 86.3 & 60.8 / 88.2 & 60.8 / 88.2 & 60.8 / 82.4 \\
-    One layer per third & 4, 7, 10 & 8, 9, 17 & 59.8 / 83.3 & 59.8 / 89.2 & \best{63.7} / 86.3 & 60.8 / 83.3 \\ \midrule
-    No MERT & & & \multicolumn{2}{c}{58.8 / 86.3} & \multicolumn{2}{c}{58.8 / 83.3} \\
+    & \multicolumn{3}{c}{MERT-v1-95M} & \multicolumn{3}{c}{MERT-v1-330M} \\ \cmidrule(lr){2-4}\cmidrule(l){5-7}
+    MERT layer set & layers & alone & + Whisper & layers & alone & + Whisper \\ \midrule
+    Best layer & 7 & 42.2 / 72.5 & 62.7 / 87.3 & 8 & 46.1 / 76.5 & \best{63.7} / 86.3 \\
+    Three best layers & 3, 4, 7 & 37.3 / 80.4 & 59.8 / 86.3 & 8, 9, 12 & 42.2 / 69.6 & 60.8 / 88.2 \\
+    One layer per third & 4, 7, 10 & 42.2 / 77.5 & 59.8 / 83.3 & 8, 9, 17 & 45.1 / 71.6 & 59.8 / 89.2 \\
     \bottomrule
   \end{tabular}}
-  \vspace{0.3em}
+  \vspace{0.1em}
 
   \raggedright
-  {\footnotesize\textbf{Submitted model}: Whisper-large-v3 layers 23, 30 + MERT-95M layer 7 + language ID = \textbf{60.8 / 90.2}\par}
+  {\scriptsize\color{gray}Top-1 / top-3 on validation (102 clips). Orange = the highest top-1 = \textbf{the final model}.\par}
   \begin{tight}\footnotesize
-    \item \textbf{No consistent winner}: the best cell changes with the Whisper layer, and all 12 cells lie between 57.8\% and 63.7\% (59 to 65 of 102 clips)
-    \item The submitted model was fixed before this grid (layer 30 for top-1, layer 23 for top-3): inside the top-1 range of the grid, second-highest top-3
-    \item Alone: MERT 42.2\% / 46.1\% $<$ language ID 53.9\% $<$ Whisper 58.8\%; hand-crafted features 22.5\%
+    \item \textbf{Model size}: combined with Whisper, MERT-330M is equal or better than MERT-95M in every row (0 to +1 clip)
+    \item \textbf{Layer set}: one MERT layer is enough; three layers cost 3 to 4 clips of top-1. The cells with Whisper span 61 to 65 clips, so this choice is within validation noise
+    \item \textbf{MERT} adds +5 clips to Whisper + language ID on the final cell; \textbf{language ID} adds +1 clip
+    \item Alone: MERT $<$ language ID (53.9\%) $<$ Whisper (58.8\%), the opposite order of Task 1. Hand-crafted features: 22.5\%
   \end{tight}
 \end{frame}
 
@@ -677,8 +677,8 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \begin{tight}\footnotesize
     \item One logistic regression per layer, same $C$ grid as Ablation (1); stars mark the layers used in the final models
     \item \textbf{Task 1}: Whisper is best at its \alert{first} layers (47.0\% at layer 1 of Whisper-tiny) and falls to 27\% at the last. MERT peaks before the middle (layer 5 of 24 in MERT-330M)
-    \item \textbf{Task 2}: Whisper \alert{improves with depth}, from 32\% at layer 1 to 59\% from layer 21 on in Whisper-large-v3. The star at layer 23 is not a top-1 peak: it has the best single-layer top-3 (89.2\%)
-    \item Same encoder, opposite trends: decade cues sit in shallow layers, market cues in deep layers
+    \item \textbf{Task 2}: Whisper \alert{needs depth}: 32\% at layer 1 of Whisper-large-v3, 59\% from layer 21 on. Whisper-medium reaches the same 58.8\% at its middle layer 12 (the star)
+    \item Same encoder, opposite trends: decade cues sit in shallow layers, market cues in middle and deep layers
   \end{tight}
 \end{frame}
 
@@ -734,7 +734,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
     Whisper-base     & 20 M  & 20 & 8  & 31.8 (3)  & 37.9 & 54.9 (13) & 52.9 \\
     Whisper-small    & 88 M  & 20 & 8  & 34.8 (4)  & 41.7 & 55.9 (2)  & 58.8 \\
     Whisper-medium   & 307 M & 20 & 2  & 41.7 (12) & 43.2 & \best{57.8} (4)  & 58.8 \\ \midrule
-    \multicolumn{4}{@{}l}{Final frozen model (40 k trained parameters)} & & \best{52.3} & & \best{60.8} \\
+    \multicolumn{4}{@{}l}{Final frozen model ($\le$ 41 k trained parameters)} & & \best{52.3} & & \best{63.7} \\
     \bottomrule
   \end{tabular}}
 
@@ -742,8 +742,8 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   {\scriptsize\color{gray}\textbf{Setup.} Linear head on a learned weighted sum of all layers. AdamW, encoder lr $2{\times}10^{-5}$ (Whisper $10^{-5}$), head lr $10^{-3}$,
   one-cycle schedule, label smoothing 0.1. ``Frozen'' = best single layer of the same encoder + logistic regression.\par}
   \begin{tight}\footnotesize
-    \item \alert{The gain from fine-tuning is marginal.} It beats the frozen features of the same encoder in 3 of 14 runs and never beats the final model. Averaging a fine-tuned MERT with the final model adds only +0.7 (Task 1) and +2.9 points (Task 2)
-    \item It trains 95 M to 330 M parameters instead of 40 k and is unstable \alert{because the data are small} (1,026 and 798 training clips; next slide). \textbf{We keep the frozen model}
+    \item \alert{The gain from fine-tuning is marginal.} It beats the frozen features of the same encoder in 3 of 14 runs and never beats the final model. Averaging a fine-tuned MERT with the final model changes top-1 by +0.7 (Task 1) and $-$2.0 points (Task 2)
+    \item It trains 8 M to 330 M parameters instead of at most 41 k and is unstable \alert{because the data are small} (1,026 and 798 training clips; next slide). \textbf{We keep the frozen model}
   \end{tight}
 \end{frame}
 
@@ -809,8 +809,8 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         Top-3, log-prob ranking & 69.7 & 73.5 \\
         Top-1, free generation & 31.1 & 47.1 \\
         Invalid free outputs & 1.5\% & 1.0\% \\ \midrule
-        Our model, top-1 & \best{52.3} & \best{60.8} \\
-        Our model, top-3 & \best{86.4} & \best{90.2} \\
+        Our model, top-1 & \best{52.3} & \best{63.7} \\
+        Our model, top-3 & \best{86.4} & \best{86.3} \\
         \bottomrule
       \end{tabular}}
     \end{column}

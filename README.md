@@ -7,7 +7,11 @@ Two six-class tasks on 30-second clips (24 kHz mono):
 | Task | Labels | Final model | Val top-1 | Val top-3 |
 |---|---|---|---|---|
 | 1. Release decade | 1960s ... 2010s | Whisper-tiny encoder layer 1 + MERT-v1-330M layers 5, 6, 14, logistic regression | 52.3% | 86.4% |
-| 2. Release market | US, UK, Brazil, Spain, Germany, Italy | Whisper-large-v3 encoder layers 23, 30 + MERT-v1-95M layer 7 + Whisper-small language ID, logistic regression | 60.8% | 90.2% |
+| 2. Release market | US, UK, Brazil, Spain, Germany, Italy | Whisper-medium encoder layer 12 + MERT-v1-330M layer 8 + Whisper-small language ID, logistic regression | 63.7% | 86.3% |
+
+Both models are selected by one procedure (report, Ablation 1): the best single Whisper layer of all
+five sizes is combined with three layer sets of MERT-v1-95M and MERT-v1-330M, and the combination with
+the highest validation top-1 is the final model.
 
 All encoders are frozen. Frame features are pooled with mean + std over time, standardized, and
 classified with an L2 logistic regression. The report is `submission/r14725022_report.pdf`; the
@@ -33,9 +37,9 @@ python src/inference.py \
   confidence order, under `dataset_A` and `dataset_B`.
 - The script extracts features into `features_inference/` and then applies the two classifiers in
   `checkpoints/best/`. Add `--skip_extract` to reuse features from a previous run.
-- Five pretrained models are downloaded from the Hugging Face Hub on first use (about 6 GB in total):
-  `openai/whisper-tiny`, `openai/whisper-small`, `openai/whisper-large-v3`,
-  `m-a-p/MERT-v1-95M`, `m-a-p/MERT-v1-330M`. MERT uses `trust_remote_code=True`.
+- Four pretrained models are downloaded from the Hugging Face Hub on first use (about 5.5 GB in total):
+  `openai/whisper-tiny`, `openai/whisper-small`, `openai/whisper-medium`, `m-a-p/MERT-v1-330M`.
+  MERT uses `trust_remote_code=True`.
 - A CUDA GPU is used when available. The code also falls back to Apple MPS or the CPU, but only the CUDA path was tested.
 
 **Verified:** running this command on the released audio reproduces `submission/r14725022.json` exactly
@@ -119,11 +123,11 @@ python src/train.py --dataset A --layers 7 --C 0.0003 0.001 0.003 0.01 --name A_
     --features "mert@features/A_mert_whisper-tiny_30s.npz:1+mert@features/A_mert_MERT-v1-330M_5s.npz:5,6,14"
 
 # Task 2
-python src/extract_whisper.py --dataset B --size large-v3
-python src/extract_mert.py    --dataset B
+python src/extract_whisper.py --dataset B --size medium
+python src/extract_mert.py    --dataset B --model m-a-p/MERT-v1-330M
 python src/extract_lang.py    --dataset B
-python src/train.py --dataset B --layers 7 --C 0.0003 0.001 0.003 0.01 --name B_wl_L23-30_mert7_lang \
-    --features "mert@features/B_mert_whisper-large-v3_30s.npz:23,30+mert+lang"
+python src/train.py --dataset B --layers 7 --C 0.0003 0.001 0.003 0.01 --name B_wm_L12_m330L8_lang \
+    --features "mert@features/B_mert_whisper-medium_30s.npz:12+mert@features/B_mert_MERT-v1-330M_5s.npz:8+lang"
 ```
 
 `train.py` fits on the training split, selects `C` by validation top-1, and writes

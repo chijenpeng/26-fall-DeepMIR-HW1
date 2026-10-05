@@ -48,7 +48,7 @@ def confusion(name, out, cm=None, L=None):
 
 if __name__ == "__main__":
     a = confusion("A_wt_L1_m330", "cm_task1.pdf")
-    b = confusion("B_wl_L23-30_mert7_lang", "cm_task2.pdf")
+    b = confusion("B_wm_L12_m330L8_lang", "cm_task2.pdf")
     confusion("A_best_regression", "cm_task1_regression.pdf")       # ridge regression on the decade index, final features
     confusion("A_handcrafted_svm", "cm_handcrafted_task1.pdf")      # 24 hand-crafted production features, RBF SVM
     confusion("B_handcrafted_svm", "cm_handcrafted_task2.pdf")
@@ -103,10 +103,11 @@ if __name__ == "__main__":
     from config import LABELS
     fig, axes = plt.subplots(1, 2, figsize=(7.8, 3.0), sharey=True)
     enc = [("Whisper-tiny", "{ds}_mert_whisper-tiny_layer_sweep", "#dd8452", "-"),
+           ("Whisper-medium", "{ds}_mert_whisper-medium_layer_sweep", "#8172b3", "-"),
            ("Whisper-large-v3", "{ds}_mert_whisper-large-v3_layer_sweep", "#c44e52", "-"),
            ("MERT-v1-95M", "{ds}_mert_MERT-v1-95M_layer_sweep", "#4c72b0", "--"),
            ("MERT-v1-330M", "{ds}_mert_MERT-v1-330M_layer_sweep", "#55a868", "--")]
-    used = {"A": {"Whisper-tiny": [1], "MERT-v1-330M": [5, 6, 14]}, "B": {"Whisper-large-v3": [23, 30], "MERT-v1-95M": [7]}}
+    used = {"A": {"Whisper-tiny": [1], "MERT-v1-330M": [5, 6, 14]}, "B": {"Whisper-medium": [12], "MERT-v1-330M": [8]}}
     for ax, ds, title in zip(axes, "AB", ["Task 1: decade", "Task 2: market"]):
         for name, pat, c, ls in enc:
             sw = json.load(open(RESULTS / (pat.format(ds=ds) + ".json")))
@@ -123,7 +124,7 @@ if __name__ == "__main__":
         [ax.spines[k].set_visible(False) for k in ("top", "right")]
     axes[0].set_ylabel("Validation top-1 (%)")
     hd, lb = axes[0].get_legend_handles_labels()
-    fig.legend(hd, lb, frameon=False, fontsize=9, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.07), columnspacing=1.5)
+    fig.legend(hd, lb, frameon=False, fontsize=8.5, loc="lower center", ncol=5, bbox_to_anchor=(0.5, -0.07), columnspacing=1.2)
     plt.tight_layout(pad=0.4)
     plt.savefig(OUT / "layer_sweep.pdf", bbox_inches="tight", pad_inches=0.04)
     plt.close()

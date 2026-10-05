@@ -8,8 +8,8 @@ are predicted (use --split all for every clip).
 
 Steps (all with the released checkpoints in checkpoints/best/):
   Task 1  Whisper-tiny encoder layer 1  +  MERT-v1-330M layers 5, 6, 14      -> logistic regression
-  Task 2  Whisper-large-v3 encoder layers 23, 30  +  MERT-v1-95M layer 7  +  Whisper-small language ID -> logistic regression
-Frame features are pooled with mean + std over time. The five pretrained models are downloaded
+  Task 2  Whisper-medium encoder layer 12  +  MERT-v1-330M layer 8  +  Whisper-small language ID -> logistic regression
+Frame features are pooled with mean + std over time. The four pretrained models are downloaded
 from the Hugging Face Hub on first use.
 """
 import argparse, json, os, subprocess, sys
@@ -52,8 +52,8 @@ def main():
             run("extract_mert.py", "--dataset", "A", "--model", "m-a-p/MERT-v1-330M", "--data_root", dA, env=env)
         if a.data_B:
             dB = str(Path(a.data_B).resolve())
-            run("extract_whisper.py", "--dataset", "B", "--size", "large-v3", "--data_root", dB, env=env)
-            run("extract_mert.py", "--dataset", "B", "--model", "m-a-p/MERT-v1-95M", "--data_root", dB, env=env)
+            run("extract_whisper.py", "--dataset", "B", "--size", "medium", "--data_root", dB, env=env)
+            run("extract_mert.py", "--dataset", "B", "--model", "m-a-p/MERT-v1-330M", "--data_root", dB, env=env)
             run("extract_lang.py", "--dataset", "B", "--data_root", dB, env=env)
 
     # ---- classification (same feature-assembly code as training) ----
@@ -67,13 +67,13 @@ def main():
         "A": dict(ckpt="task1_decade.joblib",
                   features=f"mert@{work}/A_mert_MERT-v1-330M_5s.npz:5,6,14+mert@{work}/A_mert_whisper-tiny_30s.npz:1"),
         "B": dict(ckpt="task2_market.joblib",
-                  features=f"mert@{work}/B_mert_whisper-large-v3_30s.npz:23,30+mert+lang"),
+                  features=f"mert@{work}/B_mert_whisper-medium_30s.npz:12+mert@{work}/B_mert_MERT-v1-330M_5s.npz:8+lang"),
     }
     out = {}
     for ds, given in (("A", a.data_A), ("B", a.data_B)):
         if not given:
             continue
-        X, meta = build_X(feature_spec(ds, spec[ds]["features"]), [7])   # [7] = MERT-v1-95M layer of Task 2; other blocks carry their own layers
+        X, meta = build_X(feature_spec(ds, spec[ds]["features"]), [7])   # [7] = layers of the default `mert` block, unused here: every block carries its own layers
         clf = joblib.load(Path(a.ckpt_dir) / spec[ds]["ckpt"])["clf"]
         proba = clf.predict_proba(X)
         sel = np.ones(len(X), bool) if a.split == "all" else (meta["split"] == a.split)
