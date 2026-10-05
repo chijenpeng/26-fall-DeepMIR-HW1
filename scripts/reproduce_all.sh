@@ -43,13 +43,13 @@ for d in A B; do
 done
 # Reference rows and the rows used by Ablation (3)
 T A_handcrafted_svm        --dataset A --features handcrafted --clf svm --C 0.3 1 3 10
-T A_mert330_L5-6-14        --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 $C4
-T A_mert330_L5-6-14_nostd  --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --no_std $C4
-T A_mert330_L5-6-14_svm    --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --clf svm --C 0.3 1 3
+T A_final_nostd            --dataset A --features $WT+$M330 --layers 7 --no_std $C4              # final model, mean pooling only
+T A_final_svm              --dataset A --features $WT+$M330 --layers 7 --clf svm --C 0.3 1 3 10   # final model, RBF SVM
+T B_final_nostd            --dataset B --features $WM+$M8+lang --layers 7 --no_std $C4
+T B_final_svm              --dataset B --features $WM+$M8+lang --layers 7 --clf svm --C 0.3 1 3 10
 T A_wt_L1_m330_hc          --dataset A --features $WT+$M330+handcrafted --layers 7 $C4
 T B_handcrafted_svm        --dataset B --features handcrafted --clf svm --C 0.3 1 3 10
 T B_lang_only              --dataset B --features lang $C4
-T B_mert_L7                --dataset B --features mert --layers 7 $C4
 T B_wm_L12_m330L8         --dataset B --features $WM+$M8 --layers 7 $C4              # the final model without language ID
 
 # Model selection grid, Ablation (1a) and (1b): the best Whisper layer combined with three MERT layer sets per MERT size.
@@ -83,11 +83,11 @@ for s in 5 10 15 30; do
 done
 
 # ------------------------------------------------------------------ 5. optional experiments: multiple excerpts, regression, t-SNE
-$PY src/train_chunks.py --dataset A --layers 6,7,9
-$PY src/train_chunks.py --dataset A --mert_model MERT-v1-330M --layers 5,6,14 --name A_chunks330
-$PY src/train_chunks.py --dataset B --layers 7
-$PY src/train_chunks.py --dataset B --mert_model MERT-v1-330M --layers 8,9,12 --name B_chunks330
-T B_mert330_L8-9-12 --dataset B --features mert --mert_model MERT-v1-330M --layers 8,9,12 $C4
+# chunk-level training on the MERT layer set of each final model, for both MERT sizes (clip-level counterparts: sel_* runs above)
+$PY src/train_chunks.py --dataset A --layers 6,7,9 $C4
+$PY src/train_chunks.py --dataset A --mert_model MERT-v1-330M --layers 5,6,14 --name A_chunks330 $C4
+$PY src/train_chunks.py --dataset B --layers 7 $C4
+$PY src/train_chunks.py --dataset B --mert_model MERT-v1-330M --layers 8 --name B_chunks330_L8 $C4
 $PY src/regression.py --features $WT+$M330 --layers 7 --name A_best          # ridge regression and hierarchical prediction
 $PY src/tsne.py --dataset A --features $WT+$M330 --layers 7 --model results/A_wt_L1_m330.joblib --name A_best_logits
 $PY src/tsne.py --dataset B --features $WM+$M8+lang --layers 7 --name B_best
