@@ -1,0 +1,114 @@
+% DeepMIR HW1 report slides. Build: latexmk -xelatex main.tex   (16:9, theme = Moloch, the maintained Metropolis)
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme[progressbar=frametitle]{moloch}        % swap for metropolis / focus / Arguelles to change the look
+
+% ---------- fonts: Fira Sans (ships with TeX Live) + PingFang TC for Chinese ----------
+\usepackage{fontspec}
+\setsansfont{FiraSans}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-SemiBold, ItalicFont=*-Italic, BoldItalicFont=*-SemiBoldItalic]
+\setmonofont{FiraMono}[Extension=.otf, UprightFont=*-Regular, BoldFont=*-Bold, Scale=0.9]
+\usepackage{xeCJK}
+\setCJKmainfont{PingFang TC}\setCJKsansfont{PingFang TC}\setCJKmonofont{PingFang TC}
+
+% ---------- packages ----------
+\usepackage{booktabs, graphicx, array, multirow}
+\usepackage{appendixnumberbeamer}
+\graphicspath{{figs/}{../results/}{../eda/}}
+\hypersetup{colorlinks=true, urlcolor=orange!80!black, linkcolor=.}
+
+% ---------- helpers ----------
+\newcommand{\best}[1]{\textbf{\alert{#1}}}                       % highlight the best number in a table
+\newcommand{\fig}[2][0.78\textheight]{\includegraphics[height=#1,keepaspectratio]{#2}}
+\newcommand{\src}[1]{\vfill{\scriptsize\color{gray}#1}}          % small source / setting note at the bottom of a slide
+
+\title{Music Era and Release-Market Classification}
+\subtitle{DeepMIR 2026 Fall --- Homework 1}
+\author{姓名 \quad 學號}
+\institute{Code, checkpoints, README: \url{https://github.com/chijenpeng/26-fall-DeepMIR-HW1}}
+\date{2026-10-05}
+
+\begin{document}
+\maketitle
+
+% =====================================================================
+\section{Experimental Setting}
+\begin{frame}{Experimental setting}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \textbf{Pipeline}
+      \begin{itemize}
+        \item 30 s clip, 24 kHz mono
+        \item frozen encoder $\rightarrow$ mean + std pooling over time
+        \item StandardScaler $\rightarrow$ L2 logistic regression
+        \item train = fit, validation = model selection, test = prediction file only
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \textbf{Hardware / software}\\[0.3em]
+      {\small
+      \begin{tabular}{@{}ll@{}}
+        \toprule
+        GPU & 2 $\times$ NVIDIA RTX A4500 (20 GB) \\
+        CPU / RAM & Intel i9-14900K, 125 GB \\
+        OS & Ubuntu 26.04 \\
+        Software & PyTorch 2.14, Transformers 4.45,\\ & scikit-learn 1.9 \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Results}
+\begin{frame}{Task 1: release decade}
+  \begin{columns}[c]
+    \begin{column}{0.44\textwidth}
+      % TODO: best model, top-1 / top-3, error analysis
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        & Top-1 & Top-3 \\ \midrule
+        Best model & \best{.523} & .864 \\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.56\textwidth}
+      \centering\fig[0.72\textheight]{A_wt_L1_m330_cm.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Task 2: release market}
+  % TODO
+\end{frame}
+
+% =====================================================================
+\section{Optional Experiments}
+\begin{frame}{Input length: 5 / 10 / 15 / 30 s}
+  % TODO
+\end{frame}
+
+% =====================================================================
+\section{Ablation}
+\begin{frame}{Frozen features vs.\ fine-tuning}
+  % TODO
+\end{frame}
+
+% =====================================================================
+\section{Audio Language Model}
+\begin{frame}{Qwen2-Audio, zero-shot}
+  % TODO
+\end{frame}
+
+% =====================================================================
+\section{Disclosure}
+\begin{frame}{Use of AI assistance}
+  % TODO: statement from report_outline.md section 5
+\end{frame}
+
+% =====================================================================
+\section{References}
+\begin{frame}[allowframebreaks]{References}
+  \footnotesize
+  % TODO: list from report_outline.md section 6
+\end{frame}
+
+\end{document}
