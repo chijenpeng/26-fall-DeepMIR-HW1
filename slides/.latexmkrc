@@ -5,4 +5,4 @@ $pdf_mode = 5;                      # plain `latexmk` -> xelatex
 $pdflatex = 'xelatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S';
 $xelatex  = 'xelatex -synctex=1 -interaction=nonstopmode -file-line-error -no-pdf %O %S';
 # After every successful build of main.tex, refresh the deliverable under its required file name.
-$success_cmd = 'if [ "%R" = "main" ]; then cp %D ../r14725022_report.pdf; fi';
+$success_cmd = 'if [ "%R" = "main" ]; then mkdir -p ../submission && cp %D ../submission/r14725022_report.pdf; fi';

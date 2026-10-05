@@ -10,8 +10,8 @@ Two six-class tasks on 30-second clips (24 kHz mono):
 | 2. Release market | US, UK, Brazil, Spain, Germany, Italy | Whisper-large-v3 encoder layers 23, 30 + MERT-v1-95M layer 7 + Whisper-small language ID, logistic regression | 60.8% | 90.2% |
 
 All encoders are frozen. Frame features are pooled with mean + std over time, standardized, and
-classified with an L2 logistic regression. The report is `r14725022_report.pdf`; the submitted
-predictions are `r14725022.json`.
+classified with an L2 logistic regression. The report is `submission/r14725022_report.pdf`; the
+submitted predictions are `submission/r14725022.json`.
 
 ## Inference
 
@@ -38,7 +38,7 @@ python src/inference.py \
   `m-a-p/MERT-v1-95M`, `m-a-p/MERT-v1-330M`. MERT uses `trust_remote_code=True`.
 - A CUDA GPU is used when available. The code also falls back to Apple MPS or the CPU, but only the CUDA path was tested.
 
-**Verified:** running this command on the released audio reproduces `r14725022.json` exactly
+**Verified:** running this command on the released audio reproduces `submission/r14725022.json` exactly
 (132 / 132 Task 1 and 102 / 102 Task 2 clips with identical top-3 lists). It took 56 seconds on one
 NVIDIA RTX A4500 with the models already downloaded.
 
@@ -68,6 +68,7 @@ src/
 eda/                      spectral and dynamics analysis of the Task 1 training split
 scripts/reproduce_all.sh  every command behind the numbers in the report
 checkpoints/best/         the two final classifiers (task1_decade.joblib, task2_market.joblib)
+submission/               the submitted report (PDF) and predictions (JSON)
 results/                  validation metrics (*_val.json), confusion matrices, sweeps, ALM outputs
 slides/                   LaTeX source of the report
 notes/                    working notes (in Chinese)
