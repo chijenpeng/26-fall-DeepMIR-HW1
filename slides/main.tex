@@ -584,10 +584,9 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 % =====================================================================
 \section{Ablation}
 
-\begin{frame}[t,label=ablation]{Ablation (1): which features?}
+\begin{frame}[t,label=ablation]{Ablation (1a): which features? Task 1}
   \begin{columns}[T]
     \begin{column}{0.5\textwidth}
-      \centering
       {\footnotesize\setlength{\tabcolsep}{4pt}
       \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -595,16 +594,37 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         Hand-crafted production (24-d) & 40.9 & 84.8 \\
         Whisper-tiny, layer 1 & 47.0 & 81.8 \\
         MERT-v1-95M, best layer (7) & 47.7 & 82.6 \\
-        MERT-v1-95M, layers 6, 8, 10 & 48.5 & 81.8 \\
-        MERT-v1-330M, best layer (5) & 51.5 & \best{87.9} \\
-        MERT-v1-330M, layers 5, 6, 14 & 50.0 & \best{87.9} \\
+        MERT-v1-95M, layers 6, 8, 10 & 48.5 & 81.8 \\ \midrule
+        MERT-v1-330M, best layer (5) & 51.5 & 87.9 \\
+        \quad + Whisper-tiny layer 1 {\color{gray}(not used)} & 50.8 & \best{88.6} \\ \midrule
+        MERT-v1-330M, layers 5, 6, 14 & 50.0 & 87.9 \\
         \quad + Whisper-tiny layer 1 \textbf{(final)} & \best{52.3} & 86.4 \\
         \quad\quad + hand-crafted & 51.5 & 86.4 \\
         \bottomrule
       \end{tabular}}
+
+      \vspace{0.4em}
+      {\scriptsize\color{gray}Logistic-regression rows: mean + std pooling, one grid $C \in \{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$ chosen on validation. Hand-crafted row: seeded RBF SVM.\par}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \centering
+      \begin{tight}\footnotesize
+        \item Music encoder $>$ speech encoder, and a larger MERT $>$ a smaller one
+        \item The two families are complementary (+2.3 points from Whisper-tiny); hand-crafted features add nothing on top of MERT
+      \end{tight}
+      \vspace{0.4em}
+      {\footnotesize\textbf{Why layers 5, 6, 14 and not the best single layer?}}
+      \begin{tight}\footnotesize
+        \item The three layers come from an earlier sweep with a narrower $C$ grid, where they beat every single layer
+        \item With the unified grid, layer 5 alone reaches 51.5\%
+        \item Tested: layer 5 + Whisper-tiny gives 50.8\%, below the submitted 52.3\%. All variants are \alert{within 2 clips}
+      \end{tight}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Ablation (1b): which features? Task 2}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
       {\footnotesize\setlength{\tabcolsep}{4pt}
       \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -612,23 +632,36 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         Hand-crafted production (24-d) & 22.5 & 57.8 \\
         MERT-v1-95M, layer 7 & 42.2 & 72.5 \\
         MERT-v1-330M, layer 9 & 45.1 & 72.5 \\
-        Whisper-small language ID (7-d) & 53.9 & 79.4 \\
+        Whisper-small language ID (7-d) & 53.9 & 79.4 \\ \midrule
         Whisper-large-v3, layer 30 & 58.8 & 80.4 \\
+        \quad + MERT-v1-330M layer 9 {\color{gray}(not used)} & 59.8 & 88.2 \\
         \quad + MERT-v1-95M layer 7 & 59.8 & 89.2 \\
         \quad\quad + language ID & 59.8 & \best{90.2} \\
         \quad\quad\quad + layer 23 \textbf{(final)} & \best{60.8} & \best{90.2} \\
         \bottomrule
       \end{tabular}}
+
+      \vspace{0.4em}
+      {\scriptsize\color{gray}Same protocol and $C$ grid as for Task 1.\par}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tight}\footnotesize
+        \item The order is reversed: speech encoder $>$ explicit language ID $>$ music encoder
+        \item Production features are close to chance (16.7\%)
+        \item MERT adds +1 point of top-1 but \alert{+9 points of top-3} to Whisper: a music encoder supplies what a speech encoder misses
+      \end{tight}
+      \vspace{0.5em}
+      {\footnotesize\textbf{Why MERT-95M and not MERT-330M?}}
+      \begin{tight}\footnotesize
+        \item Alone, 330M is better (45.1\% vs.\ 42.2\%)
+        \item Added to Whisper, both give the \alert{same top-1} (59.8\%): the advantage of 330M does not carry over
+        \item 95M has the better top-3 (89.2\% vs.\ 88.2\%) and is 3.5$\times$ smaller, so we use it. More combinations on the next slide
+      \end{tight}
     \end{column}
   \end{columns}
-  \begin{tight}\footnotesize
-    \item \textbf{Task 1}: a music encoder beats a speech encoder and the two are complementary; hand-crafted features add nothing once MERT is present. Three MERT-330M layers are not better than its best single layer
-    \item \textbf{Task 2}: the order is reversed. A speech encoder beats explicit language ID, which beats a music encoder; production features are close to chance (16.7\%)
-    \item Encoder rows: mean + std pooling, L2 logistic regression, one grid $C \in \{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$ everywhere. Hand-crafted rows: seeded RBF SVM
-  \end{tight}
 \end{frame}
 
-\begin{frame}[t]{Ablation (1b): Task 2 design choices}
+\begin{frame}[t]{Ablation (1c): Task 2 design choices}
   \begin{columns}[T]
     \begin{column}{0.6\textwidth}
       \small\textbf{Which MERT to combine with?} (top-1 / top-3)\\[0.2em]
@@ -638,6 +671,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         & 95M, layer 7 & 330M, layer 9 \\ \midrule
         MERT alone & 42.2 / 72.5 & \best{45.1} / 72.5 \\
         + language ID & \best{55.9} / 77.5 & 52.0 / 78.4 \\
+        + Whisper (30) & 59.8 / \best{89.2} & 59.8 / 88.2 \\
         + Whisper (23, 30) + language ID & \best{60.8} / \best{90.2} & 59.8 / 88.2 \\
         + Whisper (20, 30) + language ID & \best{63.7} / \best{91.2} & 60.8 / 90.2 \\
         \bottomrule
@@ -663,7 +697,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
     \end{column}
   \end{columns}
   \begin{tight}\footnotesize
-    \item \textbf{MERT-95M, not 330M}: the larger model is better alone (+2.9 points) but equal or worse in every combination. In the final model MERT only adds what Whisper lacks, and 330M brings 512 more dimensions for 798 training clips
+    \item \textbf{MERT-95M, not 330M}: the larger model is better alone (+2.9 points) but equal or worse in every combination: its advantage does not carry over. In the final model MERT only adds what Whisper lacks; 330M adds 512 more dimensions for 798 training clips
     \item \textbf{Layer 23} was picked for its single-layer top-3 (89.2\%, the best) before pairs were swept; layers 20 to 22 are 1 to 3 clips better. We keep the submitted model: this is within the noise of 102 validation clips, and picking the maximum would overfit validation further
   \end{tight}
 \end{frame}
@@ -676,7 +710,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \begin{tight}\footnotesize
     \item One logistic regression per layer, same $C$ grid as Ablation (1); stars mark the layers used in the final models
     \item \textbf{Task 1}: Whisper is best at its \alert{first} layers (47.0\% at layer 1 of Whisper-tiny) and falls to 27\% at the last. MERT peaks before the middle (layer 5 of 24 in MERT-330M)
-    \item \textbf{Task 2}: Whisper \alert{improves with depth}, from 32\% at layer 1 to 59\% from layer 21 on in Whisper-large-v3. The star at layer 23 is not a top-1 peak: it was chosen for top-3 (Ablation 1b)
+    \item \textbf{Task 2}: Whisper \alert{improves with depth}, from 32\% at layer 1 to 59\% from layer 21 on in Whisper-large-v3. The star at layer 23 is not a top-1 peak: it was chosen for top-3 (Ablation 1c)
     \item Same encoder, opposite trends: decade cues sit in shallow layers, market cues in deep layers
   \end{tight}
 \end{frame}

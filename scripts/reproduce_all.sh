@@ -47,6 +47,8 @@ T A_mert_L8                --dataset A --features mert --layers 8 $C4
 T A_mert_L6-8-10           --dataset A --features mert --layers 6,8,10 $C4
 T A_wt_L1                  --dataset A --features $WT --layers 7 $C4
 T A_mert330_L5-6-14        --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 $C4
+T A_mert330_L5             --dataset A --features mert --mert_model MERT-v1-330M --layers 5 $C4       # best single layer
+T A_wt_L1_m330L5           --dataset A --features $WT+mert@features/A_mert_MERT-v1-330M_5s.npz:5 --layers 7 $C4   # alternative, not used
 T A_mert330_L5-6-14_nostd  --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --no_std $C4
 T A_mert330_L5-6-14_svm    --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --clf svm --C 0.3 1 3
 T A_wt_L1_m330_hc          --dataset A --features $WT+$M330+handcrafted --layers 7 $C4
@@ -58,7 +60,9 @@ T B_mert330_L9             --dataset B --features $M330B --layers 7 $C4
 T B_lang_only              --dataset B --features lang $C4
 T B_wl_L30                 --dataset B --features $WL:30 --layers 7 $C4
 T B_wl_L30_mert7           --dataset B --features $WL:30+mert --layers 7 $C4
+T B_wl_L30_m330L9          --dataset B --features $WL:30+$M330B --layers 7 $C4       # the alternative: the larger MERT
 T B_wl_L30_mert7_lang      --dataset B --features $WL:30+mert+lang --layers 7 $C4
+T B_wl_L30_m330L9_lang     --dataset B --features $WL:30+$M330B+lang --layers 7 $C4
 # Task 2: which MERT to combine with (95M layer 7 vs 330M layer 9)
 T B_mert_L7_lang           --dataset B --features mert+lang --layers 7 $C4
 T B_mert330_L9_lang        --dataset B --features $M330B+lang --layers 7 $C4
