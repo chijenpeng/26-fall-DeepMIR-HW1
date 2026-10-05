@@ -60,7 +60,7 @@ checkpoints/best/
 src/
   inference.py                  end-to-end inference (the command above)
   config.py                     paths, labels, manifest loading
-  utils.py                      top-k accuracy, confusion-matrix plots, JSON output
+  utils.py                      top-k accuracy, confusion-matrix plots, label / split helpers, JSON output
 
   # feature extraction
   extract_whisper.py            Whisper encoder hidden states, mean + std per layer
@@ -177,6 +177,9 @@ MERT remote code was tested with this `transformers` version.
   epoch). Test labels are hidden; the test split is only predicted.
 - More than 100 configurations were compared on 132 and 102 validation clips, so the validation
   scores above are optimistic estimates of test accuracy.
+- The two final models are logistic regressions fitted with L-BFGS, which is deterministic. The RBF
+  SVM used in the ablation is seeded (`random_state=0`); its three numbers in the report come from
+  the seeded runs. Fine-tuning runs are seeded but GPU results can still vary slightly between runs.
 
 ## Use of AI assistance
 

@@ -519,7 +519,7 @@
   \vspace{0.6em}
 
   \begin{tight}\footnotesize
-    \item \textbf{Hand-crafted production features} (24-d: band energies, crest factor, limiter statistics) reach 40.9\% on Task 1 but only \alert{21.6\% on Task 2} (chance 16.7\%): within one decade, mastering does not depend on the market
+    \item \textbf{Hand-crafted production features} (24-d: band energies, crest factor, limiter statistics) reach 40.9\% on Task 1 but only \alert{22.5\% on Task 2} (chance 16.7\%): within one decade, mastering does not depend on the market
     \item \textbf{High-frequency energy} (8--12 kHz) is 4 to 5 dB lower in the 1960s and 1970s than later; the clips are band-limited to 12 kHz, so anything above that is unavailable
   \end{tight}
 \end{frame}
@@ -535,7 +535,7 @@
       \begin{tabular}{@{}lcc@{}}
         \toprule
         \textbf{Task 1: decade} & Top-1 & Top-3 \\ \midrule
-        Hand-crafted production (24-d) & 40.9 & 85.6 \\
+        Hand-crafted production (24-d) & 40.9 & 84.8 \\
         MERT-v1-95M, best layer (8) & 43.9 & 84.8 \\
         MERT-v1-95M, layers 6, 8, 10 & 48.5 & 81.8 \\
         Whisper-tiny, layer 1 & 47.0 & 81.8 \\
@@ -551,7 +551,7 @@
       \begin{tabular}{@{}lcc@{}}
         \toprule
         \textbf{Task 2: market} & Top-1 & Top-3 \\ \midrule
-        Hand-crafted production (24-d) & 21.6 & 58.8 \\
+        Hand-crafted production (24-d) & 22.5 & 57.8 \\
         MERT-v1-95M, layer 7 & 42.2 & 72.5 \\
         MERT-v1-330M, layer 9 & 45.1 & 72.5 \\
         Whisper-small language ID (7-d) & 53.9 & 79.4 \\
@@ -566,8 +566,8 @@
   \vspace{0.6em}
   \begin{tight}\footnotesize
     \item \textbf{Task 1}: a music encoder beats a speech encoder, and the two are complementary (+2.3). Hand-crafted features add nothing once MERT is present
-    \item \textbf{Task 2}: the order is reversed. A speech encoder beats explicit language ID, which beats a music encoder; production features are at chance (16.7\%)
-    \item All rows: mean + std pooling, StandardScaler, L2 logistic regression; $C$ chosen on validation from $\{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$
+    \item \textbf{Task 2}: the order is reversed. A speech encoder beats explicit language ID, which beats a music encoder; production features are close to chance (22.5\% vs.\ 16.7\%)
+    \item Encoder rows: mean + std pooling, StandardScaler, L2 logistic regression, $C$ chosen on validation from $\{3{\times}10^{-4}, 10^{-3}, 3{\times}10^{-3}, 10^{-2}\}$. Hand-crafted rows: RBF SVM (seeded)
   \end{tight}
 \end{frame}
 
@@ -610,7 +610,7 @@
         Task 1, MERT-v1-330M & Top-1 & Top-3 \\ \midrule
         mean + std, log.\ reg. & \best{50.0} & \best{87.9} \\
         mean only, log.\ reg. & 46.2 & 87.1 \\
-        mean + std, RBF SVM & 43.9 & 82.6 \\
+        mean + std, RBF SVM & 43.9 & 84.8 \\
         \bottomrule
       \end{tabular}}
     \end{column}

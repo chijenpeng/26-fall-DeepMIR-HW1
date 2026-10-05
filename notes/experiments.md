@@ -4,6 +4,15 @@
 A 一首 = 0.76%,B 一首 = 0.98%,所以 2 到 3% 的差距都在雜訊範圍內。
 每組實驗在 `results/` 都有 `<名稱>_val.json`(含混淆矩陣 counts)和 `<名稱>_cm.png`(左 counts、右 row-normalized)。
 
+## 關於 SVM 的可重現性(10/05 補記)
+
+`SVC(probability=True)` 內部會做隨機的交叉驗證,原本沒有設種子,同一指令每次跑會差 1 到 2 首歌
+(實測四次:22.6%、21.6%、23.5%、22.6%)。已在 `train.py` 加上 `random_state=0`,並重跑簡報用到的三組:
+`A_handcrafted_svm` .409/.856 → .409/.848、`B_handcrafted_svm` .216/.588 → .225/.578、
+`A_mert330_L5-6-14_svm` .439/.826 → .439/.848。本檔其他 SVM 列(`A_mert_L8_svm`、`A_both_L8_svm`、
+`A_mert_L6-8-10_svm`、`B_mert_L7_svm`、`B_mert_L4-7_svm`、`B_wl_L30_svm` 等)仍是未設種子時的數字。
+兩個最終模型是 logistic regression,完全確定性,不受影響。
+
 ## 特徵定義
 
 | 代號 | 內容 | 維度 | 腳本 |
@@ -33,7 +42,7 @@ C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
 | 實驗名稱 | 特徵 | 分類器 | top-1 | top-3 | 相鄰年代錯誤比例 |
 |---|---|---|---|---|---|
 | A_handcrafted_logreg | handcrafted | logreg | .379 | .848 | .49 |
-| A_handcrafted_svm | handcrafted | SVM | .409 | .856 | – |
+| A_handcrafted_svm | handcrafted | SVM(固定種子重跑) | .409 | .848 | – |
 | A_mert_L8_smallC | mert L8 | logreg | .439 | .848 | .59 |
 | A_mert_L8_nostd | mert L8(只有平均) | logreg | .455 | .811 | .58 |
 | A_mert_L8_svm | mert L8 | SVM | .424 | .826 | .54 |
@@ -122,7 +131,7 @@ C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
 | A_mert330_L14 | 330M L14 | logreg | .485 | .811 |
 | A_mert330_L4-6-9-14-23 | 330M 五層 | logreg | .477 | .871 |
 | A_mert330_L5-6-14_nostd | 330M L5+L6+L14,只有平均 | logreg | .462 | .871 |
-| A_mert330_L5-6-14_svm | 330M L5+L6+L14 | SVM | .439 | .826 |
+| A_mert330_L5-6-14_svm | 330M L5+L6+L14 | SVM(固定種子重跑) | .439 | .848 |
 | A_both330_L5-6-14 | handcrafted + 330M L5+L6+L14 | logreg | .500 | .879 |
 | A_chunks330 | 330M L5+L6+L14,chunk-level | logreg | .500 | .864 |
 
@@ -144,7 +153,7 @@ C 在 validation 上挑。Top-3 直接取 softmax 機率前三名。
 
 | 實驗名稱 | 特徵 | 分類器 | top-1 | top-3 |
 |---|---|---|---|---|
-| B_handcrafted_svm | handcrafted | SVM | .216 | .588 |
+| B_handcrafted_svm | handcrafted | SVM(固定種子重跑) | .225 | .578 |
 | B_mert_L7 | mert L7 | logreg | .422 | .725 |
 | **B_mert_L4-7** | **mert L4+L7** | **logreg** | **.422** | **.794** |
 | B_mert_L3-4-5-7 | mert L3+L4+L5+L7 | logreg | .392 | .814 |
@@ -182,7 +191,7 @@ train 上的「Whisper 判定語言 × 市場」列聯表(只看 en/pt/es/de/it 
 
 ### 觀察
 
-- **手工製作特徵在 B 上等於隨機**(21.6%,隨機 16.7%)。同一年代的歌,loudness 和頻譜平衡沒有市場差異。
+- **手工製作特徵在 B 上接近隨機**(22.5%,隨機 16.7%)。同一年代的歌,loudness 和頻譜平衡沒有市場差異。
   所以 B 的最終模型不含手工特徵。
 - 混淆矩陣(B_mert_L4-7,每類 17 首):Brazil 最準(10 首),Spain 7,Italy 7,Germany 6,
   US 8,UK 5。**US 和 UK 互混最嚴重**(UK 有 8 首被判成 US)。Brazil 和 Spain 之間也有混淆。
