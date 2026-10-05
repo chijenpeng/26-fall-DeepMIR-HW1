@@ -49,11 +49,11 @@ Task 1    60s 70s 80s 90s 00s 10s  recall     Task 2     US  UK  BR  ES  DE  IT 
 
 | PDF 項目 | 做了什麼 | 結果 | 位置 |
 |---|---|---|---|
-| 5 / 10 / 15 / 30 秒 | 兩個任務,用最佳模型,對截短音訊重抽特徵並重訓 | 待補(`A_best_*s`、`B_best_*s`);早期 MERT-95M 版本 A:.356 / .432 / .455 / .439 | experiments.md「輸入長度」 |
+| 5 / 10 / 15 / 30 秒 | 兩個任務,用最佳模型,對截短音訊重抽特徵並重訓 | A top-1:.394 / .470 / .492 / .523;B top-1:.451 / .520 / .578 / .608。單調上升,尚未飽和 | experiments.md「用最佳模型重做」 |
 | 同一錄音多段訓練 | 兩個任務,每段 5 秒當獨立樣本,測試時平均機率,MERT-95M 與 330M | A .477 到 .500,B .431 到 .451,沒有比整首平均好 | 「chunk-level」 |
 | 年份回歸 / 階層式 | Task 1,MERT-95M 三層。Ridge 回歸;三群再二分 | 回歸 .311 / .788(MAE 1.06 年代);階層式 .477 / .879 | 「把年代當序數」 |
 | mixture / vocal / accompaniment | Task 2,Demucs htdemucs,各抽 MERT-95M,另對人聲跑 Whisper 語言偵測 | 混音 .422、人聲 .441、伴奏 .382;加語言後人聲 .559 | 「Source separation」 |
-| t-SNE | 最佳模型的特徵空間與分類器 logit 空間,A、B 各兩張 | 待補(`A_best*_tsne.png`、`B_best*_tsne.png`);早期 MERT-95M 版本已有 | `results/*_tsne.png` |
+| t-SNE | 最佳模型的特徵空間與分類器 logit 空間,A、B 各兩張 | A 的 logit 空間呈 1960s → 2010s 的序數弧線,2000s 與 2010s 重疊;B 的特徵空間直接看得到 Brazil、Spain、Italy 三群,英文市場混成一團 | `results/{A,B}_best_tsne.png`、`{A,B}_best_logits_tsne.png` |
 | 混淆與資料集偏差 | A:頻譜與動態 EDA(31 個手工特徵的 ANOVA);B:語言 × 市場列聯表 | 超低頻隨年代升 8.6 dB;2000s 後 crest 少 3 dB;手工特徵在 B 上是隨機水準 | observations_taskA.md、「語言特徵」 |
 
 ## 3. Ablation
@@ -147,6 +147,6 @@ Task 1    60s 70s 80s 90s 00s 10s  recall     Task 2     US  UK  BR  ES  DE  IT 
 
 - test 標籤隱藏,只能報 validation 數字並繳交預測檔 `results/submission_best_v2.json`。
 - validation 很小,A 一首 0.76%、B 一首 0.98%,前幾名之間的差距多在雜訊內。
-- 回歸、階層式、多段訓練、source separation 用的是 MERT 特徵,不是最終的 Whisper + MERT 組合。
+- 回歸、階層式、多段訓練、source separation 用的是 MERT 特徵,不是最終的 Whisper + MERT 組合(輸入長度與 t-SNE 已用最佳模型重做)。
 - `production` prompt 沒跑 Task 2;Task 1 沒做 source separation。
 - 最終模型用 scikit-learn 1.9.1 訓練,requirements.txt 需釘版本。
