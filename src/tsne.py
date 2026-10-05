@@ -19,13 +19,18 @@ if __name__ == "__main__":
     ap.add_argument("--n_chunks", type=int, default=None); ap.add_argument("--no_std", action="store_true")
     ap.add_argument("--hc_subset", default=None); ap.add_argument("--lang_model", default="whisper-small")
     ap.add_argument("--perplexity", type=float, default=30); ap.add_argument("--name", default=None)
+    ap.add_argument("--model", default=None, help="joblib from train.py: embed the classifier's 6-d logit space instead of raw features")
     a = ap.parse_args()
     layers = [int(x) for x in a.layers.split(",")]
     X, meta = build_X(a, layers)
     labels = LABELS[a.dataset]
     sel = meta["split"] != "test"
-    Xs = StandardScaler().fit_transform(X[sel])
-    Xp = PCA(n_components=min(50, Xs.shape[1]), random_state=0).fit_transform(Xs)
+    if a.model:
+        import joblib
+        Xp = joblib.load(a.model)["clf"].decision_function(X[sel])
+    else:
+        Xs = StandardScaler().fit_transform(X[sel])
+        Xp = PCA(n_components=min(50, Xs.shape[1]), random_state=0).fit_transform(Xs)
     Z = TSNE(n_components=2, perplexity=a.perplexity, init="pca", random_state=0).fit_transform(Xp)
     lab, spl = meta["label"][sel], meta["split"][sel]
     name = a.name or f"{a.dataset}_{a.features}_L{'-'.join(map(str, layers))}"

@@ -17,8 +17,8 @@ LANGS = ["en", "pt", "es", "de", "it", "fr"]
 
 
 @torch.no_grad()
-def lang_probs(paths, model, proc, device, lang_ids, sot):
-    xs = [librosa.resample(load_mono(p)[0], orig_sr=24000, target_sr=16000) for p in paths]
+def lang_probs(paths, model, proc, device, lang_ids, sot, seconds=30):
+    xs = [librosa.resample(load_mono(p)[0], orig_sr=24000, target_sr=16000)[: seconds * 16000] for p in paths]
     feats = proc(xs, sampling_rate=16000, return_tensors="pt").input_features.to(device)
     dec = torch.full((len(xs), 1), sot, dtype=torch.long, device=device)
     logits = model(input_features=feats, decoder_input_ids=dec).logits[:, -1, :]
@@ -30,6 +30,7 @@ if __name__ == "__main__":
     ap.add_argument("--dataset", required=True, choices=["A", "B"])
     ap.add_argument("--model", default="openai/whisper-small")
     ap.add_argument("--batch", type=int, default=8)
+    ap.add_argument("--seconds", type=int, default=30, help="use only the first k seconds")
     ap.add_argument("--data_root", default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
@@ -43,14 +44,14 @@ if __name__ == "__main__":
     m = load_manifest(a.dataset, a.data_root); paths = m.path.tolist()
     P = []
     for i in tqdm(range(0, len(paths), a.batch), desc=f"whisper-lang {a.dataset}"):
-        P.append(lang_probs(paths[i:i + a.batch], model, proc, device, lang_ids, sot))
+        P.append(lang_probs(paths[i:i + a.batch], model, proc, device, lang_ids, sot, a.seconds))
     P = np.concatenate(P)                                    # [N, n_all_langs]
     sel = [codes.index(c) for c in LANGS]
     probs = np.concatenate([P[:, sel], 1 - P[:, sel].sum(1, keepdims=True)], 1).astype(np.float32)
     top = np.array([codes[j] for j in P.argmax(1)])
     tag = a.model.split("/")[-1]
     FEATURES.mkdir(exist_ok=True)
-    out = a.out or FEATURES / f"{a.dataset}_lang_{tag}.npz"
+    out = a.out or FEATURES / (f"{a.dataset}_lang_{tag}.npz" if a.seconds == 30 else f"{a.dataset}_lang_{tag}_{a.seconds}s.npz")
     np.savez(out, probs=probs, names=np.array(LANGS + ["other"]), top=top, sample_id=m.sample_id.values,
              split=m.split.values, label=m.label.fillna("").values, model=tag)
     print(f"saved {out}: probs={probs.shape}")
