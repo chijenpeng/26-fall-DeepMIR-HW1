@@ -67,7 +67,7 @@ if __name__ == "__main__":
     dump(r, RESULTS / f"{name}_regression_val.json")
     print(f"regression  : top1={r['top1']:.3f} top3={r['top3']:.3f} MAE={mae:.2f} decades  alpha={al} nbr_err={r['neighbour_error_rate']:.2f}")
 
-    top1, C, proba = hierarchical(X, y, tr, va, [0.001, 0.003, 0.01, 0.03])
+    top1, C, proba = hierarchical(X, y, tr, va, [0.0003, 0.001, 0.003, 0.01, 0.03])
     h = evaluate(proba, y[va], labels, f"{name} hierarchical", RESULTS / f"{name}_hier_cm.png")
     h.update(method="hierarchical_3x2", C=C, neighbour_error_rate=neighbour_error_rate(h["confusion_counts"]))
     dump(h, RESULTS / f"{name}_hier_val.json")
