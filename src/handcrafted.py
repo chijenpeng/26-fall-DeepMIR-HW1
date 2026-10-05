@@ -3,6 +3,8 @@
 All features are computed on the full 30 s mono waveform. Selected after the EDA in eda/:
 spectral tilt (sub-bass vs. air) and brick-wall-limiter signatures were the most
 decade-discriminative; onset/transient-shape and macro-dynamics features were not.
+
+Reads audio files only; extract_handcrafted.py stores the result.
 """
 import numpy as np
 import soundfile as sf
@@ -19,6 +21,7 @@ def _db(v):
 
 
 def load_mono(path):
+    """Read an audio file as float32 mono (channels averaged). Returns (samples, sample rate)."""
     x, sr = sf.read(path, dtype="float32")
     if x.ndim > 1:
         x = x.mean(1)
@@ -26,6 +29,8 @@ def load_mono(path):
 
 
 def spectral_features(x, sr):
+    """Long-term spectrum (Welch) features: 8 band energies in dB relative to the energy above 20 Hz,
+    two low-end ratios, spectral centroid and 85 % / 99 % roll-off."""
     f, P = welch(x, fs=sr, nperseg=4096, noverlap=2048)
     tot = P[f >= 20].sum() + 1e-12
     d = {k: 10 * np.log10(P[(f >= lo) & (f < hi)].sum() / tot + 1e-12) for k, (lo, hi) in BANDS.items()}
@@ -40,6 +45,8 @@ def spectral_features(x, sr):
 
 
 def dynamics_features(x, sr):
+    """Level and dynamics features: RMS, crest factor, limiter / clipping signatures, 400 ms block
+    statistics and band-limited crest factors."""
     pk = np.abs(x).max() + 1e-9
     rms = np.sqrt((x ** 2).mean()) + 1e-9
     d = {"rms_dBFS": _db(rms), "crest_dB": _db(pk) - _db(rms)}
@@ -67,9 +74,8 @@ def dynamics_features(x, sr):
 
 
 def extract(path):
+    """All hand-crafted features of one file as a dict (spectral features first, then dynamics)."""
     x, sr = load_mono(path)
     d = spectral_features(x, sr)
     d.update(dynamics_features(x, sr))
     return d
-
-

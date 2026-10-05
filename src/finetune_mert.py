@@ -3,18 +3,23 @@
   CUDA_VISIBLE_DEVICES=0 python src/finetune_mert.py --dataset A --epochs 8
 
 Head: softmax-weighted sum over all hidden layers -> time mean -> dropout -> linear.
-Saves results/ft_<ds>_best.pt (head + encoder weights), results/ft_<ds>_val.json and
-results/ft_<ds>_proba.npz (validation + test probabilities).
+Reads   the dataset manifest and audio.
+Writes  results/<name>_best.pt (head + encoder weights), _history.json, _val.json, _cm.png, _proba.npz
+        (validation + test probabilities), _curves.png and results/ckpt/<name>/epXX.pt; <name> defaults
+        to ft_<ds>. See finetune_common.py, which holds the code shared with finetune_whisper.py.
 """
-import argparse, json, numpy as np, torch, torch.nn as nn
+import argparse, numpy as np, torch, torch.nn as nn
 from tqdm import tqdm
 from transformers import AutoModel, Wav2Vec2FeatureExtractor
 from config import RESULTS, LABELS, SR, MERT_MODEL, CHUNK_SEC, load_manifest
 from handcrafted import load_mono
-from utils import evaluate, neighbour_error_rate, dump
+from utils import label_indices
+from finetune_common import split_indices, train_step, end_epoch, write_final_results
 
 
 class MertClassifier(nn.Module):
+    """MERT encoder + learned softmax weighting of its hidden layers + linear classification head."""
+
     def __init__(self, name, n_classes, dropout=0.2):
         super().__init__()
         self.enc = AutoModel.from_pretrained(name, trust_remote_code=True)
@@ -29,16 +34,20 @@ class MertClassifier(nn.Module):
 
 
 def load_all(m, proc):
+    """Every clip of the manifest as a normalised waveform tensor (kept in memory)."""
     wavs = []
     for p in tqdm(m.path, desc="loading audio"):
-        x, sr = load_mono(p); assert sr == SR
+        x, sr = load_mono(p)
+        assert sr == SR
         wavs.append(proc(x, sampling_rate=sr, return_tensors="pt")["input_values"][0].float())
     return wavs
 
 
 @torch.no_grad()
 def predict(model, wavs, idx, device, n=CHUNK_SEC * SR, bs=8):
-    model.eval(); out = []
+    """Class probabilities [len(idx), n_classes] of the clips `idx`: softmax averaged over each clip's chunks of n samples."""
+    model.eval()
+    out = []
     for i in range(0, len(idx), bs):
         batch = [wavs[j] for j in idx[i:i + bs]]
         chunks = torch.stack([w[: len(w) // n * n].reshape(-1, n) for w in batch])   # [b, 6, n]
@@ -51,61 +60,51 @@ def predict(model, wavs, idx, device, n=CHUNK_SEC * SR, bs=8):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--dataset", required=True, choices=["A", "B"]); ap.add_argument("--model", default=MERT_MODEL)
-    ap.add_argument("--epochs", type=int, default=8); ap.add_argument("--bs", type=int, default=16)
-    ap.add_argument("--lr_enc", type=float, default=2e-5); ap.add_argument("--lr_head", type=float, default=1e-3)
+    ap.add_argument("--dataset", required=True, choices=["A", "B"])
+    ap.add_argument("--model", default=MERT_MODEL)
+    ap.add_argument("--epochs", type=int, default=8)
+    ap.add_argument("--bs", type=int, default=16)
+    ap.add_argument("--lr_enc", type=float, default=2e-5)
+    ap.add_argument("--lr_head", type=float, default=1e-3)
     ap.add_argument("--freeze_feature_extractor", action="store_true", default=True)
-    ap.add_argument("--seed", type=int, default=0); ap.add_argument("--name", default=None)
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--name", default=None)
     ap.add_argument("--ckpt_every", type=int, default=1, help="save a bf16 checkpoint every k epochs (0 = only best)")
-    a = ap.parse_args(); torch.manual_seed(a.seed); np.random.seed(a.seed)
-    device = "cuda"; labels = LABELS[a.dataset]; lab2i = {l: i for i, l in enumerate(labels)}
-    m = load_manifest(a.dataset); proc = Wav2Vec2FeatureExtractor.from_pretrained(a.model, trust_remote_code=True)
+    a = ap.parse_args()
+    torch.manual_seed(a.seed)
+    np.random.seed(a.seed)
+    device = "cuda"
+    labels = LABELS[a.dataset]
+    m = load_manifest(a.dataset)
+    proc = Wav2Vec2FeatureExtractor.from_pretrained(a.model, trust_remote_code=True)
     wavs = load_all(m, proc)
-    y = np.array([lab2i.get(l, -1) for l in m.label.fillna("")]); split = m.split.values
-    tr = np.flatnonzero(split == "train"); va = np.flatnonzero(split == "validation"); te = np.flatnonzero(split == "test")
+    y = label_indices(m.label.fillna(""), labels)
+    tr, va, te = split_indices(m.split.values)
     model = MertClassifier(a.model, len(labels)).to(device)
     if a.freeze_feature_extractor:
         for p in model.enc.feature_extractor.parameters():
             p.requires_grad = False
     enc_params = [p for n, p in model.enc.named_parameters() if p.requires_grad]
-    opt = torch.optim.AdamW([{"params": enc_params, "lr": a.lr_enc}, {"params": list(model.head.parameters()) + [model.layer_w], "lr": a.lr_head}], weight_decay=0.01)
-    steps = a.epochs * (len(tr) // a.bs); sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[a.lr_enc, a.lr_head], total_steps=steps, pct_start=0.1)
-    n = CHUNK_SEC * SR; name = a.name or f"ft_{a.dataset}"; best = (-1, None); hist = []
+    opt = torch.optim.AdamW([{"params": enc_params, "lr": a.lr_enc},
+                             {"params": list(model.head.parameters()) + [model.layer_w], "lr": a.lr_head}], weight_decay=0.01)
+    steps = a.epochs * (len(tr) // a.bs)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=[a.lr_enc, a.lr_head], total_steps=steps, pct_start=0.1)
+    n = CHUNK_SEC * SR
+    name = a.name or f"ft_{a.dataset}"
+    best = (-1, None)                                       # (best validation top-1, its epoch)
+    hist = []
     for ep in range(a.epochs):
-        model.train(); perm = np.random.permutation(tr); losses = []
+        model.train()
+        perm = np.random.permutation(tr)
+        losses = []
         for i in range(0, len(perm) - a.bs + 1, a.bs):
             idx = perm[i:i + a.bs]
-            starts = [np.random.randint(0, len(wavs[j]) - n + 1) for j in idx]
+            starts = [np.random.randint(0, len(wavs[j]) - n + 1) for j in idx]     # one random 5 s chunk per clip
             x = torch.stack([wavs[j][s:s + n] for j, s in zip(idx, starts)]).to(device)
-            with torch.autocast("cuda", dtype=torch.bfloat16):
-                loss = nn.functional.cross_entropy(model(x).float(), torch.tensor(y[idx], device=device), label_smoothing=0.1)
-            opt.zero_grad(); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); sched.step()
-            losses.append(loss.item())
-        pv = predict(model, wavs, va, device); res = evaluate(pv, y[va], labels, "")
-        val_loss = float(-np.log(pv[np.arange(len(va)), y[va]] + 1e-9).mean())
-        hist.append(dict(epoch=ep, loss=float(np.mean(losses)), val_loss=val_loss, val_top1=res["top1"], val_top3=res["top3"]))
-        print(f"epoch {ep:2d}: train_loss={np.mean(losses):.3f} val_loss={val_loss:.3f} val top1={res['top1']:.3f} top3={res['top3']:.3f}", flush=True)
-        if res["top1"] > best[0]:
-            best = (res["top1"], ep); torch.save(model.state_dict(), RESULTS / f"{name}_best.pt")
-        if a.ckpt_every and (ep + 1) % a.ckpt_every == 0:
-            ck = RESULTS / "ckpt" / name; ck.mkdir(parents=True, exist_ok=True)
-            torch.save({k: (v.to(torch.bfloat16) if v.is_floating_point() else v) for k, v in model.state_dict().items()}, ck / f"ep{ep:02d}.pt")
-        dump(dict(history=hist, best_epoch=best[1]), RESULTS / f"{name}_history.json")
+            losses.append(train_step(model, x, y[idx], opt, sched, device))
+        best = end_epoch(model, name, ep, losses, predict(model, wavs, va, device), y[va], labels, hist, best, a.ckpt_every)
     model.load_state_dict(torch.load(RESULTS / f"{name}_best.pt"))
     pv, pt = predict(model, wavs, va, device), predict(model, wavs, te, device)
-    res = evaluate(pv, y[va], labels, f"{name} (best epoch {best[1]})", RESULTS / f"{name}_cm.png")
-    res.update(dict(dataset=a.dataset, method="finetune_mert95m", best_epoch=best[1], history=hist, args=vars(a),
-                    neighbour_error_rate=neighbour_error_rate(res["confusion_counts"]),
-                    layer_weights=torch.softmax(model.layer_w, 0).tolist()))
-    dump(res, RESULTS / f"{name}_val.json")
-    np.savez(RESULTS / f"{name}_proba.npz", sample_id=np.concatenate([m.sample_id.values[va], m.sample_id.values[te]]),
-             split=np.concatenate([split[va], split[te]]), proba=np.concatenate([pv, pt]), labels=np.array(labels))
-    import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
-    ep = [h["epoch"] for h in hist]; fig, ax = plt.subplots(1, 2, figsize=(11, 4))
-    ax[0].plot(ep, [h["loss"] for h in hist], label="train loss"); ax[0].plot(ep, [h["val_loss"] for h in hist], label="val loss (NLL)")
-    ax[0].set_xlabel("epoch"); ax[0].legend(); ax[0].grid(alpha=.3)
-    ax[1].plot(ep, [h["val_top1"] for h in hist], label="val top-1"); ax[1].plot(ep, [h["val_top3"] for h in hist], label="val top-3")
-    ax[1].axvline(best[1], ls="--", c="gray"); ax[1].set_xlabel("epoch"); ax[1].legend(); ax[1].grid(alpha=.3)
-    fig.suptitle(f"{name}  (best epoch {best[1]})"); plt.tight_layout(); plt.savefig(RESULTS / f"{name}_curves.png", dpi=130)
-    print(json.dumps({k: v for k, v in res.items() if k not in ("confusion_counts", "history", "args")}, indent=1))
+    # the stored method string is "finetune_mert95m" whatever --model is (known labelling quirk, left as is)
+    res = write_final_results(model, name, "finetune_mert95m", a, labels, hist, best[1], m, y, va, te, pv, pt)
     print(np.array(res["confusion_counts"]))

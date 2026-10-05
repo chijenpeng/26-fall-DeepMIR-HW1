@@ -18,6 +18,7 @@ LANGS = ["en", "pt", "es", "de", "it", "fr"]
 
 @torch.no_grad()
 def lang_probs(paths, model, proc, device, lang_ids, sot, seconds=30):
+    """Posterior over all Whisper language tokens for a batch of files: array [len(paths), len(lang_ids)]."""
     xs = [librosa.resample(load_mono(p)[0], orig_sr=24000, target_sr=16000)[: seconds * 16000] for p in paths]
     feats = proc(xs, sampling_rate=16000, return_tensors="pt").input_features.to(device)
     dec = torch.full((len(xs), 1), sot, dtype=torch.long, device=device)
@@ -34,14 +35,16 @@ if __name__ == "__main__":
     ap.add_argument("--data_root", default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
-    device = get_device(); print("device:", device, "model:", a.model)
+    device = get_device()
+    print("device:", device, "model:", a.model)
     proc = WhisperProcessor.from_pretrained(a.model)
     model = WhisperForConditionalGeneration.from_pretrained(a.model).to(device).eval()
     tok = proc.tokenizer
     codes = list(LANGUAGES.keys())
     lang_ids = [tok.convert_tokens_to_ids(f"<|{c}|>") for c in codes]
     sot = tok.convert_tokens_to_ids("<|startoftranscript|>")
-    m = load_manifest(a.dataset, a.data_root); paths = m.path.tolist()
+    m = load_manifest(a.dataset, a.data_root)
+    paths = m.path.tolist()
     P = []
     for i in tqdm(range(0, len(paths), a.batch), desc=f"whisper-lang {a.dataset}"):
         P.append(lang_probs(paths[i:i + a.batch], model, proc, device, lang_ids, sot, a.seconds))

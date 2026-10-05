@@ -20,6 +20,7 @@ SRC = ROOT / "src"
 
 
 def run(script, *args, env):
+    """Run one src/ script as a subprocess from the repository root; raise if it fails."""
     cmd = [sys.executable, str(SRC / script), *map(str, args)]
     print("+", " ".join(cmd), flush=True)
     subprocess.run(cmd, check=True, env=env, cwd=ROOT)
@@ -36,7 +37,8 @@ def main():
     ap.add_argument("--skip_extract", action="store_true", help="reuse features already in --work_dir")
     a = ap.parse_args()
     assert a.data_A or a.data_B, "give --data_A and/or --data_B"
-    work = Path(a.work_dir).resolve(); work.mkdir(parents=True, exist_ok=True)
+    work = Path(a.work_dir).resolve()
+    work.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, HW1_FEATURES=str(work), PYTORCH_ENABLE_MPS_FALLBACK="1")
     if a.split != "all":
         env["HW1_ONLY_SPLIT"] = a.split

@@ -15,6 +15,7 @@ os.environ.setdefault("PYTORCH_ENABLE_MPS_FALLBACK", "1")
 
 
 def get_device():
+    """Best available torch device: cuda, else Apple mps, else cpu."""
     if torch.cuda.is_available():
         return "cuda"
     if torch.backends.mps.is_available():
@@ -24,6 +25,7 @@ def get_device():
 
 @torch.no_grad()
 def embed_file(path, model, proc, device, chunk_sec):
+    """Time-mean and time-std of every hidden layer for each chunk of one file: two arrays [n_chunks, L, D]."""
     x, sr = load_mono(path)
     assert sr == SR, f"expected {SR} Hz, got {sr}"
     n = chunk_sec * sr
@@ -51,7 +53,8 @@ if __name__ == "__main__":
     means, stds = [], []
     for p in tqdm(m.path.tolist(), desc=f"MERT {a.dataset}"):
         mu, sd = embed_file(p, model, proc, device, a.chunk_sec)
-        means.append(mu.astype(np.float16)); stds.append(sd.astype(np.float16))
+        means.append(mu.astype(np.float16))
+        stds.append(sd.astype(np.float16))
     tag = a.model.split("/")[-1]
     out = a.out or FEATURES / f"{a.dataset}_mert_{tag}_{a.chunk_sec}s.npz"
     FEATURES.mkdir(exist_ok=True)

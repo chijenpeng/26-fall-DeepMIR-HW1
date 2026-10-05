@@ -2,8 +2,9 @@
 
   python src/separate.py --dataset B            # writes dataset_B_vocals/ and dataset_B_accomp/
 
-Each output folder has manifest.csv (copied) and audio/<id>.wav (24 kHz mono 16-bit), so
-extract_mert.py can be pointed at it with --data_root / --out.
+Reads the dataset folder (manifest.csv + audio). Each output folder has manifest.csv (copied) and
+audio/<id>.wav (24 kHz mono 16-bit), so the extract_*.py scripts can be pointed at it with
+--data_root / --out. Files that already exist are skipped.
 """
 import argparse, shutil, numpy as np, torch, torchaudio, soundfile as sf
 from pathlib import Path
@@ -17,11 +18,14 @@ from extract_mert import get_device
 
 @torch.no_grad()
 def separate_file(path, model, device):
+    """Separate one file. Returns (vocals, accompaniment = sum of the other stems, sample rate),
+    both mono at the sample rate of the input file."""
     x, sr = load_mono(path)
     wav = torch.from_numpy(x)[None]                                        # [1, T]
     wav = torchaudio.functional.resample(wav, sr, model.samplerate)
     mix = wav.repeat(2, 1)[None].to(device)                                # [1, 2, T] fake stereo
-    ref = mix.mean(0); mix = (mix - ref.mean()) / (ref.std() + 1e-8)
+    ref = mix.mean(0)
+    mix = (mix - ref.mean()) / (ref.std() + 1e-8)
     out = apply_model(model, mix, device=device, shifts=0, split=True, overlap=0.25, progress=False)[0]
     out = out * (ref.std() + 1e-8) + ref.mean()                            # [S, 2, T]
     vi = model.sources.index("vocals")
@@ -37,7 +41,8 @@ if __name__ == "__main__":
     ap.add_argument("--model", default="htdemucs")
     ap.add_argument("--data_root", default=None)
     a = ap.parse_args()
-    device = get_device(); print("device:", device)
+    device = get_device()
+    print("device:", device)
     model = get_model(a.model).to(device).eval()
     m = load_manifest(a.dataset, a.data_root)
     src_root = Path(a.data_root) if a.data_root else DATA[a.dataset]

@@ -1,7 +1,12 @@
-"""Task A as an ordinal problem: (a) year/decade regression, (b) hierarchical coarse->fine.
+"""Task 1 (dataset A) as an ordinal problem: (a) ridge regression on the decade index,
+(b) hierarchical coarse->fine classification.
 
   python src/regression.py --features mert --layers 6,8,10
+
 Both are evaluated with the same top-1 / top-3 / confusion protocol as the classifiers.
+Reads   the feature files named by --features (see train.build_X).
+Writes  results/<name>_regression_val.json, results/<name>_regression_cm.png,
+        results/<name>_hier_val.json, results/<name>_hier_cm.png.
 """
 import argparse, numpy as np
 from sklearn.linear_model import Ridge, LogisticRegression
@@ -9,10 +14,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from config import RESULTS, LABELS
 from train import add_feature_args, build_X
-from utils import evaluate, neighbour_error_rate, dump
+from utils import evaluate, neighbour_error_rate, dump, targets_and_split_masks
 
 
 def regression(X, y, tr, va, alphas):
+    """Ridge regression on the decade index, alpha selected by validation top-1 of the rounded prediction.
+    Returns (top1, alpha, proba, mae); proba ranks the decades by closeness to the predicted value."""
     best = None
     for al in alphas:
         reg = make_pipeline(StandardScaler(), Ridge(alpha=al)).fit(X[tr], y[tr])
@@ -27,6 +34,8 @@ def regression(X, y, tr, va, alphas):
 
 
 def hierarchical(X, y, tr, va, Cs):
+    """Coarse classifier over three 20-year groups times one fine classifier per group,
+    C (shared by all four) selected by validation top-1. Returns (top1, C, proba)."""
     groups = np.array([0, 0, 1, 1, 2, 2])            # {60s,70s} {80s,90s} {00s,10s}
     g = groups[y]
     best = None
@@ -50,12 +59,12 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     add_feature_args(ap, features="mert", layers="6,8,10")
     ap.add_argument("--name", default=None)
-    a = ap.parse_args(); a.dataset = "A"
+    a = ap.parse_args()
+    a.dataset = "A"
     layers = [int(x) for x in a.layers.split(",")]
     X, meta = build_X(a, layers)
-    labels = LABELS["A"]; lab2i = {l: i for i, l in enumerate(labels)}
-    split = meta["split"]; tr, va = split == "train", split == "validation"
-    y = np.array([lab2i.get(l, -1) for l in meta["label"]])
+    labels = LABELS["A"]
+    y, tr, va = targets_and_split_masks(meta, labels)
     name = a.name or f"A_{a.features}_L{'-'.join(map(str, layers))}"
 
     top1, al, proba, mae = regression(X, y, tr, va, [1, 10, 100, 1000, 10000])

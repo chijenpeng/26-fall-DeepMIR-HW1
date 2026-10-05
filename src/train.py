@@ -1,5 +1,9 @@
 """Train a classifier on the train split, select on validation, save model + metrics.
 
+Reads   the feature files named by --features (features/*.npz, see build_X).
+Writes  results/<name>.joblib (dict: clf, args, layers), results/<name>_val.json, results/<name>_cm.png;
+        with --layers all instead results/<ds>_<features>_layer_sweep.json (one classifier per layer).
+
 Examples
   python src/train.py --dataset A --features handcrafted
   python src/train.py --dataset A --features mert --layers 7
@@ -19,6 +23,7 @@ from utils import evaluate, neighbour_error_rate, dump
 
 
 def make_clf(kind, C):
+    """Unfitted classifier of the requested kind (the MLP ignores C)."""
     if kind == "logreg":
         return LogisticRegression(max_iter=5000, C=C)
     if kind == "svm":
@@ -60,13 +65,15 @@ def build_X(a, layers):
         if a.hc_subset:
             keep = [names.index(n) for n in a.hc_subset.split(",")]
             X = X[:, keep]
-        parts.append(X); meta = z
+        parts.append(X)
+        meta = z
     for b in sorted(blocks):     # 'mert' (default file) | 'mert@<path>' | 'mert@<path>:l1,l2' (per-file layer override)
         if not b.startswith("mert"):
             continue
         path, blayers = (b.split("@", 1)[1] if "@" in b else None), layers
         if path and ":" in path:
-            path, ls = path.rsplit(":", 1); blayers = [int(x) for x in ls.split(",")]
+            path, ls = path.rsplit(":", 1)
+            blayers = [int(x) for x in ls.split(",")]
         z = load_mert(a.dataset, path=path, model=a.mert_model, chunk_sec=a.chunk_sec)
         parts.append(mert_vector(z, blayers, n_chunks=a.n_chunks, use_std=not a.no_std))
         if meta is not None:
@@ -78,16 +85,21 @@ def build_X(a, layers):
         z = load_lang(a.dataset, path=b.split("@", 1)[1] if "@" in b else None, model=a.lang_model)
         if meta is not None:
             assert (meta["sample_id"] == z["sample_id"]).all()
-        parts.append(np.log(z["probs"] + 1e-6)); meta = z
+        parts.append(np.log(z["probs"] + 1e-6))
+        meta = z
     return np.concatenate(parts, 1), meta
 
 
 def run(a, layers, tag):
+    """Fit one classifier per value in a.C on the train split and keep the best by validation top-1.
+    Returns (fitted pipeline, validation metrics, X, meta)."""
     X, meta = build_X(a, layers)
-    labels = LABELS[a.dataset]; lab2i = {l: i for i, l in enumerate(labels)}
+    labels = LABELS[a.dataset]
+    lab2i = {l: i for i, l in enumerate(labels)}
     split, lab = meta["split"], meta["label"]
     tr, va = split == "train", split == "validation"
-    ytr = np.array([lab2i[l] for l in lab[tr]]); yva = np.array([lab2i[l] for l in lab[va]])
+    ytr = np.array([lab2i[l] for l in lab[tr]])
+    yva = np.array([lab2i[l] for l in lab[va]])
     best = None
     for C in a.C:
         clf = make_pipeline(StandardScaler(), make_clf(a.clf, C)).fit(X[tr], ytr)
@@ -111,7 +123,8 @@ if __name__ == "__main__":
     a = ap.parse_args()
     RESULTS.mkdir(exist_ok=True)
     if a.layers == "all":
-        z = load_mert(a.dataset, model=a.mert_model, chunk_sec=a.chunk_sec); L = z["mean"].shape[2]
+        z = load_mert(a.dataset, model=a.mert_model, chunk_sec=a.chunk_sec)
+        L = z["mean"].shape[2]
         sweep = []
         for l in range(L):
             _, res, _, _ = run(a, [l], f"layer{l}")
@@ -129,4 +142,5 @@ if __name__ == "__main__":
         joblib.dump(dict(clf=clf, args=vars(a), layers=layers), RESULTS / f"{name}.joblib")
         dump(res, RESULTS / f"{name}_val.json")
         print(json.dumps({k: v for k, v in res.items() if k != "confusion_counts"}, indent=1))
-        print("confusion (rows=true):"); print(np.array(res["confusion_counts"]))
+        print("confusion (rows=true):")
+        print(np.array(res["confusion_counts"]))

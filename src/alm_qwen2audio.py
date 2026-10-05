@@ -8,7 +8,10 @@ For every clip in the chosen splits we
 
   CUDA_VISIBLE_DEVICES=1 python src/alm_qwen2audio.py --dataset A --splits validation,test --prompt naive
 
-Output: results/alm_<model>_<dataset>_<prompt>.json  (per-sample records + validation metrics)
+Reads   the dataset manifest and audio (--data_root to override the folder).
+Writes  results/alm_<model>_<dataset>_<prompt>.json  (per-sample records + validation metrics) and
+        results/alm_<model>_<dataset>_<prompt>_cm.png. The JSON is rewritten every 25 clips and an
+        existing one is resumed.
 """
 import argparse, json, re, numpy as np, torch, librosa
 from tqdm import tqdm
@@ -65,6 +68,7 @@ SYNONYMS = {"B": {"united states": "US", "usa": "US", "america": "US", "united k
 
 
 def parse_label(text, ds):
+    """Label named in a free-text answer, or None if no valid label is found."""
     t = text.lower()
     if ds == "A":
         m = re.search(r"(19[6-9]0|20[01]0)\s*'?s", t) or re.search(r"(19[6-9]|20[01])\d", t)
@@ -81,6 +85,7 @@ def parse_label(text, ds):
 
 
 def build_inputs(proc, audio16k, prompt, device, suffix=""):
+    """Processor inputs for one clip + prompt in chat format; `suffix` is appended after the generation prompt."""
     conv = [{"role": "user", "content": [{"type": "audio", "audio_url": "clip.wav"}, {"type": "text", "text": prompt}]}]
     text = proc.apply_chat_template(conv, add_generation_prompt=True, tokenize=False) + suffix
     inputs = proc(text=text, audios=[audio16k], sampling_rate=16000, return_tensors="pt")
@@ -89,6 +94,7 @@ def build_inputs(proc, audio16k, prompt, device, suffix=""):
 
 @torch.no_grad()
 def run_clip(model, proc, audio16k, prompt, labels, device):
+    """Free-text answer and the teacher-forced log-probability of every candidate label for one clip."""
     inputs = build_inputs(proc, audio16k, prompt, device)
     gen = model.generate(**inputs, max_new_tokens=16, do_sample=False)
     gen_text = proc.batch_decode(gen[:, inputs["input_ids"].shape[1]:], skip_special_tokens=True)[0].strip()
@@ -112,12 +118,15 @@ if __name__ == "__main__":
     ap.add_argument("--device_map", default="cuda:0")
     ap.add_argument("--data_root", default=None)
     a = ap.parse_args()
-    labels = LABELS[a.dataset]; prompt = PROMPTS[a.dataset][a.prompt]
+    labels = LABELS[a.dataset]
+    prompt = PROMPTS[a.dataset][a.prompt]
     proc = AutoProcessor.from_pretrained(a.model)
     model = Qwen2AudioForConditionalGeneration.from_pretrained(a.model, torch_dtype=torch.bfloat16, device_map=a.device_map).eval()
     device = model.device
-    m = load_manifest(a.dataset, a.data_root); m = m[m.split.isin(a.splits.split(","))].reset_index(drop=True)
-    tag = a.model.split("/")[-1]; RESULTS.mkdir(exist_ok=True)
+    m = load_manifest(a.dataset, a.data_root)
+    m = m[m.split.isin(a.splits.split(","))].reset_index(drop=True)
+    tag = a.model.split("/")[-1]
+    RESULTS.mkdir(exist_ok=True)
     out_path = RESULTS / f"alm_{tag}_{a.dataset}_{a.prompt}.json"
     records = {}
     if out_path.exists():                                     # resume
@@ -125,7 +134,8 @@ if __name__ == "__main__":
     for _, r in tqdm(list(m.iterrows()), desc=f"ALM {a.dataset} {a.prompt}"):
         if r.sample_id in records:
             continue
-        x, sr = load_mono(r.path); x16 = librosa.resample(x, orig_sr=sr, target_sr=16000)
+        x, sr = load_mono(r.path)
+        x16 = librosa.resample(x, orig_sr=sr, target_sr=16000)
         gen_text, scores = run_clip(model, proc, x16, prompt, labels, device)
         ranking = sorted(labels, key=lambda l: -scores[l])
         records[r.sample_id] = dict(split=r.split, label=r.label if isinstance(r.label, str) else "",
@@ -138,9 +148,11 @@ if __name__ == "__main__":
     metrics = {}
     if va:
         y = np.array([labels.index(v["label"]) for v in va])
-        proba = np.array([[v["scores"][l] for l in labels] for v in va]); proba = np.exp(proba - proba.max(1, keepdims=True))
+        proba = np.array([[v["scores"][l] for l in labels] for v in va])
+        proba = np.exp(proba - proba.max(1, keepdims=True))
         res = evaluate(proba, y, labels, f"ALM {tag} {a.dataset} {a.prompt} (logprob ranking)", RESULTS / f"alm_{tag}_{a.dataset}_{a.prompt}_cm.png")
-        gen_ok = [v["gen_label"] == v["label"] for v in va]; invalid = [v["gen_label"] is None for v in va]
+        gen_ok = [v["gen_label"] == v["label"] for v in va]
+        invalid = [v["gen_label"] is None for v in va]
         metrics = dict(score_top1=res["top1"], score_top3=res["top3"], confusion_counts=res["confusion_counts"],
                        gen_top1=float(np.mean(gen_ok)), gen_invalid_rate=float(np.mean(invalid)), n_val=len(va),
                        gen_label_dist={l: int(sum(v["gen_label"] == l for v in va)) for l in labels + [None]})

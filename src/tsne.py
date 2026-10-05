@@ -1,9 +1,13 @@
 """t-SNE of a feature set (train + validation), coloured by label.
 
   python src/tsne.py --dataset A --features mert --layers 6,8,10
+
+Reads   the feature files named by --features (and the classifier given with --model).
+Writes  results/<name>_tsne.png and results/<name>_tsne.npz (coordinates, label, split, sample_id).
 """
 import argparse, numpy as np
-import matplotlib; matplotlib.use("Agg")
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
@@ -15,7 +19,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dataset", required=True, choices=["A", "B"])
     add_feature_args(ap, features="mert", layers="6,8,10")
-    ap.add_argument("--perplexity", type=float, default=30); ap.add_argument("--name", default=None)
+    ap.add_argument("--perplexity", type=float, default=30)
+    ap.add_argument("--name", default=None)
     ap.add_argument("--model", default=None, help="joblib from train.py: embed the classifier's 6-d logit space instead of raw features")
     a = ap.parse_args()
     layers = [int(x) for x in a.layers.split(",")]
@@ -35,10 +40,16 @@ if __name__ == "__main__":
     cmap = plt.get_cmap("viridis" if a.dataset == "A" else "tab10")
     for i, l in enumerate(labels):
         c = cmap(i / max(1, len(labels) - 1)) if a.dataset == "A" else cmap(i)
-        m = (lab == l) & (spl == "train"); ax.scatter(Z[m, 0], Z[m, 1], s=12, color=c, alpha=.6, label=l)
-        m = (lab == l) & (spl == "validation"); ax.scatter(Z[m, 0], Z[m, 1], s=40, color=c, marker="*", edgecolor="k", linewidth=.4)
-    ax.legend(markerscale=2); ax.set_xticks([]); ax.set_yticks([])
+        m = (lab == l) & (spl == "train")
+        ax.scatter(Z[m, 0], Z[m, 1], s=12, color=c, alpha=.6, label=l)
+        m = (lab == l) & (spl == "validation")
+        ax.scatter(Z[m, 0], Z[m, 1], s=40, color=c, marker="*", edgecolor="k", linewidth=.4)
+    ax.legend(markerscale=2)
+    ax.set_xticks([])
+    ax.set_yticks([])
     ax.set_title(f"t-SNE  {name}  (dots = train, stars = validation)")
-    plt.tight_layout(); out = RESULTS / f"{name}_tsne.png"; plt.savefig(out, dpi=130)
+    plt.tight_layout()
+    out = RESULTS / f"{name}_tsne.png"
+    plt.savefig(out, dpi=130)
     np.savez(RESULTS / f"{name}_tsne.npz", Z=Z, label=lab, split=spl, sample_id=meta["sample_id"][sel])
     print("saved", out)
