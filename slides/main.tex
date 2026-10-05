@@ -132,15 +132,14 @@
 
 \begin{frame}[t]{Why neighbors get confused (2): the loudness war}
   \small
-  \textbf{Hypothesis.} From the 2000s, brick-wall limiters push masters louder and flatten the peaks.
-  \quad \textbf{Analysis.} Waveform statistics of the training clips.
-  \vspace{0.6em}
+  \textbf{Hypothesis.} From the 2000s, brick-wall limiters make masters louder and flatten peaks.
+  \vspace{0.4em}
 
   \centering
   {\footnotesize
   \begin{tabular}{@{}lrrrrrr@{}}
     \toprule
-    Median per decade & 60s & 70s & 80s & 90s & 00s & 10s \\ \midrule
+    Median per decade, training clips & 60s & 70s & 80s & 90s & 00s & 10s \\ \midrule
     RMS level (dBFS)                         & $-14.0$ & $-14.6$ & $-14.5$ & $-13.0$ & \alert{$-11.0$} & \alert{$-10.6$} \\
     Crest factor, peak $-$ RMS (dB)          & 13.9 & 14.5 & 14.5 & 13.0 & \alert{11.0} & \alert{10.6} \\
     Dynamic range, loudest 20\% blocks (dB)  & 10.6 & 11.2 & 11.3 & 10.7 & \alert{8.9}  & \alert{8.7} \\
@@ -148,14 +147,18 @@
     Samples within 0.5 dB of the peak (\%)   & 0.02 & 0.01 & 0.02 & 0.06 & \alert{0.42} & \alert{0.50} \\
     \bottomrule
   \end{tabular}}
-  \vspace{0.7em}
+  \vspace{0.5em}
 
   \raggedright
-  \begin{itemize}
-    \item 2000s and 2010s masters are about 3 dB louder with 3 dB less crest, and show the limiter signature: peaks held at the ceiling
-    \item The two decades are \alert{almost indistinguishable} on every dynamics measure, matching the 2000s $\leftrightarrow$ 2010s confusion
+  \begin{tight}\footnotesize
+    \item 2000s and 2010s clips are 3 dB louder, have 3 dB less crest, and hold peaks at the ceiling.
+          The two are \alert{almost indistinguishable}, matching the 2000s $\leftrightarrow$ 2010s confusion
     \item Production cues only split the data into ``old'' and ``new''; finer distinctions must come from musical content
-  \end{itemize}
+  \end{tight}
+  \vspace{0.5em}
+  {\scriptsize\color{gray}\textbf{Caveat.} The clips are 24 kHz mono, decoded from lossy Opus (YouTube). Resampling, downmixing and lossy coding
+  reshape waveform peaks, so these numbers are trends (ANOVA $p < 10^{-30}$), not exact properties of the original masters.
+  The two sample-level rows are the most affected.\par}
 \end{frame}
 
 % ---------------------------------------------------------------- Task 2
