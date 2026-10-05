@@ -67,7 +67,7 @@
 % ---------------------------------------------------------------- Task 1
 \begin{frame}[t]{Task 1: release decade}
   \begin{columns}[T]
-    \begin{column}{0.52\textwidth}
+    \begin{column}{0.56\textwidth}
       \small
       \textbf{Model}: frozen encoders + logistic regression
       \begin{tight}\footnotesize
@@ -75,7 +75,9 @@
         \item MERT-v1-330M, \textbf{layers 5, 6, 14}
         \item mean + std pooling over time (6,912-d)
       \end{tight}
-      \vspace{0.5em}
+      \vspace{0.25em}
+      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Section 3}}\par}
+      \vspace{0.3em}
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Validation, 132 clips & Top-1 & Top-3 \\ \midrule
@@ -88,11 +90,11 @@
       \begin{tight}\footnotesize
         \item \alert{57\%} of errors land on a \alert{neighboring decade}
         \item Hardest: 2000s (recall .23), absorbed by 2010s and 1990s
-        \item Easiest: 1960s and 2010s, which have one neighbor each
+        \item Easiest: 1960s and 2010s (one neighbor each)
       \end{tight}
     \end{column}
-    \begin{column}{0.48\textwidth}
-      \centering\fig[0.70\textheight]{cm_task1.pdf}\\[-0.2em]
+    \begin{column}{0.44\textwidth}
+      \centering\fig[0.66\textheight]{cm_task1.pdf}\\[-0.2em]
       {\scriptsize\color{gray}Counts. Rows = true decade (22 clips each).}
     \end{column}
   \end{columns}
@@ -164,7 +166,7 @@
 % ---------------------------------------------------------------- Task 2
 \begin{frame}[t]{Task 2: release market}
   \begin{columns}[T]
-    \begin{column}{0.52\textwidth}
+    \begin{column}{0.56\textwidth}
       \small
       \textbf{Model}: frozen encoders + logistic regression
       \begin{tight}\footnotesize
@@ -172,7 +174,9 @@
         \item MERT-v1-95M, \textbf{layer 7}
         \item Whisper-small language-ID posteriors
       \end{tight}
-      \vspace{0.5em}
+      \vspace{0.25em}
+      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Section 3}}\par}
+      \vspace{0.3em}
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Validation, 102 clips & Top-1 & Top-3 \\ \midrule
@@ -183,15 +187,51 @@
 
       \textbf{Errors}
       \begin{tight}\footnotesize
-        \item \alert{75\%} of errors are among \alert{US, UK, Germany, Italy}
-        \item Largest confused pair: US $\leftrightarrow$ UK (9 clips)
+        \item \alert{US $\leftrightarrow$ UK} is the largest confusion (9 clips)
+        \item \alert{UK is over-predicted}: 23 called UK, only 9 correct
         \item Brazil (.88) and Spain (.82) are rarely missed
-        \item Cause: English-language releases dominate Germany (83\%) and Italy (55\%)
+        \item Germany, Italy: 12 of their 21 errors go to US / UK
       \end{tight}
     \end{column}
-    \begin{column}{0.48\textwidth}
-      \centering\fig[0.70\textheight]{cm_task2.pdf}\\[-0.2em]
+    \begin{column}{0.44\textwidth}
+      \centering\fig[0.66\textheight]{cm_task2.pdf}\\[-0.2em]
       {\scriptsize\color{gray}Counts. Rows = true market (17 clips each).}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{Why English-language markets get confused: language}
+  \small
+  The dataset has \textbf{no language label}. We estimate it with Whisper-small \textbf{language identification}
+  on the 798 training clips, on the mixture and on Demucs-separated vocal stems.
+  \vspace{0.5em}
+
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      {\footnotesize\setlength{\tabcolsep}{4.5pt}
+      \begin{tabular}{@{}llrrr@{}}
+        \toprule
+        & & \multicolumn{1}{c}{Home} & \multicolumn{2}{c}{Detected as English} \\ \cmidrule(l){4-5}
+        Market & Home language & \multicolumn{1}{c}{mixture} & mixture & vocals \\ \midrule
+        US      & English    & 92\%  & --   & -- \\
+        UK      & English    & 100\% & --   & -- \\
+        Brazil  & Portuguese & 87\%  & 11\% & 12\% \\
+        Spain   & Spanish    & 57\%  & 39\% & 41\% \\
+        Germany & German     & 17\%  & \alert{83\%} & \alert{82\%} \\
+        Italy   & Italian    & 41\%  & \alert{55\%} & \alert{56\%} \\
+        \bottomrule
+      \end{tabular}}
+
+      \vspace{0.4em}
+      {\scriptsize\color{gray}Share of training clips whose most likely language (among en, pt, es, de, it) is the home language or English.\par}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{tight}\footnotesize
+        \item Most German releases and over half of the Italian ones are \alert{sung in English}, so their vocals carry no market cue
+        \item Vocal stems give the same answer: the accompaniment is not what misleads the detector
+        \item Language separates Brazil and Spain. The English-language group has to be split by genre and production style, a much weaker cue
+        \item A release market is where the record was issued, not the artist's nationality or language
+      \end{tight}
     \end{column}
   \end{columns}
 \end{frame}
@@ -204,7 +244,7 @@
 
 % =====================================================================
 \section{Ablation}
-\begin{frame}{Frozen features vs.\ fine-tuning}
+\begin{frame}[label=ablation]{Frozen features vs.\ fine-tuning}
   % TODO
 \end{frame}
 
