@@ -783,3 +783,15 @@ Italy  [   7   2   1   5   0   2 ]
 - std 值 +5.3(Task 1)和 +2.9(Task 2)個百分點;logistic regression 比 RBF SVM 高 6 到 7 個百分點。
 - Ablation (2) 的文字修正:Whisper-large-v3 在 Task 2 第 21 層之後是 55% 到 59%(原本寫「都是 59%」不精確)。
 - Ablation (4) 逐項驗過:fine-tune 贏同一個 encoder 的 frozen 單層最佳是 3 / 14 次;沒有任何一個贏過最終模型。
+
+## 2026-10-05 補:另外開一個 agent 只看投影片,檢查還有沒有舊的層選擇
+
+- 真正的舊東西只有一個:fine-tuning 曲線圖裡「frozen MERT-v1-95M (48.5)」那條線是舊的第 6、8、10 層,改成第 7 層的 47.7,跟前一頁的表一致。
+- 其他是措辭和前後對不上的小地方,一併改掉:
+  - 兩頁結果頁的按鈕寫「Section 3」,實際 Ablation 是第 4 節,改成「Ablation (1)」。
+  - Task 1 模型頁:第 5、6、14 層的理由補上「跟 Whisper-tiny 合併後是 grid 裡 top-1 最高的」。
+  - Task 2 模型頁:Whisper-medium 第 12 層補上「八層並列、用 top-3 分勝負」。
+  - Ablation (3):「Task 2 準確率一路上升到 Whisper-small」不對(base 比 tiny 低),改成「到 Whisper-small 達到 58.8% 後持平」。
+  - Ablation (5):「Whisper 的層權重集中在最後一層」只對 tiny、base、small 成立,medium 幾乎是平均的,已改。
+  - Ablation (4):「≤ 41 k」改成「about 41 k」(實際是 41,478)。
+- agent 另外確認:最終分數、維度、參數量、C、每張 grid 的每一格、混淆矩陣和各項「幾首」的數字,在所有投影片之間以及跟結果檔都一致。

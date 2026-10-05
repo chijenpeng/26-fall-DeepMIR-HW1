@@ -140,7 +140,7 @@ if __name__ == "__main__":
     axes[0].set_ylabel("Loss")
     axes[0].legend(frameon=False, fontsize=9)
     axes[1].plot(ep, [100 * d["val_top1"] for d in h], color="#dd8452", lw=2, label="fine-tuned, validation top-1")
-    axes[1].axhline(48.5, color="#4c72b0", ls="--", lw=1.5, label="frozen MERT-v1-95M (48.5)")
+    axes[1].axhline(47.7, color="#4c72b0", ls="--", lw=1.5, label="frozen MERT-v1-95M, layer 7 (47.7)")
     axes[1].axhline(52.3, color="#55a868", ls="--", lw=1.5, label="final frozen model (52.3)")
     axes[1].axvline(11, color="gray", ls=":", lw=1)
     axes[1].set_xlabel("Epoch")

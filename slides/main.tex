@@ -106,7 +106,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \raggedright\small
   \begin{tight}\footnotesize
     \item \textbf{Whisper-tiny, layer 1}: the best single Whisper layer of all five sizes (47.0\%; next best 43.2\%)
-    \item \textbf{MERT-v1-330M, layers 5, 6, 14}: best three of a 25-layer sweep; adding Whisper-tiny gives +2.3 points
+    \item \textbf{MERT-v1-330M, layers 5, 6, 14}: its three best layers. With Whisper-tiny this is the highest top-1 of the selection grid
     \item \textbf{mean + std pooling}: one $d$-dim vector per frame $\rightarrow$ mean and std \textbf{over the frames} $\rightarrow$ $2 \times d$ values per layer
     \item Whisper: \textbf{1,500 frames} per 30 s clip. MERT: \textbf{374 frames} per 5 s chunk (its training length); statistics are taken per chunk, then averaged over the six
     \item Only the classifier is trained, with strong L2 (1,026 clips, 6,912 features)
@@ -124,7 +124,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         \item mean + std pooling over time (6,912-d)
       \end{tight}
       \vspace{0.25em}
-      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Section 3}}\par}
+      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Ablation (1)}}\par}
       \vspace{0.3em}
       \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -242,7 +242,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
 
   \raggedright\small
   \begin{tight}\footnotesize
-    \item \textbf{Whisper-medium, layer 12}: the best single Whisper layer of all five sizes for this task (58.8\%), selected by the same sweep as for Task 1. Here it is a middle layer; for Task 1 it is a first layer
+    \item \textbf{Whisper-medium, layer 12}: the best single Whisper layer of all five sizes (58.8\%; an eight-way tie in top-1, broken by top-3)
     \item \textbf{MERT-v1-330M, layer 8}: +5 clips on top of Whisper and language ID (58.8\% $\rightarrow$ 63.7\%); a music encoder adds what a speech encoder misses
     \item \textbf{Whisper-small language ID}: an explicit 7-d posterior; a small gain (+1 clip, 62.7\% $\rightarrow$ 63.7\%) because the Whisper layer already encodes language
     \item Pooling as in Task 1: 1,500 Whisper frames per clip; 374 MERT frames per 5 s chunk
@@ -260,7 +260,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
         \item Whisper-small language-ID posteriors
       \end{tight}
       \vspace{0.25em}
-      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Section 3}}\par}
+      {\footnotesize Model and layers \textbf{chosen by ablation}: \hyperlink{ablation}{\beamergotobutton{Ablation (1)}}\par}
       \vspace{0.3em}
       \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -377,7 +377,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \raggedright
   {\scriptsize\color{gray}Features: the MERT layer set of each task's final model, for both MERT sizes. Whisper features exist only for whole 30 s clips.\par}
   \begin{tight}\footnotesize
-    \item \textbf{MERT-95M} gains top-1 on both tasks (+6 and +3 clips). \textbf{MERT-330M}, the encoder of both final models, does not (+1 and $-$2 clips)
+    \item \textbf{MERT-95M} gains top-1 on both tasks (+6 and +3 clips). \textbf{MERT-330M}, the MERT encoder of both final models, does not (+1 and $-$2 clips)
     \item Top-3 improves on Task 2 for both sizes (+4 and +5 clips) and is 1 to 2 clips lower on Task 1
     \item We keep clip-level features: no top-1 gain for MERT-330M, and six times fewer training rows
   \end{tight}
@@ -635,7 +635,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \begin{tight}\footnotesize
     \item \textbf{Model size}: combined with Whisper, MERT-330M beats MERT-95M in every row (+2 to +5 clips)
     \item \textbf{Layer set}: the 330M + Whisper cells span 50.0\% to 52.3\% (66 to 69 clips). The layer set matters less than the model size; this last choice is within validation noise
-    \item \textbf{Whisper} changes top-1 by $-$0.7 to +2.3 points; the largest gain is on the final cell
+    \item \textbf{Whisper} changes top-1 by $-$0.7 to +2.3 points; the final cell has the largest gain (+2.3)
     \item \textbf{Hand-crafted} production features: 40.9 / 84.8 alone (seeded RBF SVM); added to the final model 51.5 / 86.4, no gain
   \end{tight}
 \end{frame}
@@ -676,7 +676,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \begin{tight}\footnotesize
     \item One logistic regression per layer, same $C$ grid as Ablation (1); stars mark the layers used in the final models
     \item \textbf{Task 1}: Whisper is best at its \alert{first} layers (47.0\% at layer 1 of Whisper-tiny) and falls to 27\% at the last. MERT peaks before the middle (layer 5 of 24 in MERT-330M)
-    \item \textbf{Task 2}: Whisper \alert{needs depth}: 32\% at layer 1 of Whisper-large-v3, 55\% to 59\% from layer 21 on. Whisper-medium reaches the same 58.8\% at its middle layers 11 and 12 (the star)
+    \item \textbf{Task 2}: Whisper \alert{needs depth}: 32\% at layer 1 of Whisper-large-v3, 55\% to 59\% from layer 21 on. Whisper-medium reaches the same 58.8\% at its middle layers 11 and 12 (star on layer 12)
     \item Same encoder, opposite trends: decade cues sit in shallow layers, market cues in middle and deep layers
   \end{tight}
 \end{frame}
@@ -713,7 +713,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
     \end{column}
   \end{columns}
   \begin{tight}\footnotesize
-    \item Size does not help Whisper on Task 1: the \alert{smallest} model is the best one. On Task 2 accuracy grows up to Whisper-small and then \alert{saturates} at 58.8\%. A larger MERT helps both tasks
+    \item Size does not help Whisper on Task 1: the \alert{smallest} model is the best one. On Task 2 accuracy reaches 58.8\% at Whisper-small and \alert{saturates} there. A larger MERT helps both tasks
     \item The std over time is worth +5.3 (Task 1) and +2.9 points (Task 2) of top-1; logistic regression (LR) beats an RBF SVM by 6 to 7 points
     \item \textbf{Model selection}: encoder, layers and $C$ are chosen by validation top-1. Over 100 configurations were compared on 132 and 102 clips, so validation scores are optimistic
   \end{tight}
@@ -743,7 +743,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \textbf{Frozen}: the \textbf{best single layer} of the same encoder (L = layer) + logistic regression.\par}
   \begin{tight}\footnotesize
     \item \alert{The gain from fine-tuning is marginal}: it beats the frozen best layer of the same encoder in 3 of 14 runs and never the final models
-    \item It trains 8 M to 330 M parameters instead of $\le$ 41 k and is unstable \alert{because the data are small} (next slide). \textbf{We keep the frozen models}
+    \item It trains 8 M to 330 M parameters instead of about 41 k and is unstable \alert{because the data are small} (next slide). \textbf{We keep the frozen models}
   \end{tight}
 \end{frame}
 
@@ -755,7 +755,7 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \raggedright
   \begin{tight}\footnotesize
     \item Validation loss is lowest at \alert{epoch 11} and rises afterwards while training loss falls to 0.63: the model memorizes the 1,026 training clips
-    \item The Whisper runs overfit faster (validation loss minimum at epochs 2 to 5); their learned layer weights concentrate on the \emph{last} layer, the worst one for Task 1
+    \item The Whisper runs overfit faster (validation loss minimum at epochs 2 to 5). In Whisper-tiny, base and small the largest learned layer weight is on the \emph{last} layer, the worst one for Task 1
     \item With 130 to 170 clips per class, a frozen encoder with a strongly regularized linear classifier is as accurate, more stable, and far cheaper
   \end{tight}
 \end{frame}
