@@ -1,0 +1,72 @@
+{
+  "top1": 0.6372549019607843,
+  "top3": 0.8627450980392157,
+  "confusion_counts": [
+    [
+      11,
+      3,
+      0,
+      0,
+      1,
+      2
+    ],
+    [
+      5,
+      11,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      13,
+      1,
+      1,
+      2
+    ],
+    [
+      0,
+      3,
+      0,
+      13,
+      1,
+      0
+    ],
+    [
+      6,
+      1,
+      1,
+      2,
+      6,
+      1
+    ],
+    [
+      1,
+      2,
+      0,
+      1,
+      2,
+      11
+    ]
+  ],
+  "labels": [
+    "US",
+    "UK",
+    "Brazil",
+    "Spain",
+    "Germany",
+    "Italy"
+  ],
+  "dataset": "B",
+  "features": "mert@features/B_mert_whisper-medium_30s.npz:12+mert@features/B_mert_MERT-v1-330M_5s.npz:8+lang",
+  "layers": [
+    7
+  ],
+  "C": 0.001,
+  "clf": "logreg",
+  "dim": 4103,
+  "n_chunks": null,
+  "neighbour_error_rate": 0.40540540540540543
+}

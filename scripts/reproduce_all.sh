@@ -41,39 +41,41 @@ for d in A B; do
   $PY src/layer_sweep.py --dataset $d --mert_model MERT-v1-330M $C4
   for s in tiny base small medium large-v3; do $PY src/layer_sweep.py --dataset $d --mert_model whisper-$s --chunk_sec 30 $C4; done
 done
-# Task 1: which features
+# Reference rows and the rows used by Ablation (3)
 T A_handcrafted_svm        --dataset A --features handcrafted --clf svm --C 0.3 1 3 10
-T A_mert_L8                --dataset A --features mert --layers 8 $C4
-T A_mert_L6-7-9            --dataset A --features mert --layers 6,7,9 $C4          # the three best single layers
-T A_wt_L1                  --dataset A --features $WT --layers 7 $C4
 T A_mert330_L5-6-14        --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 $C4
-T A_mert330_L5             --dataset A --features mert --mert_model MERT-v1-330M --layers 5 $C4       # best single layer
-T A_wt_L1_m330L5           --dataset A --features $WT+mert@features/A_mert_MERT-v1-330M_5s.npz:5 --layers 7 $C4   # alternative, not used
 T A_mert330_L5-6-14_nostd  --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --no_std $C4
 T A_mert330_L5-6-14_svm    --dataset A --features mert --mert_model MERT-v1-330M --layers 5,6,14 --clf svm --C 0.3 1 3
 T A_wt_L1_m330_hc          --dataset A --features $WT+$M330+handcrafted --layers 7 $C4
-# Task 2: which features
-M330B=mert@features/B_mert_MERT-v1-330M_5s.npz:9
 T B_handcrafted_svm        --dataset B --features handcrafted --clf svm --C 0.3 1 3 10
-T B_mert_L7                --dataset B --features mert --layers 7 $C4
-T B_mert330_L9             --dataset B --features $M330B --layers 7 $C4
 T B_lang_only              --dataset B --features lang $C4
-T B_wl_L30                 --dataset B --features $WL:30 --layers 7 $C4
+T B_mert_L7                --dataset B --features mert --layers 7 $C4
+T B_wl_L23-30_lang         --dataset B --features $WL:23,30+lang --layers 7 $C4       # the submitted model without MERT
 T B_wl_L30_mert7           --dataset B --features $WL:30+mert --layers 7 $C4
-T B_wl_L30_m330L9          --dataset B --features $WL:30+$M330B --layers 7 $C4       # the alternative: the larger MERT
 T B_wl_L30_mert7_lang      --dataset B --features $WL:30+mert+lang --layers 7 $C4
-T B_wl_L30_m330L9_lang     --dataset B --features $WL:30+$M330B+lang --layers 7 $C4
-# Task 2: which MERT to combine with (95M layer 7 vs 330M layer 9)
-T B_mert_L7_lang           --dataset B --features mert+lang --layers 7 $C4
-T B_mert330_L9_lang        --dataset B --features $M330B+lang --layers 7 $C4
-T B_wl_L23-30_lang         --dataset B --features $WL:23,30+lang --layers 7 $C4
-T B_wl_L23-30_m330L9_lang  --dataset B --features $WL:23,30+$M330B+lang --layers 7 $C4
-# Task 2: which second Whisper layer to pair with layer 30 (the submitted model uses 23)
-for k in 20 21 22 27 28; do
-  T B_wl_L$k-30_mert7_lang --dataset B --features $WL:$k,30+mert+lang --layers 7 $C4
+
+# Model selection grid, Ablation (1a) and (1b): the best Whisper layer combined with three MERT layer sets per MERT size.
+# best1 = best layer, top3 = three best layers, third = best layer of the shallow, middle and deep third (all read off the layer sweeps above).
+# Task 1: Whisper-tiny layer 1 is the best single Whisper layer of all five sizes.
+T sel_A_W --dataset A --features $WT --layers 7 $C4
+for s in 95M:7:best1 95M:6,7,9:top3 95M:2,7,9:third 330M:5:best1 330M:5,6,14:top3 330M:5,14,23:third; do
+  IFS=: read m l tag <<< "$s"; M=mert@features/A_mert_MERT-v1-${m}_5s.npz:$l
+  T sel_A_${m}_${tag}   --dataset A --features $M --layers 7 $C4
+  T sel_A_${m}_${tag}_W --dataset A --features $WT+$M --layers 7 $C4
 done
-T B_wl_L20-30_m330L9_lang  --dataset B --features $WL:20,30+$M330B+lang --layers 7 $C4
-T B_wl_L21-28-31_mert7_lang --dataset B --features $WL:21,28,31+mert+lang --layers 7 $C4   # the Task 1 rule (three best top-1 layers), not used
+# Task 2: eight Whisper layers tie in top-1; the two with the best top-3 are Whisper-medium layer 12 and Whisper-large-v3 layer 31.
+for w in medium:12:Wm12 large-v3:31:Wl31; do
+  IFS=: read ws wlayer wtag <<< "$w"; W=mert@features/B_mert_whisper-${ws}_30s.npz:$wlayer
+  T sel_B_${wtag}      --dataset B --features $W --layers 7 $C4
+  T sel_B_${wtag}_lang --dataset B --features $W+lang --layers 7 $C4
+  for s in 95M:7:best1 95M:3,4,7:top3 95M:4,7,10:third 330M:8:best1 330M:8,9,12:top3 330M:8,9,17:third; do
+    IFS=: read m l tag <<< "$s"; M=mert@features/B_mert_MERT-v1-${m}_5s.npz:$l
+    T sel_B_${m}_${tag}_${wtag}_lang --dataset B --features $W+$M+lang --layers 7 $C4
+  done
+done
+for s in 95M:7:best1 330M:8:best1; do
+  IFS=: read m l tag <<< "$s"; T sel_B_${m}_${tag} --dataset B --features mert@features/B_mert_MERT-v1-${m}_5s.npz:$l --layers 7 $C4
+done
 
 # ------------------------------------------------------------------ 4. optional experiment: input length (best models, first k seconds)
 for s in 5 10 15; do
