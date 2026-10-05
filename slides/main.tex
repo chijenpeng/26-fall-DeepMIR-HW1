@@ -322,8 +322,171 @@
 
 % =====================================================================
 \section{Optional Experiments}
-\begin{frame}{Input length: 5 / 10 / 15 / 30 s}
-  % TODO
+
+\begin{frame}[t]{Input length: 5 / 10 / 15 / 30 s}
+  \small
+  Best models on the first $k$ seconds only; features re-extracted and classifier re-trained per length.
+
+  \begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+      \centering
+      {\footnotesize
+      \begin{tabular}{@{}lcccc@{}}
+        \toprule
+        & \multicolumn{2}{c}{Task 1} & \multicolumn{2}{c}{Task 2} \\ \cmidrule(lr){2-3}\cmidrule(l){4-5}
+        Length & Top-1 & Top-3 & Top-1 & Top-3 \\ \midrule
+        5 s  & 39.4 & 81.1 & 45.1 & 80.4 \\
+        10 s & 47.0 & 82.6 & 52.0 & 88.2 \\
+        15 s & 49.2 & 86.4 & 57.8 & 85.3 \\
+        30 s & \best{52.3} & \best{86.4} & \best{60.8} & \best{90.2} \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering\includegraphics[height=0.48\textheight]{duration_trend.pdf}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+
+  \begin{tight}\footnotesize
+    \item Top-1 rises monotonically on both tasks and has \alert{not saturated} at 30 s; Task 1 top-3 is flat after 15 s
+    \item Task 2 gains more (+15.7 vs.\ +12.9 points). Its language cue gets more reliable with length: Brazilian clips detected as Portuguese rise from 69\% at 5 s to 87\% at 30 s, and a language-only classifier from 44.1\% to 53.9\%
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Multiple excerpts per recording}
+  \small
+  Each 30 s clip is cut into six 5 s chunks. \textbf{Chunk-level}: every chunk is its own training sample (6$\times$ more data) and chunk probabilities are averaged at test time.
+  \textbf{Clip-level}: chunk features are averaged first (our default).
+  \vspace{0.6em}
+
+  \centering
+  {\footnotesize
+  \begin{tabular}{@{}llcccc@{}}
+    \toprule
+    & & \multicolumn{2}{c}{Clip-level} & \multicolumn{2}{c}{Chunk-level} \\ \cmidrule(lr){3-4}\cmidrule(l){5-6}
+    Task & Features & Top-1 & Top-3 & Top-1 & Top-3 \\ \midrule
+    1 & MERT-v1-95M, layers 6, 8, 10  & 48.5 & 81.8 & 47.7 & 84.8 \\
+    1 & MERT-v1-330M, layers 5, 6, 14 & 50.0 & 87.9 & 50.0 & 86.4 \\
+    2 & MERT-v1-95M, layer 7          & 42.2 & 72.5 & 45.1 & 76.5 \\
+    2 & MERT-v1-330M, layers 8, 9, 12 & 42.2 & 69.6 & 44.1 & 76.5 \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.7em}
+
+  \raggedright
+  \begin{tight}\footnotesize
+    \item Task 1: no gain. Six chunks of one recording are highly correlated, so they add little new information for a linear model
+    \item Task 2: a small gain (+2 to +3 points top-1, +4 to +7 top-3), about 2 to 3 validation clips, so within noise
+    \item We keep clip-level features for the final models: same accuracy, six times fewer training rows
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Task 1 as regression or hierarchical prediction}
+  \begin{columns}[T]
+    \begin{column}{0.56\textwidth}
+      \small
+      Decades are ordered, so we test two formulations that use the order. Features: MERT-v1-95M, layers 6, 8, 10.
+      \vspace{0.5em}
+
+      {\footnotesize
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        Formulation & Top-1 & Top-3 \\ \midrule
+        Flat 6-class logistic regression & \best{48.5} & 81.8 \\
+        Ridge regression on the decade index & 31.1 & 78.8 \\
+        Hierarchical: 3 eras, then 2 decades each & 47.7 & \best{87.9} \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \footnotesize
+      \textbf{Regression}: predict $0, \dots, 5$, round to the nearest decade; top-3 = the three nearest decades. Mean absolute error 1.06 decades.
+
+      \vspace{0.5em}
+      \textbf{Hierarchical}: \{60s, 70s\}, \{80s, 90s\}, \{00s, 10s\}; $P(\text{decade}) = P(\text{era}) \cdot P(\text{decade} \mid \text{era})$.
+    \end{column}
+  \end{columns}
+  \vspace{0.8em}
+
+  \begin{tight}\footnotesize
+    \item \alert{Regression is much worse}: predictions collapse toward the middle. Only 7 clips are predicted as 1960s and 9 as 2010s, against 22 true clips each
+    \item Hierarchical prediction matches the flat classifier on top-1 and gives the best top-3 (+6 points); its era-level accuracy is 71\%
+    \item The flat classifier already learns the order by itself (see the t-SNE slide), so the explicit structure adds little
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Task 2: mixture vs.\ vocals vs.\ accompaniment}
+  \small
+  Demucs (htdemucs) separates each clip into vocals and accompaniment. MERT-v1-95M layer 7 features are extracted from each input.
+  \vspace{0.6em}
+
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      {\footnotesize
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        Input to MERT & Top-1 & Top-3 \\ \midrule
+        Mixture & 42.2 & 72.5 \\
+        Vocals & \best{43.1} & \best{78.4} \\
+        Accompaniment & 33.3 & 61.8 \\
+        Mixture + vocals + accompaniment & 46.1 & 76.5 \\ \midrule
+        Mixture + language ID & 55.9 & 77.5 \\
+        Vocals + language ID & 55.9 & 79.4 \\
+        Accompaniment + language ID & 47.1 & 74.5 \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{tight}\footnotesize
+        \item \alert{Market information is in the vocals}: removing them costs 9 points, keeping only them costs nothing
+        \item Vocals halve the US $\leftrightarrow$ UK confusions (9 $\rightarrow$ 4 clips). The accompaniment does not help (9 clips), and its US recall is 18\%
+        \item With language ID added, vocals and mixture tie at 55.9\%, so the final model uses the mixture: no separation needed at inference
+      \end{tight}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[t]{t-SNE of the best models}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \centering
+      \includegraphics[height=0.49\textheight]{tsne_task1_logits.png}\\[-0.2em]
+      {\scriptsize \textbf{Task 1}: 6-d logit space of the classifier}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering
+      \includegraphics[height=0.49\textheight]{tsne_task2_features.png}\\[-0.2em]
+      {\scriptsize \textbf{Task 2}: raw feature space, no classifier}
+    \end{column}
+  \end{columns}
+  \begin{tight}\footnotesize
+    \item Task 1: decades line up along \alert{one arc from the 1960s to the 2010s}, although the classifier was never told they are ordered; 2000s and 2010s overlap
+    \item Task 2: Brazil, Spain and Italy form clusters \alert{before any training}; US, UK and most of Germany share one English-language cloud
+  \end{tight}
+  {\scriptsize\color{gray}Dots = train, stars = validation. Train points in the logit space are fitted; only the stars show generalization.\par}
+\end{frame}
+
+\begin{frame}[t]{Confusion patterns and dataset bias}
+  \small
+  The detailed analyses are in the Results section. Summary, plus two additional findings:
+  \vspace{0.4em}
+
+  {\footnotesize
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.37\textwidth}>{\raggedright\arraybackslash}p{0.37\textwidth}@{}}
+    \toprule
+    & \textbf{Task 1: decade} & \textbf{Task 2: market} \\ \midrule
+    Confusion pattern & 57\% of errors on a neighboring decade; 2000s $\leftrightarrow$ 2010s is the worst pair & 75\% of errors among US, UK, Germany, Italy; UK is over-predicted \\
+    Bias in the data & production changes with the era: sub-bass $+8.6$ dB, crest factor $-3$ dB after 2000 & English-language releases: 83\% of Germany, 55\% of Italy \\
+    What the model keys on & mastering loudness and bandwidth as well as musical content & the language of the vocals rather than the market itself \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.6em}
+
+  \begin{tight}\footnotesize
+    \item \textbf{Hand-crafted production features} (24-d: band energies, crest factor, limiter statistics) reach 40.9\% on Task 1 but only \alert{21.6\% on Task 2} (chance 16.7\%): within one decade, mastering does not depend on the market
+    \item \textbf{High-frequency energy} (8--12 kHz) is 4 to 5 dB lower in the 1960s and 1970s than later; the clips are band-limited to 12 kHz, so anything above that is unavailable
+  \end{tight}
 \end{frame}
 
 % =====================================================================

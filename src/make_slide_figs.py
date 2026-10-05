@@ -39,3 +39,21 @@ if __name__ == "__main__":
     ax.set_xticks(x); ax.set_xticklabels(decs, fontsize=9.5); ax.set_ylabel("Band energy (dB re. total)")
     ax.grid(alpha=.3); ax.legend(frameon=False, fontsize=9.5, loc="lower right"); [ax.spines[k].set_visible(False) for k in ("top", "right")]
     plt.tight_layout(pad=0.3); plt.savefig(OUT / "lowend_trend.pdf", bbox_inches="tight", pad_inches=0.04); plt.close()
+
+    # input-length ablation with the best models
+    fig, ax = plt.subplots(figsize=(3.9, 3.5)); secs = [5, 10, 15, 30]
+    for ds, name, c in [("A", "Task 1 (decade)", "#4c72b0"), ("B", "Task 2 (market)", "#dd8452")]:
+        r = [json.load(open(RESULTS / f"{ds}_best_{t}s_val.json")) for t in secs]
+        ax.plot(secs, [100 * x["top1"] for x in r], "-o", color=c, lw=2, ms=5, label=f"{name}, top-1")
+        ax.plot(secs, [100 * x["top3"] for x in r], "--s", color=c, lw=1.5, ms=4, alpha=.75, label=f"{name}, top-3")
+    ax.set_xticks(secs); ax.set_xlabel("Input length (s)"); ax.set_ylabel("Validation accuracy (%)"); ax.set_ylim(35, 95)
+    ax.grid(alpha=.3); ax.legend(frameon=False, fontsize=8.5, ncol=2, loc="upper center", bbox_to_anchor=(0.5, -0.2), columnspacing=1.2, handlelength=2.4)
+    [ax.spines[k].set_visible(False) for k in ("top", "right")]
+    plt.tight_layout(pad=0.3); plt.savefig(OUT / "duration_trend.pdf", bbox_inches="tight", pad_inches=0.04); plt.close()
+
+    # t-SNE panels: crop the matplotlib title off the saved PNGs
+    from PIL import Image
+    for src, dst in [("A_best_logits_tsne.png", "tsne_task1_logits.png"), ("B_best_tsne.png", "tsne_task2_features.png")]:
+        im = Image.open(RESULTS / src); w, h = im.size
+        im.crop((0, int(h * 0.055), w, h)).save(OUT / dst)
+
