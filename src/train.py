@@ -47,8 +47,10 @@ def build_X(a, layers):
         if meta is not None:
             assert (meta["sample_id"] == z["sample_id"]).all()
         meta = z
-    if "lang" in blocks:
-        z = load_lang(a.dataset, model=a.lang_model)
+    for b in sorted(blocks):     # 'lang' (default file, --lang_model) | 'lang@<path>' (e.g. language ID run on a stem)
+        if not b.startswith("lang"):
+            continue
+        z = load_lang(a.dataset, path=b.split("@", 1)[1] if "@" in b else None, model=a.lang_model)
         if meta is not None:
             assert (meta["sample_id"] == z["sample_id"]).all()
         parts.append(np.log(z["probs"] + 1e-6)); meta = z

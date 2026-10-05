@@ -21,6 +21,7 @@ if __name__ == "__main__":
     ap.add_argument("--dataset", required=True, choices=["A", "B"]); ap.add_argument("--size", required=True, choices=list(SIZES))
     ap.add_argument("--batch", type=int, default=8); ap.add_argument("--data_root", default=None)
     ap.add_argument("--seconds", type=int, default=30, help="use only the first k seconds (pooling over valid frames only)")
+    ap.add_argument("--out", default=None, help="output npz (default: features/<ds>_mert_whisper-<size>_<seconds>s.npz)")
     a = ap.parse_args(); device = get_device()
     fe = WhisperFeatureExtractor.from_pretrained(SIZES[a.size])
     enc = WhisperModel.from_pretrained(SIZES[a.size], torch_dtype=torch.float16).encoder.to(device).eval()
@@ -33,7 +34,7 @@ if __name__ == "__main__":
             hs = hs[:, :, : a.seconds * 50]                                                    # 50 encoder frames per second
             means.append(hs.mean(2).cpu().numpy().astype(np.float16)); stds.append(hs.std(2).cpu().numpy().astype(np.float16))
     FEATURES.mkdir(exist_ok=True)
-    out = FEATURES / f"{a.dataset}_mert_whisper-{a.size}_{a.seconds}s.npz"
+    out = a.out or FEATURES / f"{a.dataset}_mert_whisper-{a.size}_{a.seconds}s.npz"
     np.savez(out, mean=np.concatenate(means)[:, None], std=np.concatenate(stds)[:, None], sample_id=m.sample_id.values,
              split=m.split.values, label=m.label.fillna("").values, model=f"whisper-{a.size}", chunk_sec=a.seconds)
     print(f"saved {out}: mean={np.concatenate(means).shape}")
