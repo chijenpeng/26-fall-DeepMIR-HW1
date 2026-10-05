@@ -386,24 +386,26 @@
   \begin{columns}[T]
     \begin{column}{0.54\textwidth}
       \small
-      Decades are ordered, so we test a formulation that uses the order. Same features as the final model; only the predictor changes.
+      Decades are ordered, so we test a formulation that uses the order.
+      \vspace{0.4em}
+
+      {\footnotesize
+      \textbf{Features} (same as the final Task 1 model): Whisper-tiny encoder layer 1 + MERT-v1-330M layers 5, 6, 14, mean + std pooling, 6,912-d.\\[0.2em]
+      \textbf{Classification}: L2 logistic regression, $C = 3{\times}10^{-4}$.\\
+      \textbf{Regression}: ridge regression, $\alpha = 10^{4}$, on a decade index (0 = 1960s, 1 = 1970s, \dots, 5 = 2010s), rounded to the nearest decade; top-3 = the three nearest decades.\par}
       \vspace{0.6em}
 
       {\footnotesize
       \begin{tabular}{@{}lcc@{}}
         \toprule
         Formulation & Top-1 & Top-3 \\ \midrule
-        Classification (final model) & \best{52.3} & \best{86.4} \\
+        Logistic regression (final model) & \best{52.3} & \best{86.4} \\
         Ridge regression & 31.8 & 77.3 \\
         \bottomrule
       \end{tabular}}
-      \vspace{0.8em}
+      \vspace{0.6em}
 
-      {\footnotesize \textbf{Regression}: predict a decade index (0 = 1960s, 1 = 1970s, \dots, 5 = 2010s) and round to the nearest decade;
-      top-3 = the three nearest decades.
-
-      \vspace{0.5em}
-      Mean absolute error: 0.98 decades.\par}
+      {\footnotesize Mean absolute error of the regression: 0.98 decades.\par}
     \end{column}
     \begin{column}{0.46\textwidth}
       \centering\fig[0.68\textheight]{cm_task1_regression.pdf}\\[-0.2em]
@@ -414,7 +416,8 @@
 
 \begin{frame}[t]{Task 1 as year regression: why it fails}
   \small
-  How many validation clips each formulation assigns to each decade:
+  Both rows use the final Task 1 features (Whisper-tiny layer 1 + MERT-v1-330M layers 5, 6, 14); only the predictor differs.\\
+  Number of validation clips each formulation assigns to each decade:
   \vspace{0.5em}
 
   \centering
@@ -423,11 +426,11 @@
     \toprule
     Clips predicted as & 1960s & 1970s & 1980s & 1990s & 2000s & 2010s \\ \midrule
     True count     & 22 & 22 & 22 & 22 & 22 & 22 \\
-    Classification & 27 & 20 & 19 & 21 & 18 & 27 \\
-    Regression     & \alert{4} & 22 & 35 & 38 & 28 & \alert{5} \\
+    Logistic regression (final model) & 27 & 20 & 19 & 21 & 18 & 27 \\
+    Ridge regression     & \alert{4} & 22 & 35 & 38 & 28 & \alert{5} \\
     \bottomrule
   \end{tabular}}
-  \vspace{1em}
+  \vspace{0.8em}
 
   \raggedright
   \begin{itemize}
