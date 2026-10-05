@@ -358,7 +358,7 @@
   \small
   Each 30 s clip is cut into six 5 s chunks. \textbf{Chunk-level}: every chunk is its own training sample (6$\times$ more data) and chunk probabilities are averaged at test time.
   \textbf{Clip-level}: chunk features are averaged first (our default).
-  \vspace{0.6em}
+  \vspace{0.3em}
 
   \centering
   {\footnotesize
@@ -372,7 +372,7 @@
     2 & MERT-v1-330M, layers 8, 9, 12 & 42.2 & 69.6 & 44.1 & 76.5 \\
     \bottomrule
   \end{tabular}}
-  \vspace{0.7em}
+  \vspace{0.4em}
 
   \raggedright
   \begin{tight}\footnotesize
@@ -380,8 +380,7 @@
     \item Task 2: a small gain (+2 to +3 points top-1, +4 to +7 top-3), about 2 to 3 validation clips
     \item We keep clip-level features for the final models: same accuracy, six times fewer training rows
   \end{tight}
-  \vspace{0.4em}
-  {\scriptsize\color{gray}This comparison uses MERT features only, not the full final models (Whisper features were extracted on whole 30 s clips).\par}
+  {\scriptsize\color{gray}MERT features only, not the full final models: Whisper features were extracted on whole 30 s clips.\par}
 \end{frame}
 
 \begin{frame}[t]{Task 1 as year regression}
