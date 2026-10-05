@@ -98,4 +98,9 @@ if __name__ == "__main__":
     for ds, out in [("A", "cm_alm_task1.pdf"), ("B", "cm_alm_task2.pdf")]:
         m = json.load(open(RESULTS / f"alm_Qwen2-Audio-7B-Instruct_{ds}_naive.json"))["metrics"]
         confusion(None, out, cm=m["confusion_counts"], L=LABELS[ds])
+    # one confusion matrix per prompt design
+    for ds, prompts in [("A", ["naive", "cues", "production"]), ("B", ["naive", "cues"])]:
+        for pr in prompts:
+            m = json.load(open(RESULTS / f"alm_Qwen2-Audio-7B-Instruct_{ds}_{pr}.json"))["metrics"]
+            confusion(None, f"cm_alm_{ds}_{pr}.pdf", cm=m["confusion_counts"], L=LABELS[ds])
 

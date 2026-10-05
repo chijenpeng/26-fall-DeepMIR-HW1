@@ -762,6 +762,52 @@
   \end{tight}
 \end{frame}
 
+\begin{frame}[t]{Prompt designs, Task 1: confusion matrices}
+  \begin{columns}[T]
+    \begin{column}{0.333\textwidth}
+      \centering\fig[0.45\textheight]{cm_alm_A_naive.pdf}\\[-0.2em]
+      {\footnotesize \textbf{naive}: top-1 34.1\%}
+    \end{column}
+    \begin{column}{0.333\textwidth}
+      \centering\fig[0.45\textheight]{cm_alm_A_cues.pdf}\\[-0.2em]
+      {\footnotesize \textbf{cues}: top-1 26.5\%}
+    \end{column}
+    \begin{column}{0.333\textwidth}
+      \centering\fig[0.45\textheight]{cm_alm_A_production.pdf}\\[-0.2em]
+      {\footnotesize \textbf{production}: top-1 17.4\%}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  \begin{tight}\footnotesize
+    \item \textbf{naive}: the 1970s column absorbs the 1980s to 2000s; only the two ends (1960s, 2010s) are recognized
+    \item \textbf{cues}: the same bias, stronger. Every decade is mostly called 1970s
+    \item \textbf{production}: the prediction collapses onto \alert{one column, 2010s}, the last decade described in the prompt
+  \end{tight}
+  {\scriptsize\color{gray}Validation, log-probability ranking, counts, rows = true decade (22 clips each).\par}
+\end{frame}
+
+\begin{frame}[t]{Prompt designs, Task 2: confusion matrices}
+  \begin{columns}[T]
+    \begin{column}{0.36\textwidth}
+      \centering\fig[0.52\textheight]{cm_alm_B_naive.pdf}\\[-0.2em]
+      {\footnotesize \textbf{naive}: top-1 52.9\%}
+    \end{column}
+    \begin{column}{0.36\textwidth}
+      \centering\fig[0.52\textheight]{cm_alm_B_cues.pdf}\\[-0.2em]
+      {\footnotesize \textbf{cues}: top-1 22.5\%}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+      \begin{tight}\footnotesize
+        \item \textbf{naive}: Brazil and Spain are recognized; English-language clips from Germany and Italy go to US
+        \item \textbf{cues}: almost every clip ranks \alert{Brazil} first. The prompt contains ``Portuguese suggests Brazil'', which raises the token score of that label
+        \item In free generation the same prompt answers US for 47\% of clips and is invalid for 11.8\%
+      \end{tight}
+    \end{column}
+  \end{columns}
+  \vspace{0.3em}
+  {\scriptsize\color{gray}Validation, log-probability ranking, counts, rows = true market (17 clips each).\par}
+\end{frame}
+
 % =====================================================================
 \section{Disclosure}
 \begin{frame}{Use of AI assistance}
