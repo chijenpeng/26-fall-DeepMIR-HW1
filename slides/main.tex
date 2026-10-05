@@ -383,12 +383,12 @@
 \end{frame}
 
 \begin{frame}[t]{Task 1 as year regression}
-  \small
-  Decades are ordered, so we test a formulation that uses the order. Same features as the final model; only the predictor changes.
-  \vspace{0.3em}
-
   \begin{columns}[T]
-    \begin{column}{0.46\textwidth}
+    \begin{column}{0.54\textwidth}
+      \small
+      Decades are ordered, so we test a formulation that uses the order. Same features as the final model; only the predictor changes.
+      \vspace{0.6em}
+
       {\footnotesize
       \begin{tabular}{@{}lcc@{}}
         \toprule
@@ -397,31 +397,44 @@
         Ridge regression & 31.8 & 77.3 \\
         \bottomrule
       \end{tabular}}
+      \vspace{0.8em}
 
-      \vspace{0.3em}
       {\footnotesize \textbf{Regression}: predict a decade index (0 = 1960s, 1 = 1970s, \dots, 5 = 2010s) and round to the nearest decade;
-      top-3 = the three nearest decades. Mean absolute error 0.98 decades.\par}
+      top-3 = the three nearest decades.
+
+      \vspace{0.5em}
+      Mean absolute error: 0.98 decades.\par}
     \end{column}
-    \begin{column}{0.54\textwidth}
-      \raggedleft
-      {\footnotesize\setlength{\tabcolsep}{4pt}
-      \begin{tabular}{@{}lrrrrrr@{}}
-        \toprule
-        Clips predicted as & 60s & 70s & 80s & 90s & 00s & 10s \\ \midrule
-        True count     & 22 & 22 & 22 & 22 & 22 & 22 \\
-        Classification & 27 & 20 & 19 & 21 & 18 & 27 \\
-        Regression     & \alert{4} & 22 & 35 & 38 & 28 & \alert{5} \\
-        \bottomrule
-      \end{tabular}}
+    \begin{column}{0.46\textwidth}
+      \centering\fig[0.68\textheight]{cm_task1_regression.pdf}\\[-0.2em]
+      {\scriptsize\color{gray}Ridge regression. Counts; rows = true decade (22 clips each).}
     \end{column}
   \end{columns}
-  \vspace{0.15em}
+\end{frame}
 
-  \begin{tight}\footnotesize
+\begin{frame}[t]{Task 1 as year regression: why it fails}
+  \small
+  How many validation clips each formulation assigns to each decade:
+  \vspace{0.5em}
+
+  \centering
+  {\footnotesize\setlength{\tabcolsep}{7pt}
+  \begin{tabular}{@{}lrrrrrr@{}}
+    \toprule
+    Clips predicted as & 1960s & 1970s & 1980s & 1990s & 2000s & 2010s \\ \midrule
+    True count     & 22 & 22 & 22 & 22 & 22 & 22 \\
+    Classification & 27 & 20 & 19 & 21 & 18 & 27 \\
+    Regression     & \alert{4} & 22 & 35 & 38 & 28 & \alert{5} \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{1em}
+
+  \raggedright
+  \begin{itemize}
     \item \alert{Regression is much worse} ($-20.5$ points top-1): predictions collapse toward the middle, only 4 clips are called 1960s and 5 are called 2010s
     \item Tuning does not fix it: with a ridge penalty from $10^2$ to $10^6$ the best top-1 is 32\%; stronger regularization worsens the collapse
     \item The classifier already learns the order by itself (see the t-SNE slide), so nothing is gained from imposing it
-  \end{tight}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}[t]{Task 2: mixture vs.\ vocals vs.\ accompaniment}
