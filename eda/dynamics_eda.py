@@ -3,7 +3,8 @@ warnings.filterwarnings("ignore")
 from scipy.stats import kurtosis, f_oneway, spearmanr
 from scipy.signal import butter, sosfilt
 from concurrent.futures import ProcessPoolExecutor
-ROOT="/Users/cody/Desktop/26-fall/DeepMIR/HW1/dataset_A"; OUT=sys.argv[1]
+from pathlib import Path
+HERE=Path(__file__).resolve().parent; ROOT=str(HERE.parent/"dataset_A"); OUT=sys.argv[1] if len(sys.argv)>1 else str(HERE)   # output folder (default: eda/)
 man=pd.read_csv(f"{ROOT}/manifest.csv"); tr=man[man.split=="train"].reset_index(drop=True)
 
 def db(v): return 20*np.log10(v+1e-9)

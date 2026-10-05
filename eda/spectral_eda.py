@@ -4,8 +4,10 @@ from concurrent.futures import ProcessPoolExecutor
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-ROOT = "/Users/cody/Desktop/26-fall/DeepMIR/HW1/dataset_A"
-OUT  = sys.argv[1]
+from pathlib import Path
+HERE = Path(__file__).resolve().parent
+ROOT = str(HERE.parent / "dataset_A")
+OUT  = sys.argv[1] if len(sys.argv) > 1 else str(HERE)      # output folder (default: eda/)
 man = pd.read_csv(f"{ROOT}/manifest.csv")
 tr = man[man.split == "train"].reset_index(drop=True)
 

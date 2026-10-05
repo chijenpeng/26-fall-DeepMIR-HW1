@@ -28,3 +28,7 @@ slides/**/*.fdb_latexmk
 slides/**/*.xdv
 slides/preview/*.pdf
 slides/**/*.synctex.gz
+# inference cache and local-only ablation checkpoints
+features_inference/
+checkpoints/frozen_ablation/
+checkpoints/finetune_ablation/
