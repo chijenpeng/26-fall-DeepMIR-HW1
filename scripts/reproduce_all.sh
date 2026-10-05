@@ -73,6 +73,7 @@ for k in 20 21 22 27 28; do
   T B_wl_L$k-30_mert7_lang --dataset B --features $WL:$k,30+mert+lang --layers 7 $C4
 done
 T B_wl_L20-30_m330L9_lang  --dataset B --features $WL:20,30+$M330B+lang --layers 7 $C4
+T B_wl_L21-28-31_mert7_lang --dataset B --features $WL:21,28,31+mert+lang --layers 7 $C4   # the Task 1 rule (three best top-1 layers), not used
 
 # ------------------------------------------------------------------ 4. optional experiment: input length (best models, first k seconds)
 for s in 5 10 15; do

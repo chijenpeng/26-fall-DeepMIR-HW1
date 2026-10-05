@@ -680,26 +680,27 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
       {\scriptsize\color{gray}Whisper = Whisper-large-v3 layers.\par}
     \end{column}
     \begin{column}{0.4\textwidth}
-      \small\textbf{Which second Whisper layer?}\\[0.2em]
-      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \small\textbf{Which Whisper layers?}\\[0.2em]
+      {\footnotesize\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{0.8}
       \begin{tabular}{@{}lcc@{}}
         \toprule
-        Paired with layer 30 & Top-1 & Top-3 \\ \midrule
-        none & 59.8 & 90.2 \\
-        layer 20 & \best{63.7} & \best{91.2} \\
-        layer 21 & 62.7 & \best{91.2} \\
-        layer 22 & 61.8 & \best{91.2} \\
-        \textbf{layer 23 (submitted)} & 60.8 & 90.2 \\
-        layer 27 & \best{63.7} & 87.3 \\
-        layer 28 & 62.7 & 88.2 \\
+        Whisper-large-v3 layers & Top-1 & Top-3 \\ \midrule
+        30 & 59.8 & 90.2 \\
+        20, 30 & \best{63.7} & \best{91.2} \\
+        21, 30 & 62.7 & \best{91.2} \\
+        22, 30 & 61.8 & \best{91.2} \\
+        \textbf{23, 30 (submitted)} & 60.8 & 90.2 \\
+        27, 30 & \best{63.7} & 87.3 \\
+        28, 30 & 62.7 & 88.2 \\ \midrule
+        21, 28, 31 (three best top-1) & 62.7 & 89.2 \\
         \bottomrule
       \end{tabular}}\\[0.1em]
       {\scriptsize\color{gray}All rows: + MERT-95M layer 7 + language ID.\par}
     \end{column}
   \end{columns}
   \begin{tight}\footnotesize
-    \item \textbf{MERT-95M, not 330M}: the larger model is better alone (+2.9 points) but equal or worse in every combination: its advantage does not carry over. In the final model MERT only adds what Whisper lacks; 330M adds 512 more dimensions for 798 training clips
-    \item \textbf{Layer 23} was picked for its single-layer top-3 (89.2\%, the best) before pairs were swept; layers 20 to 22 are 1 to 3 clips better. We keep the submitted model: this is within the noise of 102 validation clips, and picking the maximum would overfit validation further
+    \item \textbf{MERT-95M, not 330M}: the larger model is better alone (+2.9 points) but equal or worse in every combination, and it adds 512 more dimensions for 798 training clips
+    \item \textbf{Layers 23, 30}: one layer per metric. Layer 30 for top-1 (58.8\%, a four-way tie), layer 23 for top-3 (89.2\%, the best). The Task 1 rule (three best top-1 layers) gives +2 clips top-1 and $-$1 top-3; layers 20 to 22 are 1 to 3 clips better. We keep the submitted model: all within the noise of 102 clips, and picking the maximum would overfit validation further
   \end{tight}
 \end{frame}
 
