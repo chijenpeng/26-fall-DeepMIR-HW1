@@ -50,6 +50,8 @@ if __name__ == "__main__":
     a = confusion("A_wt_L1_m330", "cm_task1.pdf")
     b = confusion("B_wl_L23-30_mert7_lang", "cm_task2.pdf")
     confusion("A_best_regression", "cm_task1_regression.pdf")       # ridge regression on the decade index, final features
+    confusion("A_handcrafted_svm", "cm_handcrafted_task1.pdf")      # 24 hand-crafted production features, RBF SVM
+    confusion("B_handcrafted_svm", "cm_handcrafted_task2.pdf")
     print("task1", round(a["top1"], 3), round(a["top3"], 3), "| task2", round(b["top1"], 3), round(b["top3"], 3))
     # low-end trend: median and inter-quartile range of two bands per decade (training split)
     import pandas as pd

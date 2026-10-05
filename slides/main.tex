@@ -520,8 +520,64 @@ Ablation checkpoints (release): \url{https://github.com/chijenpeng/26-fall-DeepM
   \vspace{0.6em}
 
   \begin{tight}\footnotesize
-    \item \textbf{Hand-crafted production features} (24-d: band energies, crest factor, limiter statistics) reach 40.9\% on Task 1 but only \alert{22.5\% on Task 2} (chance 16.7\%): within one decade, mastering does not depend on the market
+    \item \textbf{Hand-crafted production features} alone reach 40.9\% on Task 1 but only \alert{22.5\% on Task 2}, which is not significantly above chance (16.7\%). Setting and details: next two slides
     \item \textbf{High-frequency energy} (8--12 kHz) is 4 to 5 dB lower in the 1960s and 1970s than later; the clips are band-limited to 12 kHz, so anything above that is unavailable
+  \end{tight}
+\end{frame}
+
+\begin{frame}[t]{Dataset-bias test (1): can mastering alone predict the label?}
+  \small
+  \textbf{Idea.} Describe each clip only by \emph{how it was mastered}, never by what is played, and see how far a classifier gets.
+  If it works, the label is partly a mastering label: a bias in the data that any model can exploit.
+  \vspace{0.6em}
+
+  \textbf{Features}: 24 numbers per 30 s clip, computed from the waveform. No pretrained model.
+  \vspace{0.2em}
+
+  {\footnotesize
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth}>{\raggedright\arraybackslash}p{0.74\textwidth}@{}}
+    \toprule
+    Spectral balance (13) & long-term spectrum (Welch, 4096-point) $\rightarrow$ energy of 8 bands (20--60, 60--120, 120--250, 250--500 Hz, 0.5--2, 2--4, 4--8, 8--12 kHz) in dB relative to the total; below-100 Hz ratio; bass / sub-bass tilt; spectral centroid; 85\% and 99\% roll-off \\ \midrule
+    Level and dynamics (11) & RMS level; crest factor; waveform kurtosis; share of samples within 0.5 dB of the peak; longest run of samples at the peak; median crest of 400 ms blocks; dynamic range of the loudest 20\% of blocks; loudness range; block-loudness std; crest of the 60--250 Hz and 2--8 kHz bands \\
+    \bottomrule
+  \end{tabular}}
+  \vspace{0.7em}
+
+  \textbf{Classifier}: StandardScaler $\rightarrow$ RBF SVM (seeded), $C \in \{0.3, 1, 3, 10\}$ chosen by validation top-1.
+  Trained on the training split and evaluated on validation, as in every other experiment.
+\end{frame}
+
+\begin{frame}[t]{Dataset-bias test (2): result}
+  \begin{columns}[T]
+    \begin{column}{0.36\textwidth}
+      {\footnotesize\setlength{\tabcolsep}{4pt}
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        Validation & Task 1 & Task 2 \\ \midrule
+        Top-1 & \best{40.9} & 22.5 \\
+        Top-3 & 84.8 & 57.8 \\
+        Correct clips & 54 / 132 & 23 / 102 \\
+        Chance top-1 & 16.7 & 16.7 \\
+        $p$ vs.\ chance & $< 0.0001$ & \alert{0.076} \\ \midrule
+        Final model & 52.3 & 60.8 \\
+        \bottomrule
+      \end{tabular}}
+
+      {\scriptsize\color{gray}$p$: one-sided binomial test against chance (1/6).\par}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering\fig[0.38\textheight]{cm_handcrafted_task1.pdf}\\[-0.3em]
+      {\scriptsize\color{gray}Task 1}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering\fig[0.38\textheight]{cm_handcrafted_task2.pdf}\\[-0.3em]
+      {\scriptsize\color{gray}Task 2}
+    \end{column}
+  \end{columns}
+  \begin{tight}\footnotesize
+    \item \textbf{Task 1}: mastering alone reaches 78\% of the final model's top-1 and separates ``old'' (1960s--80s) from ``new'' (1990s--2010s) with 73.5\% accuracy: the decade label is partly a \alert{mastering label}
+    \item \textbf{Task 2}: not distinguishable from chance. Predictions collapse onto UK and Italy (65 of 102 clips); no German clip is recognized
+    \item No market-specific mastering signature shows up within the 1980s, so the market signal must come from content: language and genre
   \end{tight}
 \end{frame}
 
