@@ -45,33 +45,62 @@ NVIDIA RTX A4500 with the models already downloaded.
 ## Repository layout
 
 ```
+README.md                       this file
+requirements.txt                packages needed for inference (install this one)
+requirements-experiments.txt    extra packages for re-running the experiments (includes requirements.txt)
+
+submission/
+  r14725022_report.pdf          the report
+  r14725022.json                the submitted test predictions
+
+checkpoints/best/
+  task1_decade.joblib           final Task 1 classifier (StandardScaler + logistic regression)
+  task2_market.joblib           final Task 2 classifier
+
 src/
-  inference.py            end-to-end inference (the command above)
-  config.py               paths, labels, manifest loading
-  handcrafted.py          24 hand-crafted production features (band energies, crest factor, limiter statistics)
-  extract_handcrafted.py  -> features/<ds>_handcrafted.npz
-  extract_mert.py         MERT hidden states, mean + std per 5 s chunk and layer
-  extract_whisper.py      Whisper encoder hidden states, mean + std per layer
-  extract_lang.py         Whisper language-ID posteriors (7-d)
-  separate.py             Demucs vocals / accompaniment stems
-  features.py             assemble design matrices from the feature files
-  train.py                logistic regression / SVM / MLP on any combination of feature blocks
-  layer_sweep.py          one classifier per encoder layer
-  train_chunks.py         chunk-level training (multiple excerpts per recording)
-  regression.py           Task 1 as ridge regression / hierarchical prediction
-  finetune_mert.py        end-to-end fine-tuning of MERT
-  finetune_whisper.py     end-to-end fine-tuning of a Whisper encoder
-  alm_qwen2audio.py       zero-shot Qwen2-Audio with three prompt designs
-  tsne.py                 t-SNE of features or classifier logits
-  predict.py              predictions from models saved by train.py
-  make_slide_figs.py      figures used in the report
-eda/                      spectral and dynamics analysis of the Task 1 training split
-scripts/reproduce_all.sh  every command behind the numbers in the report
-checkpoints/best/         the two final classifiers (task1_decade.joblib, task2_market.joblib)
-submission/               the submitted report (PDF) and predictions (JSON)
-results/                  validation metrics (*_val.json), confusion matrices, sweeps, ALM outputs
-slides/                   LaTeX source of the report
-notes/                    working notes (in Chinese)
+  inference.py                  end-to-end inference (the command above)
+  config.py                     paths, labels, manifest loading
+  utils.py                      top-k accuracy, confusion-matrix plots, JSON output
+
+  # feature extraction
+  extract_whisper.py            Whisper encoder hidden states, mean + std per layer
+  extract_mert.py               MERT hidden states, mean + std per 5 s chunk and layer
+  extract_lang.py               Whisper language-ID posteriors (7-d)
+  extract_handcrafted.py        24 hand-crafted production features per clip
+  handcrafted.py                the feature definitions (band energies, crest factor, limiter statistics)
+  separate.py                   Demucs vocals / accompaniment stems
+  features.py                   assemble design matrices from the feature files
+
+  # training and evaluation
+  train.py                      logistic regression / SVM / MLP on any combination of feature blocks
+  predict.py                    test predictions from models saved by train.py
+  layer_sweep.py                one classifier per encoder layer
+  train_chunks.py               chunk-level training (multiple excerpts per recording)
+  regression.py                 Task 1 as ridge regression / hierarchical prediction
+  finetune_mert.py              end-to-end fine-tuning of MERT
+  finetune_whisper.py           end-to-end fine-tuning of a Whisper encoder
+  alm_qwen2audio.py             zero-shot Qwen2-Audio with three prompt designs
+
+  # analysis and figures
+  tsne.py                       t-SNE of features or classifier logits
+  make_slide_figs.py            figures used in the report
+
+scripts/
+  reproduce_all.sh              every command behind the numbers in the report
+
+eda/                            spectral and dynamics analysis of the Task 1 training split (scripts, tables, plots)
+results/                        validation metrics (*_val.json), confusion matrices (*_cm.png), layer sweeps, ALM outputs
+slides/                         LaTeX source of the report (main.tex, figs/)
+notes/                          homework handout, prediction format example, working notes (in Chinese)
+```
+
+Not in the repository; created locally:
+
+```
+dataset_A/, dataset_B/          the released data (manifest.csv + audio/*.wav)
+features/                       cached features written by the extract_*.py scripts
+features_inference/             cached features written by inference.py
+results/*.joblib                classifiers written by train.py
 ```
 
 ## Reproducing the final models
