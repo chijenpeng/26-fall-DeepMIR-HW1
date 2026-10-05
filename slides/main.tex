@@ -83,10 +83,10 @@
   \resizebox{\linewidth}{!}{%
   \begin{tikzpicture}[node distance=0.5cm]
     \node[io, text width=1.7cm] (in) {\textbf{30 s clip}\\24 kHz mono};
-    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=0.95cm] (w) {\textbf{Whisper-tiny encoder}\\16 kHz log-mel input\\4 layers, $d{=}384$};
-    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=-0.95cm] (m) {\textbf{MERT-v1-330M}\\6 $\times$ 5 s chunks\\24 layers, $d{=}1024$};
-    \node[op, text width=3.5cm, right=of w] (wp) {hidden states of \textbf{layer 1}\\mean + std over time\\$\rightarrow$ 768-d};
-    \node[op, text width=3.5cm, right=of m] (mp) {hidden states of \textbf{layers 5, 6, 14}\\mean + std over time\\$\rightarrow$ 6{,}144-d};
+    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=1.1cm] (w) {\textbf{Whisper-tiny encoder}\\16 kHz log-mel input\\4 layers, $d{=}384$};
+    \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=-1.1cm] (m) {\textbf{MERT-v1-330M}\\6 $\times$ 5 s chunks\\24 layers, $d{=}1024$};
+    \node[op, text width=4.5cm, right=of w] (wp) {hidden states of \textbf{layer 1}\\mean + std over time\\$\rightarrow 2 \times 384 = 768$-d};
+    \node[op, text width=4.5cm, right=of m] (mp) {hidden states of \textbf{layers 5, 6, 14}\\mean + std over time per chunk,\\averaged over the 6 chunks\\$\rightarrow 3 \times 2 \times 1024 = 6{,}144$-d};
     \node[op, text width=1.9cm, right=0.8cm of $(wp.east)!0.5!(mp.east)$] (cat) {concatenate\\\textbf{6{,}912-d}\\StandardScaler};
     \node[train, text width=2.1cm, right=of cat] (lr) {\textbf{Logistic regression}\\L2, $C = 3{\times}10^{-4}$};
     \node[io, text width=1.5cm, right=of lr] (out) {\textbf{6 decades}\\top-3};
@@ -100,14 +100,15 @@
 
   \vspace{0.3em}
   \archlegend{41,478}
-  \vspace{0.6em}
+  \vspace{0.3em}
 
   \raggedright\small
   \begin{tight}\footnotesize
-    \item \textbf{Whisper-tiny, layer 1}: the shallowest layers work best for decade; accuracy drops steadily with depth
-    \item \textbf{MERT-v1-330M, layers 5, 6, 14}: the three best layers of a 25-layer sweep; adding Whisper-tiny on top gives +2.3 points
-    \item \textbf{mean + std pooling}: turns a variable-length frame sequence into one fixed vector per recording
-    \item Only the linear classifier is trained; with 1,026 training clips and 6,912 features it needs strong L2 regularization
+    \item \textbf{Whisper-tiny, layer 1}: shallow layers work best for decade; accuracy drops with depth
+    \item \textbf{MERT-v1-330M, layers 5, 6, 14}: best three of a 25-layer sweep; adding Whisper-tiny gives +2.3 points
+    \item \textbf{mean + std pooling}: one $d$-dim vector per frame $\rightarrow$ mean and std \textbf{over time} $\rightarrow$ $2 \times d$ values per layer
+    \item MERT runs on 5 s chunks (its training length): statistics are taken inside each chunk, then averaged over the six
+    \item Only the classifier is trained, with strong L2 regularization (1,026 clips, 6,912 features)
   \end{tight}
 \end{frame}
 
@@ -218,9 +219,9 @@
     \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=1.5cm] (w) {\textbf{Whisper-large-v3 encoder}\\16 kHz log-mel input\\32 layers, $d{=}1280$};
     \node[frozen, text width=3.5cm, right=0.8cm of in] (m) {\textbf{MERT-v1-95M}\\6 $\times$ 5 s chunks\\12 layers, $d{=}768$};
     \node[frozen, text width=3.5cm, right=0.8cm of in, yshift=-1.5cm] (l) {\textbf{Whisper-small}\\language identification\\(no transcription)};
-    \node[op, text width=3.5cm, right=of w] (wp) {hidden states of \textbf{layers 23, 30}\\mean + std over time\\$\rightarrow$ 5{,}120-d};
-    \node[op, text width=3.5cm, right=of m] (mp) {hidden states of \textbf{layer 7}\\mean + std over time\\$\rightarrow$ 1{,}536-d};
-    \node[op, text width=3.5cm, right=of l] (lp) {log-probabilities of\\en, pt, es, de, it, fr, other\\$\rightarrow$ 7-d};
+    \node[op, text width=4.5cm, right=of w] (wp) {hidden states of \textbf{layers 23, 30}\\mean + std over time\\$\rightarrow 2 \times 2 \times 1280 = 5{,}120$-d};
+    \node[op, text width=4.5cm, right=of m] (mp) {hidden states of \textbf{layer 7}\\mean + std over time per chunk, averaged\\$\rightarrow 2 \times 768 = 1{,}536$-d};
+    \node[op, text width=4.5cm, right=of l] (lp) {log-probabilities of\\en, pt, es, de, it, fr, other\\$\rightarrow$ 7-d};
     \node[op, text width=1.9cm, right=0.8cm of mp] (cat) {concatenate\\\textbf{6{,}663-d}\\StandardScaler};
     \node[train, text width=2.1cm, right=of cat] (lr) {\textbf{Logistic regression}\\L2, $C = 10^{-3}$};
     \node[io, text width=1.5cm, right=of lr] (out) {\textbf{6 markets}\\top-3};
@@ -236,13 +237,14 @@
 
   \vspace{0.3em}
   \archlegend{39,984}
-  \vspace{0.5em}
+  \vspace{0.2em}
 
   \raggedright\small
   \begin{tight}\footnotesize
-    \item \textbf{Whisper-large-v3, layers 23, 30}: the deepest layers work best for market, the opposite of Task 1; this fits language being the main cue
+    \item \textbf{Whisper-large-v3, layers 23, 30}: deepest layers work best, the opposite of Task 1; this fits language being the main cue
     \item \textbf{MERT-v1-95M, layer 7}: +2 points on top of Whisper (57.8\% $\rightarrow$ 59.8\%); a music encoder adds what a speech encoder misses
     \item \textbf{Whisper-small language ID}: an explicit 7-d posterior; a small gain (top-3 89.2\% $\rightarrow$ 90.2\%) because deep Whisper layers already encode language
+    \item Pooling as in Task 1: mean and std over time $\rightarrow$ $2 \times d$ values per layer
   \end{tight}
 \end{frame}
 
